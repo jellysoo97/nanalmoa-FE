@@ -1,3 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('src/assets/fonts/Pretendard-Regular.woff') format('woff');
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('src/assets/fonts/Pretendard-Bold.woff') format('woff');
+  font-weight: bold;
+}
+
+:root {
+  --green-50: #f7faf4;
+  --green-100: #e8f2de;
+  --green-200: #daeac8;
+  --green-300: #cbe2b2;
+  --green-400: #c3dea7;
+  --green-500: #b5d692;
+  --green-600: #a2c083;
+  --green-700: #90ab74;
+  --green-800: #6c8057;
+  --green-900: #36402b;
+
+  --primary-blue: #92b5d6;
+  --primary-pink: #d692b5;
+  --primary-gray: #f2f2f2;
+  --primary-coral: #d97b73;
+  --primary-beige: #d9c1bf;
+
+  --font-pretendard: 'Pretendard';
+}
+
+html,
+body {
+  @apply font-pretendard m-0 p-0;
+}
