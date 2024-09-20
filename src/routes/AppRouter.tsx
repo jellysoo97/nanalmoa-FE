@@ -12,7 +12,7 @@ import { path } from './path'
 const AppRouter = createBrowserRouter([
   {
     path: '/',
-    element: <LandingPage />,
+    element: <LandingPage isLanding />,
   },
   {
     path: path.login,
