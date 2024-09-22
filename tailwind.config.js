@@ -1,3 +1,5 @@
+import plugin from 'tailwindcss/plugin'
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
@@ -35,5 +37,16 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    plugin(({ addUtilities }) =>
+      addUtilities({
+        '.layout': {
+          '@apply mx-auto max-w-lg lg:max-w-5xl lg:flex lg:gap-x-10': '',
+        },
+        '.container': {
+          '@apply max-w-lg mx-auto min-h-dvh': '',
+        },
+      })
+    ),
+  ],
 }
