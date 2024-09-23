@@ -9,7 +9,6 @@ import {
 } from '@/pages'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
 import { path } from './path'
-import AudioRecorderPage from '@/pages/AudioRecordPage'
 
 const AppRouter = createBrowserRouter([
   {
@@ -63,16 +62,6 @@ const AppRouter = createBrowserRouter([
         element: <SettingsPage />,
       },
     ],
-  },
-  {
-    path: path.audioRecord,
-    element: (
-      <DesktopLayout>
-        <Layout>
-          <AudioRecorderPage />
-        </Layout>
-      </DesktopLayout>
-    ),
   },
 ])
 

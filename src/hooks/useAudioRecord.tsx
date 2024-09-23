@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 
-const AudioRecorderPage = () => {
+const useAudioRecord = () => {
   const [isRecording, setIsRecording] = useState(false)
   const [audioURL, setAudioURL] = useState<string | null>(null)
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
@@ -20,7 +20,7 @@ const AudioRecorderPage = () => {
 
       mediaRecorder.onstop = () => {
         const audioBlob = new Blob(audioChunksRef.current, {
-          type: 'audio/mp3',
+          type: 'audio/wav',
         })
         const url = URL.createObjectURL(audioBlob)
         setAudioURL(url)
@@ -47,21 +47,13 @@ const AudioRecorderPage = () => {
     }
   }
 
-  return (
-    <div>
-      <h1>음성 녹음기</h1>
-      <button onClick={isRecording ? stopRecording : startRecording}>
-        {isRecording ? '녹음 중지' : '녹음 시작'}
-      </button>
-      {audioURL && (
-        <div>
-          <h2>녹음된 파일:</h2>
-          <audio controls src={audioURL} />
-          <button onClick={downloadAudio}>다운로드</button>
-        </div>
-      )}
-    </div>
-  )
+  return {
+    isRecording,
+    audioURL,
+    startRecording,
+    stopRecording,
+    downloadAudio,
+  }
 }
 
-export default AudioRecorderPage
+export default useAudioRecord
