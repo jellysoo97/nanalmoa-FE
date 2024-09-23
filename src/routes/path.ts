@@ -3,4 +3,5 @@ export const path = {
   schedules: '/schedules',
   createSchedule: 'create',
   scheduleDetail: ':id',
+  settings: '/settings',
 }
