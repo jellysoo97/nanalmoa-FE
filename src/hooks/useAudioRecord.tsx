@@ -42,7 +42,7 @@ const useAudioRecord = () => {
     if (audioURL) {
       const link = document.createElement('a')
       link.href = audioURL
-      link.download = 'recording.mp3'
+      link.download = 'recording.wav'
       link.click()
     }
   }

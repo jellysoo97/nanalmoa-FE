@@ -1,6 +1,6 @@
 import useAudioRecord from '@/hooks/useAudioRecord'
 
-const CreateSchedulePage = () => {
+const AudioCreate = () => {
   const {
     isRecording,
     audioURL,
@@ -26,4 +26,4 @@ const CreateSchedulePage = () => {
   )
 }
 
-export default CreateSchedulePage
+export default AudioCreate
