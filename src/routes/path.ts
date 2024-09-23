@@ -5,7 +5,6 @@ export const path = {
   DateCreate: 'dateinfo',
   AudioAbout: 'audio/about',
   AudioCreate: 'audio',
-  PhotoAbout: 'photo/about',
   PhotoCreate: 'photo',
   scheduleDetail: ':id',
   settings: '/settings',
