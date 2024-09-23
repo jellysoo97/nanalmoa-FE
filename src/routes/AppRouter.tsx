@@ -5,6 +5,7 @@ import {
   LandingPage,
   LoginPage,
   ScheduleDetailPage,
+  SettingsPage,
 } from '@/pages'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
 import { path } from './path'
@@ -43,6 +44,22 @@ const AppRouter = createBrowserRouter([
       {
         path: path.scheduleDetail,
         element: <ScheduleDetailPage />,
+      },
+    ],
+  },
+  {
+    path: path.settings,
+    element: (
+      <DesktopLayout>
+        <Layout>
+          <Outlet />
+        </Layout>
+      </DesktopLayout>
+    ),
+    children: [
+      {
+        path: '',
+        element: <SettingsPage />,
       },
     ],
   },

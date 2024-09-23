@@ -33,9 +33,15 @@
   --primary-beige: #d9c1bf;
 
   --font-pretendard: 'Pretendard';
+
+  --header-height: 82px;
+  --bottom-bar-height: 82px;
+  --main-max-height: calc(
+    100% - var(--header-height) - var(--bottom-bar-height)
+  );
 }
 
 html,
 body {
-  @apply font-pretendard m-0 p-0;
+  @apply m-0 p-0 font-pretendard text-base text-neutral-700;
 }
