@@ -1,0 +1,5 @@
+export { default as QuestionCircleIcon } from './QuestionCircleIcon'
+export { default as NotificationIcon } from './NotificationIcon'
+export { default as PlusIcon } from './PlusIcon'
+export { default as HomeIcon } from './HomeIcon'
+export { default as SettingIcon } from './SettingIcon'
