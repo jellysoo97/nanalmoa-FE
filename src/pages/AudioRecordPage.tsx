@@ -1,6 +1,6 @@
-import React, { useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 
-const AudioRecorder: React.FC = () => {
+const AudioRecorderPage = () => {
   const [isRecording, setIsRecording] = useState(false)
   const [audioURL, setAudioURL] = useState<string | null>(null)
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
@@ -20,7 +20,7 @@ const AudioRecorder: React.FC = () => {
 
       mediaRecorder.onstop = () => {
         const audioBlob = new Blob(audioChunksRef.current, {
-          type: 'audio/wav',
+          type: 'audio/mp3',
         })
         const url = URL.createObjectURL(audioBlob)
         setAudioURL(url)
@@ -42,7 +42,7 @@ const AudioRecorder: React.FC = () => {
     if (audioURL) {
       const link = document.createElement('a')
       link.href = audioURL
-      link.download = 'recording.wav' // 다운로드할 파일 이름
+      link.download = 'recording.mp3'
       link.click()
     }
   }
@@ -64,4 +64,4 @@ const AudioRecorder: React.FC = () => {
   )
 }
 
-export default AudioRecorder
+export default AudioRecorderPage
