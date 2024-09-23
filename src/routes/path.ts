@@ -4,4 +4,5 @@ export const path = {
   createSchedule: 'create',
   scheduleDetail: ':id',
   audioRecord: '/audio',
+  settings: '/settings',
 }
