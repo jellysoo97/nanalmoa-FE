@@ -1,5 +1,5 @@
 import React from 'react'
-import { BottomBar, Header } from '.'
+import { BottomNavigationBar, Header } from '.'
 
 type Props = {
   children: React.ReactNode
@@ -7,10 +7,12 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   return (
-    <div className="container flex flex-col">
+    <div className="container relative flex flex-col">
       <Header />
-      {children}
-      <BottomBar />
+      <div className="flex max-h-[var(--main-max-height)] flex-1 flex-col overflow-y-auto">
+        {children}
+      </div>
+      <BottomNavigationBar />
     </div>
   )
 }

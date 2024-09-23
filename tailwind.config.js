@@ -35,6 +35,9 @@ export default {
           beige: 'var(--primary-beige)',
         },
       },
+      boxShadow: {
+        base: '1px 4px 10px rgba(0, 0, 0, 0.2)',
+      },
     },
   },
   plugins: [
@@ -44,7 +47,7 @@ export default {
           '@apply mx-auto max-w-lg lg:max-w-5xl lg:flex lg:gap-x-10': '',
         },
         '.container': {
-          '@apply max-w-lg mx-auto min-h-dvh': '',
+          '@apply max-w-lg mx-auto h-dvh overflow-hidden': '',
         },
       })
     ),
