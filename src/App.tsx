@@ -1,7 +1,9 @@
 import '@/styles/global.css'
+import { RouterProvider } from 'react-router-dom'
+import AppRouter from './routes/AppRouter'
 
 function App() {
-  return <p className="text-2xl font-bold text-primary-base">test</p>
+  return <RouterProvider router={AppRouter} />
 }
 
 export default App
