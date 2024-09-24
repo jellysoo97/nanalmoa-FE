@@ -33,6 +33,7 @@ export default {
           gray: 'var(--primary-gray)',
           coral: 'var(--primary-coral)',
           beige: 'var(--primary-beige)',
+          yellow: 'var(--primary-yellow)',
         },
       },
       boxShadow: {
