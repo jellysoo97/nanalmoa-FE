@@ -53,7 +53,7 @@ const AudioAboutPage = () => {
         <img
           src={MicAbout}
           alt="MicOff"
-          className="relative mx-auto mb-5 mt-10 w-full"
+          className="relative mx-auto mb-5 mt-10 w-5/6"
           width={240}
           height={240}
         />
