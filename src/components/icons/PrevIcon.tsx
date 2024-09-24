@@ -6,7 +6,7 @@ const PrevIcon = ({ className, ...props }: React.ComponentProps<'svg'>) => {
       width="54px"
       height="54px"
       viewBox="0 0 1024 1024"
-      className={cn('h-8 w-8', className)}
+      className={cn('h-6 w-6', className)}
       {...props}
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
