@@ -16,7 +16,7 @@ const SelectMethodModal = ({ onClose }: Props) => {
               <span>자동 음성 등록</span>
             </div>
           </Link>
-          <Link to={path.PhotoAbout} onClick={onClose}>
+          <Link to={path.PhotoCreate} onClick={onClose}>
             <div className="flex flex-col items-center justify-center gap-y-1 rounded-xl bg-primary-yellow py-6">
               <span className="text-2xl">📷</span>
               <span>자동 사진 등록</span>
