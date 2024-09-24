@@ -9,9 +9,9 @@ const Layout = ({ children }: Props) => {
   return (
     <div id="modal-root" className="container relative flex flex-col">
       <Header />
-      <div className="flex max-h-[var(--main-max-height)] flex-1 flex-col overflow-y-auto">
+      <main className="flex max-h-[var(--main-max-height)] flex-1 flex-col overflow-y-auto">
         {children}
-      </div>
+      </main>
       <BottomNavigationBar />
     </div>
   )
