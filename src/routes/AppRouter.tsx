@@ -5,11 +5,10 @@ import {
   LoginPage,
   ScheduleDetailPage,
   SettingsPage,
-  DateCreate,
-  AudioAbout,
-  AudioCreate,
-  PhotoAbout,
-  PhotoCreate,
+  DateCreatePage,
+  AudioAboutPage,
+  AudioCreatePage,
+  PhotoCreatePage,
 } from '@/pages'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
 import { path } from './path'
@@ -46,23 +45,19 @@ const AppRouter = createBrowserRouter([
         children: [
           {
             path: path.DateCreate,
-            element: <DateCreate />,
+            element: <DateCreatePage />,
           },
           {
             path: path.AudioAbout,
-            element: <AudioAbout />,
+            element: <AudioAboutPage />,
           },
           {
             path: path.AudioCreate,
-            element: <AudioCreate />,
-          },
-          {
-            path: path.PhotoAbout,
-            element: <PhotoAbout />,
+            element: <AudioCreatePage />,
           },
           {
             path: path.PhotoCreate,
-            element: <PhotoCreate />,
+            element: <PhotoCreatePage />,
           },
         ],
       },
