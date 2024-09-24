@@ -56,7 +56,7 @@ const FailAudio = () => {
             <p>다른 방법으로 등록할까요?</p>
             {/* /schedule 페이지로 이동 or 모달 열림 */}
             <Link
-              to={path.scheduleDetail}
+              to={path.schedules}
               className="mx-auto mb-2 flex h-12 w-48 items-center rounded bg-orange-200"
             >
               <p className="mx-auto text-lg">다른 방법 선택</p>

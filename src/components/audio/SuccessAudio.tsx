@@ -4,7 +4,15 @@ import { HomeIcon, InfoIcon } from '@/components/icons'
 import { Link } from 'react-router-dom'
 import { path } from '@/routes/path'
 
-const SuccessAudio = () => {
+const SuccessAudio = ({
+  setIsPost,
+}: {
+  setIsPost: React.Dispatch<React.SetStateAction<boolean>>
+}) => {
+  const handlePost = () => {
+    setIsPost(true)
+  }
+
   return (
     <div className="flex h-full flex-col p-5">
       <div className="ml-auto flex h-10 items-center text-red-500">
@@ -51,7 +59,10 @@ const SuccessAudio = () => {
         <div className="mb-10 flex w-full flex-col items-center justify-between pt-5">
           <p>이대로 등록할까요?</p>
           <div className="flex w-3/4">
-            <button className="mx-auto h-10 w-28 rounded bg-primary-base text-lg text-white">
+            <button
+              className="mx-auto h-10 w-28 rounded bg-primary-base text-lg text-white"
+              onClick={handlePost}
+            >
               등록하기
             </button>
             <button className="mx-auto h-10 w-28 rounded bg-primary-base text-lg text-white">

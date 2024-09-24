@@ -4,18 +4,16 @@ import { InfoIcon } from '../icons'
 import PrevIcon from '../icons/PrevIcon'
 import MicOff from '@/assets/imgs/MicOff.svg'
 import MicOn from '@/assets/imgs/MicOn.svg'
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { path } from '@/routes/path'
 
-const StartAudio = () => {
-  const {
-    isRecording,
-    audioURL,
-    startRecording,
-    stopRecording,
-    downloadAudio,
-  } = useAudioRecord()
+const StartAudio = ({
+  setIsLoading,
+}: {
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
+}) => {
+  const { isRecording, startRecording, stopRecording } = useAudioRecord()
 
   //파일업로드
   const fileInputRef = useRef<HTMLInputElement | null>(null)
@@ -32,6 +30,11 @@ const StartAudio = () => {
       console.log('Uploaded file:', file)
     }
   }
+
+  //파일 post, setIsLoading true, 성공 시 setIsLoading false
+  useEffect(() => {
+    setIsLoading(true)
+  })
 
   return (
     <div>
@@ -80,13 +83,6 @@ const StartAudio = () => {
       >
         {isRecording ? '종료' : '시작'}
       </button>
-      {audioURL && (
-        <div>
-          <h3>녹음된 파일:</h3>
-          <audio controls src={audioURL} />
-          <button onClick={downloadAudio}>다운로드</button>
-        </div>
-      )}
       <div className="flex">
         <button
           onClick={handleFileUpload}
