@@ -24,6 +24,11 @@ const useAudioRecord = () => {
         })
         const url = URL.createObjectURL(audioBlob)
         setAudioURL(url)
+        // Blob을 File로 변환
+        const audioFile = new File([audioBlob], 'recording.wav', {
+          type: 'audio/wav',
+        })
+        console.log('Recorded audio File:', audioFile)
       }
 
       mediaRecorder.start()
@@ -38,7 +43,7 @@ const useAudioRecord = () => {
     setIsRecording(false)
   }
 
-  const downloadAudio = () => {
+  const loadAudio = () => {
     if (audioURL) {
       const link = document.createElement('a')
       link.href = audioURL
@@ -52,7 +57,7 @@ const useAudioRecord = () => {
     audioURL,
     startRecording,
     stopRecording,
-    downloadAudio,
+    loadAudio,
   }
 }
 
