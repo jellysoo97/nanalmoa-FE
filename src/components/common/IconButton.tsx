@@ -4,10 +4,16 @@ import React from 'react'
 type Props = {
   direction: 'horizontal' | 'vertical'
   icon: string | React.ReactNode
-  text: string
+  text?: string
 } & React.ComponentProps<'button'>
 
-const IconButton = ({ direction, icon, text, className, ...props }: Props) => {
+const IconButton = ({
+  direction,
+  icon,
+  text = '',
+  className,
+  ...props
+}: Props) => {
   return (
     <button
       className={cn(

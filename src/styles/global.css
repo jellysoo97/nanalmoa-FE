@@ -29,16 +29,14 @@
   --primary-blue: #92b5d6;
   --primary-pink: #d692b5;
   --primary-gray: #f2f2f2;
-  --primary-coral: #d97b73;
+  --primary-coral: #ffac9b;
   --primary-beige: #d9c1bf;
+  --primary-yellow: #ffe7b7;
 
   --font-pretendard: 'Pretendard';
 
   --header-height: 82px;
-  --bottom-bar-height: 82px;
-  --main-max-height: calc(
-    100% - var(--header-height) - var(--bottom-bar-height)
-  );
+  --main-max-height: calc(100% - var(--header-height));
 }
 
 html,
