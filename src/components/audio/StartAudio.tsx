@@ -1,6 +1,6 @@
 import useAudioRecord from '@/hooks/useAudioRecord'
 import { IconButton } from '../common'
-import { QuestionCircleIcon } from '../icons'
+import { InfoIcon } from '../icons'
 import PrevIcon from '../icons/PrevIcon'
 import MicOff from '@/assets/imgs/MicOff.svg'
 import MicOn from '@/assets/imgs/MicOn.svg'
@@ -48,7 +48,7 @@ const StartAudio = () => {
           />
         </Link>
         <div className="flex items-center text-red-500">
-          <QuestionCircleIcon />
+          <InfoIcon />
           <p>도움말</p>
         </div>
       </div>
