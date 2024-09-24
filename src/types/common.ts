@@ -5,3 +5,7 @@ export enum DateFormatTypeEnum {
   MonthAndDay = 'MM.dd',
   DateWithKorean = 'yyyy년 MM월 dd일',
 }
+
+export type ModalProps = {
+  onClose: () => void
+}
