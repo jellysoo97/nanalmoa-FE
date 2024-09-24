@@ -6,7 +6,7 @@ const HomeIcon = ({ className, ...props }: React.ComponentProps<'svg'>) => {
       width="64px"
       height="64px"
       viewBox="0 0 32 32"
-      enable-background="new 0 0 32 32"
+      enableBackground="new 0 0 32 32"
       id="Editable-line"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
@@ -14,11 +14,11 @@ const HomeIcon = ({ className, ...props }: React.ComponentProps<'svg'>) => {
       className={cn('h-8 w-8', className)}
       {...props}
     >
-      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
       <g
         id="SVGRepo_tracerCarrier"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       ></g>
       <g id="SVGRepo_iconCarrier">
         <path
@@ -26,20 +26,20 @@ const HomeIcon = ({ className, ...props }: React.ComponentProps<'svg'>) => {
           fill="none"
           id="XMLID_1_"
           stroke="#000000"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-miterlimit="10"
-          stroke-width="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeMiterlimit="10"
+          strokeWidth="1"
         ></path>
         <path
           d=" M20,29h-8v-6c0-2.209,1.791-4,4-4h0c2.209,0,4,1.791,4,4V29z"
           fill="none"
           id="XMLID_2_"
           stroke="#000000"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-miterlimit="10"
-          stroke-width="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeMiterlimit="10"
+          strokeWidth="1"
         ></path>
       </g>
     </svg>
