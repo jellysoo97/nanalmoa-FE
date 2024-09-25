@@ -1,9 +1,11 @@
+import { Link } from 'react-router-dom'
 import CategoryTag from '../common/CategoryTag'
+import { path } from '@/routes/path'
 
 const EventItem = () => {
   return (
-    <div
-      onClick={() => {}}
+    <Link
+      to={`${path.schedules}/1`}
       className={`mx-6 mb-4 flex cursor-pointer items-start rounded-lg border px-1 py-2 shadow-sm transition duration-300 ease-in-out hover:scale-[1.02] hover:shadow-md`}
     >
       <span className="px-3 py-2 text-lg font-semibold">15:00</span>
@@ -19,7 +21,7 @@ const EventItem = () => {
           </span>
         </div>
       </span>
-    </div>
+    </Link>
   )
 }
 
