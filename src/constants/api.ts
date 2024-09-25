@@ -6,7 +6,7 @@ export const API_DOMAINS = {
   AUTH: '/auth',
   USERS: '/users',
   SCHEDULES: '/schedules',
-  GROUP: 'group',
+  GROUP: '/group',
 }
 
 export const QUERY_KEYS = {
