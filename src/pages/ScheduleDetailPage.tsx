@@ -1,14 +1,27 @@
+import CategoryTag from '@/components/common/CategoryTag'
 import PrevIcon from '@/components/icons/PrevIcon'
 import { path } from '@/routes/path'
 import { Link } from 'react-router-dom'
 
+type InfoItemProps = {
+  label: string
+  content: string
+}
+
+const InfoItem = ({ label, content }: InfoItemProps) => (
+  <div className="mb-5 flex items-center" aria-label={`${label}: ${content}`}>
+    <div className="mr-4 w-24 text-left font-bold">{label}</div>
+    <div>{content}</div>
+  </div>
+)
+
 const ScheduleDetailPage = () => {
   return (
-    <>
-      <div className="flex justify-between px-3 py-2">
+    <div className="px-5">
+      <div className="flex justify-between py-2">
         <Link
           to={path.schedules}
-          className="w-25 flex rounded border-gray-700 px-3 py-2"
+          className="w-25 flex rounded border-gray-700 py-2"
         >
           <PrevIcon color="#000000" className="mt-1 h-5" />
           <div className="text-base text-gray-600 hover:text-gray-900">
@@ -26,7 +39,16 @@ const ScheduleDetailPage = () => {
           </button>
         </div>
       </div>
-    </>
+
+      <div className="px-7 py-5">
+        <InfoItem label="제목" content="정형외과 물리치료" />
+        <div className="mb-5 flex items-center">
+          <div className="mr-4 w-24 text-left font-bold">카테고리</div>
+          <CategoryTag label="병원" />
+        </div>
+        <InfoItem label="날짜 및 시간" content="2024년 9월 21일 오후 3시" />
+      </div>
+    </div>
   )
 }
 
