@@ -20,13 +20,8 @@ export interface PostUploadAudioFileReq {
   currentDateTime: Date
 }
 
-export interface PostUploadAudioFileRes extends Array<ISchedule> {}
+export interface PostUploadAudioFileRes extends ISchedule {}
 
-export interface PostConfirmScheduleReq {}
-
-export interface PostConfirmScheduleRes {}
-
-// TODO: 중간발표 이후
 export interface PostSchedulesReq {
   categoryId: number
   startDate: Date
