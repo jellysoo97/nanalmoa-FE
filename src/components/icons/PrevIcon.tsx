@@ -1,6 +1,10 @@
 import { cn } from '@/utils/cn'
 
-const PrevIcon = ({ className, ...props }: React.ComponentProps<'svg'>) => {
+const PrevIcon = ({
+  className,
+  color = '#ffffff',
+  ...props
+}: React.ComponentProps<'svg'>) => {
   return (
     <svg
       width="54px"
@@ -21,7 +25,7 @@ const PrevIcon = ({ className, ...props }: React.ComponentProps<'svg'>) => {
       <g id="SVGRepo_iconCarrier">
         <path
           d="M364.8 106.666667L298.666667 172.8 637.866667 512 298.666667 851.2l66.133333 66.133333L768 512z"
-          fill="#ffffff"
+          fill={color}
         ></path>
       </g>
     </svg>
