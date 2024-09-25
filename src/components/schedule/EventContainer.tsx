@@ -4,6 +4,7 @@ const EventContainer = () => {
   return (
     <>
       <EventItem />
+      <EventItem />
     </>
   )
 }

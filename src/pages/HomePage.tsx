@@ -19,9 +19,9 @@ const HomePage = () => {
         />
       </div>
 
-      <EventContainer />
+      {activeTab === '일간' && <EventContainer />}
 
-      <CalendarView />
+      {activeTab === '월간' && <CalendarView />}
     </>
   )
 }
