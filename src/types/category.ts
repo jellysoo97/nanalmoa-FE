@@ -1,5 +1,3 @@
-// backend에서 들어오는 정보 형태에 따라 수정
-
 export enum CategoryEnum {
   가족 = 'bg-red-400',
   병원 = 'bg-blue-500',
