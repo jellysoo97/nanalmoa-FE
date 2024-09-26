@@ -4,13 +4,9 @@ import { HomeIcon, InfoIcon } from '@/components/icons'
 import { Link } from 'react-router-dom'
 import { path } from '@/routes/path'
 
-const SuccessAudio = ({
-  setIsPost,
-}: {
-  setIsPost: React.Dispatch<React.SetStateAction<boolean>>
-}) => {
+const SuccessAudio = () => {
   const handlePost = () => {
-    setIsPost(true)
+    //api
   }
 
   return (
