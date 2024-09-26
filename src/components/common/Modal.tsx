@@ -10,7 +10,7 @@ type Props = {
   onClose: () => void
 }
 
-export const ModalPortal = ({ children }: { children: React.ReactNode }) => {
+const ModalPortal = ({ children }: { children: React.ReactNode }) => {
   const root = document.getElementById('modal-root')!
   return ReactDom.createPortal(children, root)
 }
