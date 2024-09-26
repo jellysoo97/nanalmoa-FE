@@ -4,12 +4,18 @@ import SuccessAudio from '@/components/audio/SuccessAudio'
 import SuccessPostAudio from '@/components/audio/SuccessPostAudio'
 import { useEffect, useState } from 'react'
 import LoadingAudioModal from '@/components/create-schedule/LoadingAudioModal'
+import { useModal } from '@/hooks/use-modal'
+import { path } from '@/routes/path'
+import { useNavigate } from 'react-router-dom'
 
 const AudioCreate = () => {
   const [isStart, setIsStart] = useState<boolean>(true)
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isSuccess, setIsSuccess] = useState<boolean>(false)
   const [isPost, setIsPost] = useState<boolean>(false)
+  const navigate = useNavigate()
+
+  const { closeModal } = useModal()
 
   // 수정될코드
   useEffect(() => {
@@ -24,7 +30,14 @@ const AudioCreate = () => {
       {isStart && <StartAudio setIsLoading={setIsLoading} />}
 
       {/* 분석중 모달, 완료 시 닫힘 + setIsStart(false) + setIsLoading(false)*/}
-      {isLoading && <LoadingAudioModal />}
+      {isLoading && (
+        <LoadingAudioModal
+          onClose={() => {
+            closeModal()
+            navigate(path.AudioAbout)
+          }}
+        />
+      )}
 
       {/* 음성 등록의 분석 성공, 실패, api 요청에 따른 setIsSuccess */}
       {!isStart && !isLoading && isSuccess && (

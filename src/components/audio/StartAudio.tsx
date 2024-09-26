@@ -1,4 +1,4 @@
-import useAudioRecord from '@/hooks/useAudioRecord'
+import useAudioRecord from '@/hooks/use-audio-record'
 import { IconButton } from '../common'
 import { InfoIcon } from '../icons'
 import PrevIcon from '../icons/PrevIcon'
@@ -13,7 +13,8 @@ const StartAudio = ({
 }: {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
-  const { isRecording, startRecording, stopRecording } = useAudioRecord()
+  const { isRecording, audioURL, startRecording, stopRecording } =
+    useAudioRecord()
 
   //파일업로드
   const fileInputRef = useRef<HTMLInputElement | null>(null)
@@ -56,13 +57,17 @@ const StartAudio = ({
         </div>
       </div>
       <div className="-mt-5 flex flex-col items-center justify-center border-b-8 pb-5">
-        <img
-          src={isRecording ? MicOn : MicOff}
-          alt="MicOff"
-          className="relative mx-auto mb-5 mt-10 w-5/6"
-          width={240}
-          height={240}
-        />
+        {audioURL ? (
+          <audio controls src={audioURL} />
+        ) : (
+          <img
+            src={isRecording ? MicOn : MicOff}
+            alt="MicOff"
+            className="relative mx-auto mb-5 mt-10 w-5/6"
+            width={240}
+            height={240}
+          />
+        )}
         <div>
           <p className="strong text-xl">이렇게 말해보세요!</p>
           <p>
@@ -77,12 +82,26 @@ const StartAudio = ({
           </p>
         </div>
       </div>
-      <button
-        onClick={isRecording ? stopRecording : startRecording}
-        className={`mx-auto mt-5 flex h-20 w-20 transform items-center justify-center rounded-full text-xl text-white transition duration-300 ${isRecording ? 'bg-primary-800' : 'bg-primary-base'} `}
-      >
-        {isRecording ? '종료' : '시작'}
-      </button>
+      {audioURL ? (
+        <div className="mb-10 flex w-full flex-col items-center justify-between pt-5">
+          <p>해당 음성이 맞나요?</p>
+          <div className="flex w-3/4">
+            <button className="mx-auto h-10 w-28 rounded border-2 border-primary-base bg-white text-lg">
+              재녹음
+            </button>
+            <button className="mx-auto h-10 w-28 rounded bg-primary-base text-lg text-white">
+              네, 맞아요
+            </button>
+          </div>
+        </div>
+      ) : (
+        <button
+          onClick={isRecording ? stopRecording : startRecording}
+          className={`mx-auto mt-5 flex h-20 w-20 transform items-center justify-center rounded-full text-xl text-white transition duration-300 ${isRecording ? 'bg-primary-800' : 'bg-primary-base'} `}
+        >
+          {isRecording ? '종료' : '시작'}
+        </button>
+      )}
       <div className="flex">
         <button
           onClick={handleFileUpload}
