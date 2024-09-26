@@ -1,7 +1,13 @@
+import { getScheduleById } from '@/api/schedules/get-schedule-by-id'
 import CategoryTag from '@/components/common/CategoryTag'
 import PrevIcon from '@/components/icons/PrevIcon'
+import { QUERY_KEYS } from '@/constants/api'
 import { path } from '@/routes/path'
-import { Link } from 'react-router-dom'
+import { DateFormatTypeEnum } from '@/types/common'
+import { ISchedule } from '@/types/schedules'
+import { formatDate } from '@/utils/format-date'
+import { useQuery } from '@tanstack/react-query'
+import { Link, useParams } from 'react-router-dom'
 
 type InfoItemProps = {
   label: string
@@ -19,6 +25,16 @@ const InfoItem = ({ label, content }: InfoItemProps) => (
 )
 
 const ScheduleDetailPage = () => {
+  const { id } = useParams()
+
+  const { isLoading, data } = useQuery<ISchedule>({
+    queryKey: [QUERY_KEYS.GET_SCHEDULE_BY_ID],
+    queryFn: () => getScheduleById(id as string),
+  })
+
+  if (isLoading) return <div>로딩 중...</div>
+  if (!data) return <div>데이터가 없습니다.</div>
+
   return (
     <div className="px-5">
       <div className="flex justify-between py-2">
@@ -44,14 +60,20 @@ const ScheduleDetailPage = () => {
       </div>
 
       <div className="px-7 py-5">
-        <InfoItem label="제목" content="정형외과 물리치료" />
+        <InfoItem label="제목" content={data.title} />
         <div className="mb-5 flex flex-col sm:flex-row sm:items-center">
           <div className="mr-4 w-24 text-left font-bold">카테고리</div>
           <div>
             <CategoryTag label="병원" />
           </div>
         </div>
-        <InfoItem label="날짜 및 시간" content="2024년 9월 21일 오후 3시" />
+        <InfoItem
+          label="날짜 및 시간"
+          content={formatDate(
+            DateFormatTypeEnum.FullDateTimeKR,
+            data.startDate
+          )}
+        />
       </div>
     </div>
   )
