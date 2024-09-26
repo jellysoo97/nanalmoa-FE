@@ -6,6 +6,18 @@ export enum DateFormatTypeEnum {
   DateWithKorean = 'yyyy년 MM월 dd일',
 }
 
-export type ModalProps = {
+export enum CreateScheduleStepEnum {
+  Info,
+  UploadMedia,
+  AnalysisResult,
+  RegisterResult,
+}
+
+export type TModal = {
   onClose: () => void
+}
+
+export type TStep = {
+  label: string
+  value: CreateScheduleStepEnum
 }
