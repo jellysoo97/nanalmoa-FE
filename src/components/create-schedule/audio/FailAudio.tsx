@@ -77,7 +77,7 @@ const FailAudio = () => {
           />
         </Link>
       </div>
-      ß{isModalOpen && <SelectMethodModal onClose={closeModal} />}
+      {isModalOpen && <SelectMethodModal onClose={closeModal} />}
     </>
   )
 }
