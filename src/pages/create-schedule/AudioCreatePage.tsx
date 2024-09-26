@@ -46,9 +46,6 @@ const AudioCreate = () => {
   })
 
   const handleUpload = async (audioBlob: Blob) => {
-    // const formData= new FormData()
-    // formData.append('audio', new File([audioBlob], '나날모아 녹음.wav'))
-    // formData.append('currentDateTime', new Date().toISOString())
     const requestData: PostUploadAudioFileReq = {
       audio: new File([audioBlob], '나날모아 녹음.wav'),
       currentDateTime: new Date(),
@@ -58,7 +55,6 @@ const AudioCreate = () => {
 
   return (
     <div className="flex h-full flex-col p-5">
-      {/* 시작, 종료 */}
       {isVisible && <StartAudio handlePost={handleUpload} />}
       {mutation.isPending && (
         <LoadingAudioModal
