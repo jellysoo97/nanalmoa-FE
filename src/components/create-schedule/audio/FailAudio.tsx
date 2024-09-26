@@ -4,7 +4,7 @@ import { HomeIcon, InfoIcon } from '@/components/icons'
 import { Link } from 'react-router-dom'
 import { path } from '@/routes/path'
 import { useModal } from '@/hooks/use-modal'
-import SelectMethodModal from '../create-schedule/SelectMethodModal'
+import SelectMethodModal from '../SelectMethodModal'
 
 const FailAudio = () => {
   const { isModalOpen, openModal, closeModal } = useModal()
