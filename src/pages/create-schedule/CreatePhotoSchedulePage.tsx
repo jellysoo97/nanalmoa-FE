@@ -1,9 +1,12 @@
 import { Stepper } from '@/components/common'
+import MediaAnalysisLoadingModal from '@/components/create-schedule/MediaAnalysisLoadingModal'
 import MoveStepButtons from '@/components/create-schedule/MoveStepButtons'
-import AnalysisResultStep from '@/components/create-schedule/photo/AnalysisResultStep'
-import InfoStep from '@/components/create-schedule/photo/InfoStep'
-import RegisterResultStep from '@/components/create-schedule/photo/RegisterResultStep'
-import UploadPhotoStep from '@/components/create-schedule/photo/UploadPhotoStep'
+import {
+  AnalysisResultStep,
+  InfoStep,
+  RegisterResultStep,
+  UploadPhotoStep,
+} from '@/components/create-schedule/photo'
 import { createPhotoScheduleSteps } from '@/constants/schedules'
 import { CreateScheduleStepEnum } from '@/types/common'
 import { useState } from 'react'
@@ -33,6 +36,10 @@ const CreatePhotoSchedulePage = () => {
         )}
       </div>
       <MoveStepButtons currentStep={currentStep} moveStep={moveStep} />
+      <MediaAnalysisLoadingModal
+        text={`사진 분석 중입니다. \n잠시만 기다려주세요.`}
+        onClose={() => {}}
+      />
     </div>
   )
 }

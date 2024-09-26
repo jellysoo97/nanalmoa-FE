@@ -32,7 +32,7 @@ const MoveStepButtons = ({ currentStep, moveStep }: Props) => {
           direction="horizontal"
           icon={<PrevIcon className="h-4 w-4" />}
           text="이전 단계로"
-          className="rounded-md border border-primary-blue px-2 py-1 text-primary-blue"
+          className="rounded-md border border-primary-blue px-3 py-2 text-primary-blue"
           onClick={() => moveStep(currentStep - 1)}
         />
       )}
@@ -41,7 +41,7 @@ const MoveStepButtons = ({ currentStep, moveStep }: Props) => {
           direction="horizontal"
           icon={<NextIcon className="h-4 w-4" />}
           text="다음 단계로"
-          className="rounded-md bg-primary-blue px-2 py-1 text-white"
+          className="rounded-md bg-primary-blue px-3 py-2 text-white"
           isIconFront={false}
           onClick={() => moveStep(currentStep + 1)}
         />
