@@ -41,23 +41,23 @@ const AppRouter = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: path.createSchedule,
+        path: path.createSchedule.base,
         children: [
           {
-            path: path.DateCreate,
-            element: <DateCreatePage />,
-          },
-          {
-            path: path.AudioAbout,
+            path: path.createSchedule.audio.about,
             element: <AudioAboutPage />,
           },
           {
-            path: path.AudioCreate,
+            path: path.createSchedule.audio.create,
             element: <AudioCreatePage />,
           },
           {
-            path: path.createPhotoSchedule,
+            path: path.createSchedule.photo,
             element: <CreatePhotoSchedulePage />,
+          },
+          {
+            path: path.createSchedule.manual,
+            element: <DateCreatePage />,
           },
         ],
       },
