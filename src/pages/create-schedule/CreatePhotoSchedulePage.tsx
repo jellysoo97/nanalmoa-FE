@@ -1,5 +1,4 @@
 import { Stepper } from '@/components/common'
-import MediaAnalysisLoadingModal from '@/components/create-schedule/MediaAnalysisLoadingModal'
 import MoveStepButtons from '@/components/create-schedule/MoveStepButtons'
 import {
   AnalysisResultStep,
@@ -36,10 +35,6 @@ const CreatePhotoSchedulePage = () => {
         )}
       </div>
       <MoveStepButtons currentStep={currentStep} moveStep={moveStep} />
-      <MediaAnalysisLoadingModal
-        text={`사진 분석 중입니다. \n잠시만 기다려주세요.`}
-        onClose={() => {}}
-      />
     </div>
   )
 }
