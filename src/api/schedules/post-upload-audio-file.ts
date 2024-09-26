@@ -8,6 +8,9 @@ import { authAPI } from '../axios-instance'
 
 export const postUploadAudioFile = async (payload: PostUploadAudioFileReq) => {
   // TODO: 중간발표 이후에 baseAPI로 변경
+
+  console.log('전송할 payload:', payload)
+
   const { data } = await authAPI.post<
     PostUploadAudioFileReq,
     AxiosResponse<PostUploadAudioFileRes>

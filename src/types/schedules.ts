@@ -16,8 +16,8 @@ export interface GetScheduleByIdRes extends ISchedule {}
 export interface GetSchedulesRes extends Array<ISchedule> {}
 
 export interface PostUploadAudioFileReq {
-  audio: string
-  currentDateTime: Date
+  audio: File
+  currentDateTime: string
 }
 
 export interface PostUploadAudioFileRes extends ISchedule {}
