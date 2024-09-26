@@ -34,9 +34,6 @@
   --primary-yellow: #ffe7b7;
 
   --font-pretendard: 'Pretendard';
-
-  --header-height: 82px;
-  --main-max-height: calc(100% - var(--header-height));
 }
 
 html,

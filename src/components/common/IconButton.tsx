@@ -26,7 +26,7 @@ const IconButton = ({
       {...props}
     >
       {typeof icon === 'string' ? <img src={icon} alt="icon" /> : <>{icon}</>}
-      <span className={cn(!className && 'text-sm')}>{text}</span>
+      <span className={cn(!className && 'text-sm', 'text-nowrap')}>{text}</span>
     </button>
   )
 }
