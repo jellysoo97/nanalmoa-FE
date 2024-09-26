@@ -48,7 +48,7 @@ const StartAudio = ({
             direction="horizontal"
             icon={<PrevIcon />}
             text="이전"
-            className="mx-auto flex h-full items-center justify-center text-white"
+            className="mx-auto flex h-full items-center justify-center"
           />
         </Link>
         <div className="flex items-center text-red-500">
