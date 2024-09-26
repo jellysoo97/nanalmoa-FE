@@ -51,11 +51,7 @@ const AudioCreate = () => {
     // formData.append('currentDateTime', new Date().toISOString())
     const requestData: PostUploadAudioFileReq = {
       audio: new File([audioBlob], '나날모아 녹음.wav'),
-      currentDateTime: new Date().toISOString(),
-      // formatDate(
-      //   DateFormatTypeEnum.currentDateTime,
-      //   new Date()
-      // ),
+      currentDateTime: new Date(),
     }
     mutation.mutate(requestData)
   }
