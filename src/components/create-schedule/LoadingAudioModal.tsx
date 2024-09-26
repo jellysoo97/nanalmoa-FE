@@ -3,9 +3,9 @@ import { path } from '@/routes/path'
 import { IconButton } from '../common'
 import { HomeIcon } from '../icons'
 import Modal from '../common/Modal'
-import { ModalProps } from '@/types/common'
+import { TModal } from '@/types/common'
 
-type Props = ModalProps
+type Props = TModal
 
 const LoadingAudioModal = ({ onClose }: Props) => {
   return (
