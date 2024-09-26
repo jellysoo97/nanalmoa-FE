@@ -1,14 +1,14 @@
 import { DesktopLayout, Layout } from '@/components/layout'
 import {
+  AudioAboutPage,
+  AudioCreatePage,
+  CreatePhotoSchedulePage,
+  DateCreatePage,
   HomePage,
   LandingPage,
   LoginPage,
   ScheduleDetailPage,
   SettingsPage,
-  DateCreatePage,
-  AudioAboutPage,
-  AudioCreatePage,
-  PhotoCreatePage,
 } from '@/pages'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
 import { path } from './path'
@@ -56,8 +56,8 @@ const AppRouter = createBrowserRouter([
             element: <AudioCreatePage />,
           },
           {
-            path: path.PhotoCreate,
-            element: <PhotoCreatePage />,
+            path: path.createPhotoSchedule,
+            element: <CreatePhotoSchedulePage />,
           },
         ],
       },
