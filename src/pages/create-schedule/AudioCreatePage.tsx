@@ -1,7 +1,8 @@
 import StartAudio from '@/components/create-schedule/audio/StartAudio'
 import FailAudio from '@/components/create-schedule/audio/FailAudio'
 import SuccessAudio from '@/components/create-schedule/audio/SuccessAudio'
-// import SuccessPostAudio from '@/components/audio/SuccessPostAudio'
+// import SuccessPostAudio from '@/components/create-schedule/audio/SuccessPostAudio'
+import { useState } from 'react'
 import LoadingAudioModal from '@/components/create-schedule/LoadingAudioModal'
 import { useModal } from '@/hooks/use-modal'
 import { path } from '@/routes/path'
@@ -12,7 +13,6 @@ import {
   PostUploadAudioFileReq,
   PostUploadAudioFileRes,
 } from '@/types/schedules'
-import { useState } from 'react'
 import { AxiosError } from 'axios'
 // import { formatDate } from '@/utils/format-date'
 // import { DateFormatTypeEnum } from '@/types/common'
@@ -64,7 +64,7 @@ const AudioCreate = () => {
         <LoadingAudioModal
           onClose={() => {
             closeModal()
-            navigate(path.AudioAbout)
+            navigate(path.createSchedule.audio.about)
           }}
         />
       )}

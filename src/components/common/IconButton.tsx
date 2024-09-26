@@ -5,6 +5,7 @@ type Props = {
   direction: 'horizontal' | 'vertical'
   icon: string | React.ReactNode
   text?: string
+  isIconFront?: boolean
 } & React.ComponentProps<'button'>
 
 const IconButton = ({
@@ -12,6 +13,7 @@ const IconButton = ({
   icon,
   text = '',
   className,
+  isIconFront = true,
   ...props
 }: Props) => {
   return (
@@ -25,8 +27,30 @@ const IconButton = ({
       )}
       {...props}
     >
-      {typeof icon === 'string' ? <img src={icon} alt="icon" /> : <>{icon}</>}
-      <span className={cn(!className && 'text-sm')}>{text}</span>
+      {isIconFront && (
+        <>
+          {typeof icon === 'string' ? (
+            <img src={icon} alt="icon" />
+          ) : (
+            <>{icon}</>
+          )}
+          <span className={cn(!className && 'text-sm', 'text-nowrap')}>
+            {text}
+          </span>
+        </>
+      )}
+      {!isIconFront && (
+        <>
+          <span className={cn(!className && 'text-sm', 'text-nowrap')}>
+            {text}
+          </span>
+          {typeof icon === 'string' ? (
+            <img src={icon} alt="icon" />
+          ) : (
+            <>{icon}</>
+          )}
+        </>
+      )}
     </button>
   )
 }

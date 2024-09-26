@@ -7,6 +7,18 @@ export enum DateFormatTypeEnum {
   currentDateTime = "yyyy-MM-dd'T'HH:mm:ss'Z'",
 }
 
-export type ModalProps = {
+export enum CreateScheduleStepEnum {
+  Info,
+  UploadMedia,
+  AnalysisResult,
+  RegisterResult,
+}
+
+export type TModal = {
   onClose: () => void
+}
+
+export type TStep = {
+  label: string
+  value: CreateScheduleStepEnum
 }

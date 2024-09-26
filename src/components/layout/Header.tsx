@@ -14,7 +14,7 @@ const Header = () => {
       )}
     >
       <Link to={path.schedules}>
-        <img src={logo} alt="Logo" />
+        <img src={logo} alt="Logo" className="sm:h-15 h-8 w-40 sm:w-[200px]" />
       </Link>
       <div className="flex items-center gap-x-4">
         <IconButton direction="vertical" icon={<InfoIcon />} text="도움말" />
@@ -29,3 +29,6 @@ const Header = () => {
 }
 
 export default Header
+
+//200:60=160:
+// 10:3=8:

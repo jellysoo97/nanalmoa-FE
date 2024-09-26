@@ -24,7 +24,7 @@ const Modal = ({ children, title = '', hasHelp, onClose }: Props) => {
           'flex items-center justify-center'
         )}
       >
-        <div className="flex min-h-80 min-w-80 flex-col rounded-xl bg-white md:min-w-96">
+        <div className="flex min-h-80 min-w-72 flex-col rounded-xl bg-white sm:min-w-96">
           <div className="flex items-center justify-between p-3">
             <h2 className="text-lg font-bold">{title}</h2>
             <div className="flex items-center gap-x-2">

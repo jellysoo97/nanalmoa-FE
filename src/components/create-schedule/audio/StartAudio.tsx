@@ -56,14 +56,14 @@ const StartAudio = ({ handlePost }: StartAudioProps) => {
     <div>
       <div className="flex h-10 justify-between">
         <Link
-          to={path.AudioAbout}
+          to={path.createSchedule.audio.about}
           className="w-20 rounded bg-primary-base pr-2"
         >
           <IconButton
             direction="horizontal"
             icon={<PrevIcon />}
             text="이전"
-            className="mx-auto flex h-full items-center justify-center text-white"
+            className="mx-auto flex h-full items-center justify-center"
           />
         </Link>
         <div className="flex items-center text-red-500">

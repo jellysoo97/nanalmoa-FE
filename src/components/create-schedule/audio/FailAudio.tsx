@@ -48,7 +48,7 @@ const FailAudio = () => {
             <div>
               <p>다시 음성으로 등록하여 볼까요?</p>
               <div
-                className="mx-auto mb-2 flex h-12 w-48 cursor-pointer items-center rounded bg-primary-coral"
+                className="mx-auto mb-2 flex h-12 w-48 items-center rounded bg-primary-coral"
                 onClick={() => window.location.reload()}
               >
                 <p className="mx-auto text-lg">다시 녹음하기</p>
@@ -77,7 +77,7 @@ const FailAudio = () => {
           />
         </Link>
       </div>
-      {isModalOpen && <SelectMethodModal onClose={closeModal} />}
+      ß{isModalOpen && <SelectMethodModal onClose={closeModal} />}
     </>
   )
 }
