@@ -77,20 +77,17 @@ const AudioAboutPage = () => {
           <p className="text-sm">미리 녹음한 목소리로도 등록할 수 있어요!</p>
         </div>
       </div>
-
-      <>
-        <Link
-          to={path.schedules}
-          className="mx-auto w-1/3 rounded bg-gray-300 p-2 font-semibold"
-        >
-          <IconButton
-            direction="horizontal"
-            icon={<HomeIcon />}
-            text="처음으로"
-            className="mx-auto gap-x-1"
-          />
-        </Link>
-      </>
+      <Link
+        to={path.schedules}
+        className="mx-auto w-1/3 rounded bg-gray-300 p-2 font-semibold"
+      >
+        <IconButton
+          direction="horizontal"
+          icon={<HomeIcon />}
+          text="처음으로"
+          className="mx-auto gap-x-1"
+        />
+      </Link>
     </div>
   )
 }
