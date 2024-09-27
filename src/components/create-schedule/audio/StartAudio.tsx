@@ -1,12 +1,11 @@
-import useAudioRecord from '@/hooks/use-audio-record'
-import { IconButton } from '../../common'
-import { InfoIcon } from '../../icons'
-import PrevIcon from '../../icons/PrevIcon'
 import MicOff from '@/assets/imgs/MicOff.svg'
 import MicOn from '@/assets/imgs/MicOn.svg'
+import useAudioRecord from '@/hooks/use-audio-record'
+import { path } from '@/routes/path'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { path } from '@/routes/path'
+import { IconButton } from '../../common'
+import { PrevIcon } from '@/components/icons'
 
 interface StartAudioProps {
   handlePost: (audioFile: File) => void
@@ -69,10 +68,11 @@ const StartAudio = ({ handlePost }: StartAudioProps) => {
             className="mx-auto flex h-full items-center justify-center"
           />
         </Link>
-        <div className="flex items-center text-red-500">
+        {/* TODO: 중간발표 보류 */}
+        {/* <div className="flex items-center text-red-500">
           <InfoIcon />
           <p>도움말</p>
-        </div>
+        </div>s */}
       </div>
       <div className="-mt-5 flex flex-col items-center justify-center border-b-8 pb-5">
         {audio ? (
