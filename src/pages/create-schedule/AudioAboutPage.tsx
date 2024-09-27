@@ -19,7 +19,7 @@ const AudioAboutPage = () => {
           />
         </Link>
         <Link
-          to={path.AudioCreate}
+          to={path.createSchedule.audio.create}
           className="h-full w-20 rounded bg-primary-base pl-2"
         >
           <button className="mx-auto flex h-full flex-row items-center justify-center text-white">
@@ -58,7 +58,7 @@ const AudioAboutPage = () => {
           height={240}
         />
         <Link
-          to={path.AudioCreate}
+          to={path.createSchedule.audio.create}
           className="mx-auto -mt-5 mb-2 flex h-12 w-3/4 items-center rounded bg-primary-500"
         >
           <p className="mx-auto text-lg">🍀 목소리로 일정 등록하기</p>

@@ -1,52 +1,74 @@
 import StartAudio from '@/components/create-schedule/audio/StartAudio'
 import FailAudio from '@/components/create-schedule/audio/FailAudio'
 import SuccessAudio from '@/components/create-schedule/audio/SuccessAudio'
-import SuccessPostAudio from '@/components/create-schedule/audio/SuccessPostAudio'
-import { useEffect, useState } from 'react'
-import LoadingAudioModal from '@/components/create-schedule/LoadingAudioModal'
+// import SuccessPostAudio from '@/components/create-schedule/audio/SuccessPostAudio'
+import { useState } from 'react'
+import MediaAnalysisLoadingModal from '@/components/create-schedule/MediaAnalysisLoadingModal'
 import { useModal } from '@/hooks/use-modal'
 import { path } from '@/routes/path'
 import { useNavigate } from 'react-router-dom'
+import { useMutation } from '@tanstack/react-query'
+import { postUploadAudioFile } from '@/api/schedules/post-upload-audio-file'
+import {
+  PostUploadAudioFileReq,
+  PostUploadAudioFileRes,
+} from '@/types/schedules'
+import { AxiosError } from 'axios'
+import { QUERY_KEYS } from '@/constants/api'
 
 const AudioCreate = () => {
-  const [isStart, setIsStart] = useState<boolean>(true)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [isSuccess, setIsSuccess] = useState<boolean>(false)
-  const [isPost, setIsPost] = useState<boolean>(false)
   const navigate = useNavigate()
-
   const { closeModal } = useModal()
 
-  // 수정될코드
-  useEffect(() => {
-    setIsStart(true)
-    setIsSuccess(false)
-  }, [isStart])
+  const [result, setResult] = useState<PostUploadAudioFileRes[]>()
+
+  const mutation = useMutation<
+    PostUploadAudioFileRes[],
+    AxiosError,
+    PostUploadAudioFileReq
+  >({
+    mutationKey: [QUERY_KEYS.POST_AUDIO_FILE],
+    mutationFn: postUploadAudioFile,
+    onSuccess: (res) => {
+      setResult(res)
+    },
+    onError: (err) => {
+      console.error('err', err)
+      setResult(undefined)
+    },
+  })
+
+  const uploadAudio = (file: File) => {
+    mutation.mutateAsync({
+      audio: file,
+      currentDateTime: new Date(),
+    })
+  }
 
   return (
     <div className="flex h-full flex-col p-5">
-      {/* 시작, 종료 */}
-      {/* 파일 post 시 로딩처리 */}
-      {isStart && <StartAudio setIsLoading={setIsLoading} />}
-
-      {/* 분석중 모달, 완료 시 닫힘 + setIsStart(false) + setIsLoading(false)*/}
-      {isLoading && (
-        <LoadingAudioModal
+      {!result && <StartAudio handlePost={uploadAudio} />}
+      {mutation.isPending && (
+        <MediaAnalysisLoadingModal
+          text={`음성 분석 중입니다. \n잠시만 기다려주세요.`}
           onClose={() => {
             closeModal()
-            navigate(path.AudioAbout)
+            navigate(path.createSchedule.audio.about)
+          }}
+          onLeftButtonClick={() => {
+            uploadAudio(mutation.variables?.audio)
+          }}
+          onRightButtonClick={() => {
+            closeModal()
+            navigate(path.createSchedule.audio.about)
           }}
         />
       )}
-
-      {/* 음성 등록의 분석 성공, 실패, api 요청에 따른 setIsSuccess */}
-      {!isStart && !isLoading && isSuccess && (
-        <SuccessAudio setIsPost={setIsPost} />
-      )}
-      {!isStart && !isLoading && !isSuccess && <FailAudio />}
+      {mutation.isSuccess && <SuccessAudio />}
+      {mutation.isError && <FailAudio />}
 
       {/* post 등록완료 */}
-      {!isStart && isPost && <SuccessPostAudio />}
+      {/* <SuccessPostAudio /> */}
     </div>
   )
 }
