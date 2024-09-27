@@ -25,11 +25,10 @@ const SuccessAudio = ({ results, createSchedules }: Props) => {
     if (selectedResult) {
       createSchedules({
         ...selectedResult,
+        userId: 2,
       })
     }
   }
-
-  console.log(selectedResult)
 
   return (
     <div className="flex h-full flex-col">

@@ -1,11 +1,13 @@
 import { Categories } from './category'
 
+export interface ICategory {
+  categoryId: number
+  categoryName: Categories
+}
+
 export interface ISchedule {
   userId: number
-  category: {
-    categoryId: number
-    categoryName: Categories
-  }
+  category: ICategory
   startDate: Date
   endDate: Date
   title: string
@@ -50,8 +52,5 @@ export interface PostSchedulesReq {
 
 export interface PostSchedulesRes extends PostSchedulesReq {
   scheduleId: number
-  category: {
-    categoryId: number
-    categoryName: string
-  }
+  category: ICategory
 }

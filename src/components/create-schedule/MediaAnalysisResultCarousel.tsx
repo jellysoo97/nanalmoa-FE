@@ -48,7 +48,7 @@ const MediaAnaysisResultCarousel = ({
                 )}
               </p>
               <div className="flex items-center gap-x-1">
-                <CategoryTag label={'약속'} />
+                <CategoryTag label={'기타'} />
                 <p>{result.title}</p>
               </div>
             </div>
@@ -64,7 +64,7 @@ const MediaAnaysisResultCarousel = ({
                 type="button"
                 className="h-2 w-2 rounded-full bg-neutral-300"
                 aria-current={currentIndex === index ? 'true' : 'false'}
-                aria-label="Slide 1"
+                aria-label={`Slide ${index}`}
                 data-carousel-slide-to={`${index}`}
               />
             )
