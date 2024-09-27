@@ -3,7 +3,7 @@ import FailAudio from '@/components/create-schedule/audio/FailAudio'
 import SuccessAudio from '@/components/create-schedule/audio/SuccessAudio'
 // import SuccessPostAudio from '@/components/create-schedule/audio/SuccessPostAudio'
 import { useState } from 'react'
-import LoadingAudioModal from '@/components/create-schedule/LoadingAudioModal'
+import MediaAnalysisLoadingModal from '@/components/create-schedule/MediaAnalysisLoadingModal'
 import { useModal } from '@/hooks/use-modal'
 import { path } from '@/routes/path'
 import { useNavigate } from 'react-router-dom'
@@ -21,7 +21,9 @@ const AudioCreate = () => {
   const navigate = useNavigate()
   const { closeModal } = useModal()
 
-  const [isVisible, setIsVisible] = useState(true)
+  const [result, setResult] = useState<PostUploadAudioFileRes>()
+
+  // const [isVisible, setIsVisible] = useState(true)
 
   const mutation = useMutation<
     PostUploadAudioFileRes,
@@ -30,35 +32,36 @@ const AudioCreate = () => {
   >({
     mutationKey: ['postAudioFile'],
     mutationFn: postUploadAudioFile,
-    onSuccess: () => {
-      console.log('Audio file uploaded successfully:')
-      setIsVisible(false)
+    onSuccess: (res) => {
+      setResult(res)
     },
-    onError: (error, requestData) => {
-      console.error('Error uploading audio file:')
-      if (error.response?.status === 404) {
-        console.error('서버문제')
-      } else {
-        setIsVisible(false)
-        console.log('Data sent to server:', requestData)
-      }
+    onError: (err) => {
+      console.error('err', err)
+      setResult(undefined)
     },
   })
 
-  const handleUpload = async (audioBlob: Blob) => {
-    const requestData: PostUploadAudioFileReq = {
-      audio: new File([audioBlob], '나날모아 녹음.wav'),
+  const uploadAudio = (file: File) => {
+    mutation.mutateAsync({
+      audio: file,
       currentDateTime: new Date(),
-    }
-    mutation.mutate(requestData)
+    })
   }
 
   return (
     <div className="flex h-full flex-col p-5">
-      {isVisible && <StartAudio handlePost={handleUpload} />}
+      {!result && <StartAudio handlePost={uploadAudio} />}
       {mutation.isPending && (
-        <LoadingAudioModal
+        <MediaAnalysisLoadingModal
+          text={`음성 분석 중입니다. \n잠시만 기다려주세요.`}
           onClose={() => {
+            closeModal()
+            navigate(path.createSchedule.audio.about)
+          }}
+          onLeftButtonClick={() => {
+            uploadAudio(mutation.variables?.audio)
+          }}
+          onRightButtonClick={() => {
             closeModal()
             navigate(path.createSchedule.audio.about)
           }}

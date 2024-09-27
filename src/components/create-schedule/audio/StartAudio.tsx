@@ -4,7 +4,7 @@ import { InfoIcon } from '../../icons'
 import PrevIcon from '../../icons/PrevIcon'
 import MicOff from '@/assets/imgs/MicOff.svg'
 import MicOn from '@/assets/imgs/MicOn.svg'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { path } from '@/routes/path'
 
@@ -13,22 +13,27 @@ interface StartAudioProps {
 }
 
 const StartAudio = ({ handlePost }: StartAudioProps) => {
-  const [finalAudioURL, setFinalAudioURL] = useState<string | null>(null)
+  const [audio, setAudio] = useState<File | string | null>(null)
   const { isRecording, audioURL, startRecording, stopRecording } =
     useAudioRecord()
+  const isUrl = useMemo(() => typeof audio === 'string', [audio])
 
   useEffect(() => {
     if (audioURL) {
-      setFinalAudioURL(audioURL)
+      setAudio(audioURL)
     }
   }, [audioURL])
 
-  const handleFilePost = () => {
-    if (finalAudioURL) {
-      const file = new File([finalAudioURL], 'recording.wav', {
-        type: 'audio/wav',
-      })
-      handlePost(file)
+  const handleFilePost = async () => {
+    if (audio) {
+      let data = audio
+      if (isUrl) {
+        const response = await fetch(audio as string)
+        const blob = await response.blob()
+        data = new File([blob], 'test.wav', { type: blob.type })
+      }
+      console.dir(data)
+      handlePost(data as File)
     } else {
       console.error('No audio recorded')
     }
@@ -44,11 +49,9 @@ const StartAudio = ({ handlePost }: StartAudioProps) => {
   }
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
+    const file = event.target.files
     if (file) {
-      console.log('Uploaded file:', file)
-      const url = URL.createObjectURL(file)
-      setFinalAudioURL(url)
+      setAudio(file[0])
     }
   }
 
@@ -72,9 +75,14 @@ const StartAudio = ({ handlePost }: StartAudioProps) => {
         </div>
       </div>
       <div className="-mt-5 flex flex-col items-center justify-center border-b-8 pb-5">
-        {finalAudioURL ? (
+        {audio ? (
           <div className="flex h-96 flex-col items-center justify-evenly">
-            <audio controls src={finalAudioURL} />
+            <audio
+              controls
+              src={
+                isUrl ? (audio as string) : URL.createObjectURL(audio as File)
+              }
+            />
             <p className="strong text-xl">음성을 재생해 확인해보세요!</p>
           </div>
         ) : (
@@ -86,7 +94,7 @@ const StartAudio = ({ handlePost }: StartAudioProps) => {
             height={240}
           />
         )}
-        {!finalAudioURL && (
+        {!audio && (
           <div>
             <p className="strong text-xl">이렇게 말해보세요!</p>
             <p>
@@ -102,7 +110,7 @@ const StartAudio = ({ handlePost }: StartAudioProps) => {
           </div>
         )}
       </div>
-      {finalAudioURL ? (
+      {audio ? (
         <div className="mb-10 flex w-full flex-col items-center justify-between pt-5">
           <p>해당 음성이 맞나요?</p>
           <div className="flex w-3/4">
@@ -128,7 +136,7 @@ const StartAudio = ({ handlePost }: StartAudioProps) => {
           {isRecording ? '종료' : '시작'}
         </button>
       )}
-      {!finalAudioURL && (
+      {!audio && (
         <div className="flex">
           <button
             onClick={handleFileUpload}

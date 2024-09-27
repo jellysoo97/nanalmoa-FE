@@ -3,7 +3,6 @@ import { useState, useRef } from 'react'
 const useAudioRecord = () => {
   const [isRecording, setIsRecording] = useState(false)
   const [audioURL, setAudioURL] = useState<string | null>(null)
-  const [audioFile, setAudioFile] = useState<File | null>(null)
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
   const audioChunksRef = useRef<Blob[]>([])
 
@@ -25,11 +24,6 @@ const useAudioRecord = () => {
         })
         const url = URL.createObjectURL(audioBlob)
         setAudioURL(url)
-        // Blob을 File로 변환
-        const file = new File([audioBlob], 'recording.wav', {
-          type: 'audio/wav',
-        })
-        setAudioFile(file)
       }
 
       mediaRecorder.start()
@@ -56,7 +50,6 @@ const useAudioRecord = () => {
   return {
     isRecording,
     audioURL,
-    audioFile,
     startRecording,
     stopRecording,
     loadAudio,
