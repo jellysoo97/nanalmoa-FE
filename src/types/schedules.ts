@@ -20,7 +20,14 @@ export interface PostUploadAudioFileReq {
   currentDateTime: Date
 }
 
-export interface PostUploadAudioFileRes extends ISchedule {}
+export interface PostUploadAudioFileRes {
+  userId: number
+  startDate: Date
+  endDate: Date
+  title: string
+  place: string
+  isAllDay: boolean
+}
 
 export interface PostSchedulesReq {
   categoryId: number

@@ -19,10 +19,10 @@ const AudioCreate = () => {
   const navigate = useNavigate()
   const { closeModal } = useModal()
 
-  const [result, setResult] = useState<PostUploadAudioFileRes>()
+  const [result, setResult] = useState<PostUploadAudioFileRes[]>()
 
   const mutation = useMutation<
-    PostUploadAudioFileRes,
+    PostUploadAudioFileRes[],
     AxiosError,
     PostUploadAudioFileReq
   >({
