@@ -1,6 +1,6 @@
 import { cn } from '@/utils/cn'
 
-const InfoIcon = ({ className, ...props }: React.ComponentProps<'svg'>) => {
+const CheckIcon = ({ className, ...props }: React.ComponentProps<'svg'>) => {
   return (
     <svg
       width="64px"
@@ -19,24 +19,10 @@ const InfoIcon = ({ className, ...props }: React.ComponentProps<'svg'>) => {
       ></g>
       <g id="SVGRepo_iconCarrier">
         {' '}
-        <rect width="24" height="24" fill="white"></rect>{' '}
-        <circle
-          cx="12"
-          cy="12"
-          r="9"
-          stroke="#000000"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        ></circle>{' '}
         <path
-          d="M12 11V17"
-          stroke="#000000"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        ></path>{' '}
-        <path
-          d="M11.75 8V7H12.25V8H11.75Z"
-          stroke="#000000"
+          d="M4 12.6111L8.92308 17.5L20 6.5"
+          stroke="currentColor"
+          strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
         ></path>{' '}
@@ -45,4 +31,4 @@ const InfoIcon = ({ className, ...props }: React.ComponentProps<'svg'>) => {
   )
 }
 
-export default InfoIcon
+export default CheckIcon

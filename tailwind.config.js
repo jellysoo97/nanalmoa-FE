@@ -8,9 +8,9 @@ export default {
       pretendard: ['var(--font-pretendard)', 'sans-serif'],
     },
     fontSize: {
-      xs: ['0.875rem', '1.25rem'],
-      sm: ['1rem', '1.5rem'],
-      base: ['1.125rem', '1.75rem'],
+      xs: ['0.875rem', '1.125rem'],
+      sm: ['1rem', '1.125rem'],
+      base: ['1.125rem', '1.5rem'],
       lg: ['1.25rem', '1.75rem'],
       xl: ['1.5rem', '2rem'],
       '2xl': ['2.25rem', '2.5rem'],

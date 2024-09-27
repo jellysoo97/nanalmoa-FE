@@ -8,6 +8,18 @@ export enum DateFormatTypeEnum {
   FullDateTimeKR = 'yyyy년 MM월 dd일 HH:mm',
 }
 
-export type ModalProps = {
+export enum CreateScheduleStepEnum {
+  Info,
+  UploadMedia,
+  AnalysisResult,
+  RegisterResult,
+}
+
+export type TModal = {
   onClose: () => void
+}
+
+export type TStep = {
+  label: string
+  value: CreateScheduleStepEnum
 }
