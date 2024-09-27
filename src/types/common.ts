@@ -4,7 +4,7 @@ export enum DateFormatTypeEnum {
   YearAndMonth = 'yyyy.MM',
   MonthAndDay = 'MM.dd',
   DateWithKorean = 'yyyy년 MM월 dd일',
-  currentDateTime = "yyyy-MM-dd'T'HH:mm:ss'Z'",
+  CurrentDateTime = "yyyy-MM-dd'T'HH:mm:ss'Z'",
 }
 
 export enum CreateScheduleStepEnum {

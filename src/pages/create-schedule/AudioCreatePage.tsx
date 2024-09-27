@@ -14,6 +14,7 @@ import {
   PostUploadAudioFileRes,
 } from '@/types/schedules'
 import { AxiosError } from 'axios'
+import { QUERY_KEYS } from '@/constants/api'
 
 const AudioCreate = () => {
   const navigate = useNavigate()
@@ -26,7 +27,7 @@ const AudioCreate = () => {
     AxiosError,
     PostUploadAudioFileReq
   >({
-    mutationKey: ['postAudioFile'],
+    mutationKey: [QUERY_KEYS.POST_AUDIO_FILE],
     mutationFn: postUploadAudioFile,
     onSuccess: (res) => {
       setResult(res)
