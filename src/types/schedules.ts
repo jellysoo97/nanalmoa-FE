@@ -16,11 +16,18 @@ export interface GetScheduleByIdRes extends ISchedule {}
 export interface GetSchedulesRes extends Array<ISchedule> {}
 
 export interface PostUploadAudioFileReq {
-  audio: string
+  audio: File
   currentDateTime: Date
 }
 
-export interface PostUploadAudioFileRes extends ISchedule {}
+export interface PostUploadAudioFileRes {
+  userId: number
+  startDate: Date
+  endDate: Date
+  title: string
+  place: string
+  isAllDay: boolean
+}
 
 export interface PostSchedulesReq {
   categoryId: number
