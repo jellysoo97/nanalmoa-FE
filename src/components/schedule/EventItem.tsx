@@ -15,13 +15,13 @@ const EventItem = ({ schedule }: Props) => {
       to={`${path.schedules}/${schedule.scheduleId}`}
       className={`mx-6 mb-4 flex cursor-pointer items-start rounded-lg border px-1 py-2 shadow-sm transition duration-300 ease-in-out hover:scale-[1.02] hover:shadow-md`}
     >
-      <span className="px-3 py-2 text-lg font-semibold">
+      <span className="w-24 px-3 py-2 text-lg font-semibold">
         {formatDate(DateFormatTypeEnum.Time24, schedule.startDate)}
       </span>
 
       <span className="w-full border-l px-4 py-2">
         <div className="mb-1">
-          <CategoryTag label="병원" />
+          <CategoryTag label={schedule.category.categoryName} />
           <span className="p-1 text-base">{schedule.title}</span>
         </div>
         {/* <div className="flex justify-end">

@@ -10,6 +10,8 @@ const EventContainer = () => {
     queryFn: () => getSchedules(2),
   })
 
+  console.log(data)
+
   const sortScheduleDESC = (schedules: ISchedule[]) => {
     return schedules.sort(
       (a, b) =>
