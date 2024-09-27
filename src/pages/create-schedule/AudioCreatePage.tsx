@@ -14,16 +14,12 @@ import {
   PostUploadAudioFileRes,
 } from '@/types/schedules'
 import { AxiosError } from 'axios'
-// import { formatDate } from '@/utils/format-date'
-// import { DateFormatTypeEnum } from '@/types/common'
 
 const AudioCreate = () => {
   const navigate = useNavigate()
   const { closeModal } = useModal()
 
   const [result, setResult] = useState<PostUploadAudioFileRes>()
-
-  // const [isVisible, setIsVisible] = useState(true)
 
   const mutation = useMutation<
     PostUploadAudioFileRes,
