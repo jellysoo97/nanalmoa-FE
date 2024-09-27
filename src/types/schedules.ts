@@ -1,6 +1,11 @@
+import { Categories } from './category'
+
 export interface ISchedule {
   userId: number
-  categoryId: number
+  category: {
+    categoryId: number
+    categoryName: Categories
+  }
   startDate: Date
   endDate: Date
   title: string
