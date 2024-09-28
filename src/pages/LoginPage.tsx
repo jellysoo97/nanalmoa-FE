@@ -18,7 +18,7 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
 const LoginPage = () => {
-  const kakaoUrl = `${KAKAO_AUTH_API_URL}?client_id=${import.meta.env.VITE_KAKAO_REST_API_KEY}&redirect_uri=${window.origin}${path.loginRedirect}&response_type=code`
+  const kakaoUrl = `${KAKAO_AUTH_API_URL}?client_id=${import.meta.env.VITE_KAKAO_REST_API_KEY}&redirect_uri=${window.origin}${path.loginRedirect}?at=kakao&response_type=code`
   const {
     register,
     handleSubmit,

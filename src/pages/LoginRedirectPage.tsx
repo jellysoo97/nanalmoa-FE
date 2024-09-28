@@ -14,7 +14,10 @@ import Cookies from 'js-cookie'
 import { useEffect } from 'react'
 
 const LoginRedirectPage = () => {
-  const code = new URL(window.location.href).searchParams.get('code')
+  const params = new URL(window.location.href).searchParams
+  const code = params.get('code')
+  const at = params.get('at')
+
   const { data, isPending, isSuccess, isError, error } = useQuery<
     GetKaKaoLoginRes,
     AxiosError,
@@ -22,7 +25,7 @@ const LoginRedirectPage = () => {
   >({
     queryKey: [QUERY_KEYS.GET_KAKAO_LOGIN, code],
     queryFn: () => getKakaoLogin(code || ''),
-    enabled: !!code,
+    enabled: !!code && at === 'kakao',
   })
 
   useEffect(() => {
