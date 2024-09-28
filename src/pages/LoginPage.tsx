@@ -50,18 +50,16 @@ const LoginPage = () => {
   const onSubmit = handleSubmit((data) => mutate(data))
 
   return (
-    <div className="container flex flex-col justify-center gap-y-10 px-3 py-2">
+    <div className="container flex flex-col justify-center gap-y-10 px-6 py-2 sm:px-12">
       <div className="flex flex-col items-center gap-y-10">
         <h2 className="text-xl font-bold">환영합니다!🍀</h2>
         <div className="flex w-full flex-col items-center gap-y-4">
-          <form onSubmit={onSubmit}>
+          <form className="w-full" onSubmit={onSubmit}>
             {/* TODO: validation */}
             <Input
-              direction="vertical"
               label="전화번호"
               placeholder="010-XXXX-XXXX"
               errorMessage={errors.phoneNumber?.message}
-              className="w-80"
               {...register('phoneNumber')}
             />
           </form>

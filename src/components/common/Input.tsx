@@ -8,7 +8,10 @@ type Props = {
 } & React.ComponentProps<'input'>
 
 const Input = forwardRef<HTMLInputElement, Props>(
-  ({ label, direction, errorMessage, className, ...props }, ref) => {
+  (
+    { label, direction = 'vertical', errorMessage, className, ...props },
+    ref
+  ) => {
     return (
       <div
         className={cn(
