@@ -1,16 +1,11 @@
 import { getKakaoLogin } from '@/api/auth/get-kakao-login'
 import { LoadingSpinner } from '@/components/common'
-import {
-  ACCESS_TOKEN_KEY,
-  QUERY_KEYS,
-  REFRESH_TOKEN_DURATION,
-  REFRESH_TOKEN_KEY,
-} from '@/constants/api'
+import { QUERY_KEYS } from '@/constants/api'
 import { path } from '@/routes/path'
 import { GetKaKaoLoginRes } from '@/types/auth'
+import { setToken } from '@/utils/handle-token'
 import { useQuery } from '@tanstack/react-query'
 import { AxiosError, HttpStatusCode } from 'axios'
-import Cookies from 'js-cookie'
 import { useEffect } from 'react'
 
 const LoginRedirectPage = () => {
@@ -30,11 +25,11 @@ const LoginRedirectPage = () => {
 
   useEffect(() => {
     if (!isPending && isSuccess) {
-      localStorage.setItem(ACCESS_TOKEN_KEY, data.accessToken)
-      Cookies.set(REFRESH_TOKEN_KEY, data.refreshToken, {
-        expires: REFRESH_TOKEN_DURATION,
-      })
-      window.location.href = path.schedules
+      setToken(data.accessToken, data.refreshToken)
+
+      setTimeout(() => {
+        window.location.href = path.schedules
+      }, 1000)
     }
 
     if (!isPending && isError) {
