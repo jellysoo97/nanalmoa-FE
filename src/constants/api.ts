@@ -16,6 +16,7 @@ export const API_DOMAINS = {
 export const QUERY_KEYS = {
   POST_LOGIN: 'login',
   GET_KAKAO_LOGIN: 'kakaoLogin',
+  GET_USER_ME: 'me',
   GET_SCHEDULES: 'schedules',
   GET_SCHEDULE_BY_ID: 'scheduleById',
   POST_AUDIO_FILE: 'postAudioFile',

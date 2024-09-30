@@ -12,6 +12,7 @@ export interface PostLoginReq {
 export interface PostLoginRes {
   accessToken: string
   refreshToken: string
+  user: IUser
 }
 
 export interface GetKaKaoLoginRes {
@@ -20,3 +21,16 @@ export interface GetKaKaoLoginRes {
   socialProvider: string
   user: IUser
 }
+
+export interface PostRefreshTokenReq {
+  userId: number
+  refreshToken: string
+  socialProvider: string
+}
+
+export interface PostRefreshTokenRes {
+  accessToken: string
+  refreshToken: string
+}
+
+export interface GetUserMeRes extends PostLoginRes {}
