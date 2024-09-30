@@ -1,15 +1,25 @@
 import { cn } from '@/utils/cn'
 import landingLogo from '@/assets/logo/landingLogo.svg'
+import { ACCESS_TOKEN_KEY } from '@/constants/api'
+import { path } from '@/routes/path'
 
 type Props = {
   isLanding?: boolean
 }
 
 const LandingPage = ({ isLanding = false }: Props) => {
+  if (isLanding) {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY)
+
+    setTimeout(() => {
+      window.location.href = accessToken ? path.schedules : path.login
+    }, 2000)
+  }
+
   return (
     <div
       className={cn([
-        'container flex flex-col items-center justify-center gap-y-10 bg-neutral-50',
+        'container flex flex-col items-center justify-center gap-y-10',
         !isLanding && 'hidden lg:flex',
       ])}
     >

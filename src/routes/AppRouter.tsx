@@ -7,6 +7,7 @@ import {
   HomePage,
   LandingPage,
   LoginPage,
+  LoginRedirectPage,
   ScheduleDetailPage,
   SettingsPage,
 } from '@/pages'
@@ -22,9 +23,19 @@ const AppRouter = createBrowserRouter([
     path: path.login,
     element: (
       <DesktopLayout>
-        <LoginPage />
+        <Outlet />
       </DesktopLayout>
     ),
+    children: [
+      {
+        path: '',
+        element: <LoginPage />,
+      },
+      {
+        path: path.loginRedirect,
+        element: <LoginRedirectPage />,
+      },
+    ],
   },
   {
     path: path.schedules,
