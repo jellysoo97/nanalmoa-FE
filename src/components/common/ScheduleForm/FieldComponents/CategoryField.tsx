@@ -12,7 +12,7 @@ const CategoryField = () => {
   }))
 
   return (
-    <div className="mb-4 flex justify-between pr-9">
+    <div className="mb-4 flex justify-between">
       <label
         htmlFor="categoryId"
         className="w-36 py-5 text-base font-bold text-gray-700"
@@ -24,7 +24,7 @@ const CategoryField = () => {
         <Controller
           name="categoryId"
           control={control}
-          rules={{ required: '카테고리를 선택해주세요!' }}
+          // rules={{ required: '카테고리를 선택해주세요!' }}
           render={({
             field: { onChange, value, ref, ...rest },
             fieldState: { error },
@@ -60,7 +60,7 @@ const CategoryField = () => {
                     borderRadius: '0.375rem',
                     boxShadow: 'none',
                     width: 'auto',
-                    minWidth: '120px', // 최소 너비 설정
+                    minWidth: '120px',
                     display: 'inline-flex',
                     alignItems: 'center',
                     '&:hover': {

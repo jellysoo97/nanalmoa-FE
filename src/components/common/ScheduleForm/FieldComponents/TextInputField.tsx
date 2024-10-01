@@ -6,9 +6,16 @@ type Props = {
   label: string
   placeholder: string
   ruleMessage?: string
+  default?: string
 }
 
-const TextInputField = ({ id, label, placeholder, ruleMessage }: Props) => {
+const TextInputField = ({
+  id,
+  label,
+  placeholder,
+  ruleMessage,
+  default: defaultValue,
+}: Props) => {
   const {
     watch,
     register,
@@ -33,6 +40,7 @@ const TextInputField = ({ id, label, placeholder, ruleMessage }: Props) => {
             id={id}
             type="text"
             placeholder={placeholder}
+            {...(defaultValue !== undefined ? { defaultValue } : {})}
             {...register(id, registerOptions)}
             className="animate-border focus:shadow-outline w-full appearance-none border-b-2 border-gray-300 px-3 py-2 leading-tight text-gray-700 transition-colors duration-300 ease-in-out focus:border-green-800 focus:outline-none"
           />
