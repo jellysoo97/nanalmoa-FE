@@ -64,7 +64,7 @@ const ScheduleDetailPage = () => {
         <div className="mb-5 flex flex-col sm:flex-row sm:items-center">
           <div className="mr-4 w-24 text-left font-bold">카테고리</div>
           <div>
-            <CategoryTag label={data.category.categoryName} />
+            <CategoryTag label="약속" />
           </div>
         </div>
         <InfoItem

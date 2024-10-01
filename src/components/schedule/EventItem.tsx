@@ -21,7 +21,7 @@ const EventItem = ({ schedule }: Props) => {
 
       <span className="w-full border-l px-4 py-2">
         <div className="mb-1">
-          <CategoryTag label={schedule.category.categoryName} />
+          <CategoryTag label="약속" />
           <span className="p-1 text-base">{schedule.title}</span>
         </div>
         {/* <div className="flex justify-end">
