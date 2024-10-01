@@ -2,18 +2,13 @@ import { postLogin } from '@/api/auth/post-login'
 import kakaoLogin from '@/assets/imgs/kakaoLogin.png'
 import { Input } from '@/components/common'
 import Divider from '@/components/common/Divider'
-import {
-  ACCESS_TOKEN_KEY,
-  KAKAO_AUTH_API_URL,
-  QUERY_KEYS,
-  REFRESH_TOKEN_KEY,
-} from '@/constants/api'
+import { KAKAO_AUTH_API_URL, QUERY_KEYS } from '@/constants/api'
 import { errorMessages } from '@/constants/validation'
 import { path } from '@/routes/path'
 import { PostLoginReq, PostLoginRes } from '@/types/auth'
+import { setToken } from '@/utils/handle-token'
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError, HttpStatusCode } from 'axios'
-import Cookies from 'js-cookie'
 import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
@@ -29,8 +24,7 @@ const LoginPage = () => {
     mutationKey: [QUERY_KEYS.POST_LOGIN],
     mutationFn: postLogin,
     onSuccess: (data) => {
-      localStorage.setItem(ACCESS_TOKEN_KEY, data.accessToken)
-      Cookies.set(REFRESH_TOKEN_KEY, data.refreshToken)
+      setToken(data.accessToken, data.refreshToken)
 
       setTimeout(() => {
         window.location.href = path.schedules

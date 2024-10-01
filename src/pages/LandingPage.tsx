@@ -1,19 +1,19 @@
-import { cn } from '@/utils/cn'
 import landingLogo from '@/assets/logo/landingLogo.svg'
-import { ACCESS_TOKEN_KEY } from '@/constants/api'
+import { useUser } from '@/hooks/use-user'
 import { path } from '@/routes/path'
+import { cn } from '@/utils/cn'
 
 type Props = {
   isLanding?: boolean
 }
 
 const LandingPage = ({ isLanding = false }: Props) => {
-  if (isLanding) {
-    const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY)
+  const { user } = useUser()
 
+  if (isLanding) {
     setTimeout(() => {
-      window.location.href = accessToken ? path.schedules : path.login
-    }, 2000)
+      window.location.href = user.isLoggedIn ? path.schedules : path.login
+    }, 1000)
   }
 
   return (
