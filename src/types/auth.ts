@@ -22,6 +22,8 @@ export interface GetKaKaoLoginRes {
   user: IUser
 }
 
+export interface GetNaverLoginRes extends GetKaKaoLoginRes {}
+
 export interface PostRefreshTokenReq {
   userId: number
   refreshToken: string
