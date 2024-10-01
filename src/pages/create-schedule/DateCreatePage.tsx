@@ -30,7 +30,7 @@ const DateCreate = () => {
 
   return (
     <>
-      <ScheduleForm onSubmit={handleSubmit} />
+      <ScheduleForm<PostSchedulesReq> onSubmit={handleSubmit} />
     </>
   )
 }
