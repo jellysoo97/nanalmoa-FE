@@ -1,11 +1,11 @@
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/constants/api'
 import { path } from '@/routes/path'
+import { getAccessToken, getRefreshToken, setToken } from '@/utils/handle-token'
 import { AxiosError, HttpStatusCode, InternalAxiosRequestConfig } from 'axios'
-import Cookies from 'js-cookie'
+import { postRefreshToken } from './auth/post-refresh-token'
 import { baseAPI } from './axios-instance'
 
 export const checkAccessToken = (config: InternalAxiosRequestConfig) => {
-  const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY)
+  const accessToken = getAccessToken()
 
   if (!accessToken) {
     window.location.href = path.login
@@ -28,17 +28,24 @@ export const handleAuthError = async (error: AxiosError) => {
   const originalRequest = error.config
 
   if (error.response.status === HttpStatusCode.Unauthorized) {
-    const cookie = Cookies.get(REFRESH_TOKEN_KEY)
+    const refreshToken = getRefreshToken()
 
-    if (!cookie) {
+    if (!refreshToken) {
       window.location.href = path.login
       return Promise.reject(error)
     }
 
     try {
-      // TODO: refresh token
+      const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+        await postRefreshToken({
+          userId: 0,
+          refreshToken,
+          socialProvider: '',
+        })
+      setToken(newAccessToken, newRefreshToken)
+
       originalRequest.headers.retry = true
-      originalRequest.headers.Authorization = `Bearer`
+      originalRequest.headers.Authorization = `Bearer ${newAccessToken}`
     } catch (error) {
       return Promise.reject(error)
     }
