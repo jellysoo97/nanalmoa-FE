@@ -1,8 +1,13 @@
 import { postLogin } from '@/api/auth/post-login'
 import kakaoLogin from '@/assets/imgs/kakaoLogin.png'
+import naverLogin from '@/assets/imgs/naverLogin.png'
 import { Input } from '@/components/common'
 import Divider from '@/components/common/Divider'
-import { KAKAO_AUTH_API_URL, QUERY_KEYS } from '@/constants/api'
+import {
+  KAKAO_AUTH_API_URL,
+  NAVER_AUTH_API_URL,
+  QUERY_KEYS,
+} from '@/constants/api'
 import { errorMessages } from '@/constants/validation'
 import { path } from '@/routes/path'
 import { PostLoginReq, PostLoginRes } from '@/types/auth'
@@ -13,7 +18,9 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
 const LoginPage = () => {
-  const kakaoUrl = `${KAKAO_AUTH_API_URL}?client_id=${import.meta.env.VITE_KAKAO_REST_API_KEY}&redirect_uri=${window.origin}${path.loginRedirect}?at=kakao&response_type=code`
+  const kakaoUrl = `${KAKAO_AUTH_API_URL}?&response_type=code&client_id=${import.meta.env.VITE_KAKAO_REST_API_KEY}&redirect_uri=${window.origin}${path.loginRedirect}?at=kakao`
+  const naverUrl = `${NAVER_AUTH_API_URL}?response_type=code&client_id=${import.meta.env.VITE_NAVER_CLIENT_ID}&state=${import.meta.env.VITE_NAVER_STATE}&redirect_uri=${window.origin}${path.loginRedirect}?at=naver`
+
   const {
     register,
     handleSubmit,
@@ -74,7 +81,9 @@ const LoginPage = () => {
         <Link to={kakaoUrl}>
           <img src={kakaoLogin} />
         </Link>
-        {/* naver */}
+        <Link to={naverUrl}>
+          <img src={naverLogin} className="h-[45px] w-[183px]" />
+        </Link>
       </div>
     </div>
   )
