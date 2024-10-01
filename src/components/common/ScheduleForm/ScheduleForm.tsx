@@ -57,8 +57,8 @@ const ScheduleForm = <T extends {}>({ defaultValue, onSubmit }: Props<T>) => {
         <div className="rounded border-b border-gray-200 pb-3">
           <button
             className="flex w-full items-center justify-between pt-4 text-left"
+            type="button"
             onClick={(e) => {
-              e.preventDefault()
               setIsOpen(!isOpen)
             }}
           >
