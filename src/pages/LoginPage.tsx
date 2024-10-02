@@ -18,7 +18,7 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
 const LoginPage = () => {
-  const kakaoUrl = `${KAKAO_AUTH_API_URL}?&response_type=code&client_id=${import.meta.env.VITE_KAKAO_REST_API_KEY}&redirect_uri=${window.origin}${path.loginRedirect}?at=kakao`
+  const kakaoUrl = `${KAKAO_AUTH_API_URL}?response_type=code&client_id=${import.meta.env.VITE_KAKAO_REST_API_KEY}&redirect_uri=${window.origin}${path.loginRedirect}?at=kakao`
   const naverUrl = `${NAVER_AUTH_API_URL}?response_type=code&client_id=${import.meta.env.VITE_NAVER_CLIENT_ID}&state=${import.meta.env.VITE_NAVER_STATE}&redirect_uri=${window.origin}${path.loginRedirect}?at=naver`
 
   const {
@@ -30,8 +30,8 @@ const LoginPage = () => {
   const { mutate } = useMutation<PostLoginRes, AxiosError, PostLoginReq>({
     mutationKey: [QUERY_KEYS.POST_LOGIN],
     mutationFn: postLogin,
-    onSuccess: (data) => {
-      setToken(data.accessToken, data.refreshToken)
+    onSuccess: ({ accessToken, refreshToken }) => {
+      setToken({ accessToken, refreshToken, socialProvider: '' })
 
       setTimeout(() => {
         window.location.href = path.schedules

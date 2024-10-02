@@ -1,3 +1,4 @@
+import { IUser } from '@/types/auth'
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
@@ -5,28 +6,28 @@ import { immer } from 'zustand/middleware/immer'
 type UserState = {
   user: {
     isLoggedIn: boolean
-    userId: string | null
+    info: IUser | null
   }
 }
 
 type UserActions = {
-  setUser: (userId: string | null) => void
+  setUser: (user: IUser | null) => void
 }
 
 const initialState: UserState = {
-  user: { isLoggedIn: false, userId: null },
+  user: { isLoggedIn: false, info: null },
 }
 
 export const useUserStore = create<UserState & UserActions>()(
   devtools(
     immer((set) => ({
       user: initialState.user,
-      setUser: (userId) =>
+      setUser: (user) =>
         set((state) => {
-          if (userId) {
+          if (user) {
             state.user = {
               isLoggedIn: true,
-              userId,
+              info: user,
             }
           } else {
             state.user = initialState.user

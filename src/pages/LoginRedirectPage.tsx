@@ -13,33 +13,34 @@ const LoginRedirectPage = () => {
   const params = new URL(window.location.href).searchParams
   const at = params.get('at')
   const code = params.get('code')
-  const state = at === 'naver' ? params.get('state') : ''
+  const isNaver = at === 'naver'
+  const isKakao = at === 'kakao'
+  const state = isNaver ? params.get('state') : ''
 
-  const {
-    data: kakaoData,
-    isPending: isKakaoPending,
-    isSuccess: isKakaoSuccess,
-    isError: isKakaoError,
-    error: kakaoError,
-  } = useQuery<GetKaKaoLoginRes, AxiosError, GetKaKaoLoginRes>({
+  const { data: kakaoData, error: kakaoError } = useQuery<
+    GetKaKaoLoginRes,
+    AxiosError,
+    GetKaKaoLoginRes
+  >({
     queryKey: [QUERY_KEYS.GET_KAKAO_LOGIN, code],
     queryFn: () => getKakaoLogin(code || ''),
-    enabled: !!code && at === 'kakao',
+    enabled: !!code && isKakao,
   })
-  const {
-    data: naverData,
-    isPending: isNaverPending,
-    isSuccess: isNaverSuccess,
-    isError: isNaverError,
-    error: naverError,
-  } = useQuery<GetNaverLoginRes, AxiosError, GetNaverLoginRes>({
+  const { data: naverData, error: naverError } = useQuery<
+    GetNaverLoginRes,
+    AxiosError,
+    GetNaverLoginRes
+  >({
     queryKey: [QUERY_KEYS.GET_NAVER_LOGIN, code],
     queryFn: () => getNaverLogin(code || '', state || ''),
-    enabled: !!code && at === 'naver',
+    enabled: !!code && isNaver,
   })
 
-  const handleLoginSuccess = (data: GetKaKaoLoginRes | GetNaverLoginRes) => {
-    setToken(data.accessToken, data.refreshToken)
+  const handleLoginSuccess = ({
+    accessToken,
+    refreshToken,
+  }: GetKaKaoLoginRes | GetNaverLoginRes) => {
+    setToken({ accessToken, refreshToken, socialProvider: at || '' })
 
     setTimeout(() => {
       window.location.href = path.schedules
@@ -59,16 +60,25 @@ const LoginRedirectPage = () => {
   }
 
   useEffect(() => {
-    if (at === 'kakao' && !isKakaoPending) {
-      if (isKakaoSuccess) handleLoginSuccess(kakaoData)
-      else if (isKakaoError) handleLoginError(kakaoError)
+    if (isKakao) {
+      if (kakaoData) handleLoginSuccess(kakaoData)
+      else if (kakaoError) handleLoginError(kakaoError)
     }
 
-    if (at === 'naver' && !isNaverPending) {
-      if (isNaverSuccess) handleLoginSuccess(naverData)
-      else if (isNaverError) handleLoginError(naverError)
+    if (isNaver) {
+      if (naverData) handleLoginSuccess(naverData)
+      else if (naverError) handleLoginError(naverError)
     }
-  }, [isKakaoPending, isNaverPending])
+  }, [
+    isKakao,
+    isNaver,
+    kakaoData,
+    naverData,
+    kakaoError,
+    naverError,
+    handleLoginSuccess,
+    handleLoginError,
+  ])
 
   return (
     <div className="container flex flex-col items-center justify-center">
