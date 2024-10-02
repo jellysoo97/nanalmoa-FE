@@ -1,7 +1,6 @@
 import { DesktopLayout, Layout } from '@/components/layout'
 import {
-  AudioAboutPage,
-  AudioCreatePage,
+  CreateAudioSchdulePage,
   CreatePhotoSchedulePage,
   DateCreatePage,
   HomePage,
@@ -44,12 +43,8 @@ const AppRouter = createBrowserRouter([
         path: path.createSchedule.base,
         children: [
           {
-            path: path.createSchedule.audio.about,
-            element: <AudioAboutPage />,
-          },
-          {
-            path: path.createSchedule.audio.create,
-            element: <AudioCreatePage />,
+            path: path.createSchedule.audio,
+            element: <CreateAudioSchdulePage />,
           },
           {
             path: path.createSchedule.photo,
