@@ -18,6 +18,8 @@ export enum CreateScheduleStepEnum {
 
 export type TModal = {
   onClose: () => void
+  onRetry?: () => void
+  onManualInput?: () => void
 }
 
 export type TStep = {
