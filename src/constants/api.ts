@@ -2,6 +2,8 @@ export const ACCESS_TOKEN_KEY = 'accessToken'
 
 export const REFRESH_TOKEN_KEY = 'refreshToken'
 
+export const SOCIAL_PROVIDER_KEY = 'socialProvider'
+
 export const REFRESH_TOKEN_DURATION = 24
 
 export const KAKAO_AUTH_API_URL = 'https://kauth.kakao.com/oauth/authorize'
