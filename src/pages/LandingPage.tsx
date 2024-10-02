@@ -1,15 +1,25 @@
-import { cn } from '@/utils/cn'
 import landingLogo from '@/assets/logo/landingLogo.svg'
+import { useUser } from '@/hooks/use-user'
+import { path } from '@/routes/path'
+import { cn } from '@/utils/cn'
 
 type Props = {
   isLanding?: boolean
 }
 
 const LandingPage = ({ isLanding = false }: Props) => {
+  const { user } = useUser()
+
+  if (isLanding) {
+    setTimeout(() => {
+      window.location.href = user.isLoggedIn ? path.schedules : path.login
+    }, 1000)
+  }
+
   return (
     <div
       className={cn([
-        'container flex flex-col items-center justify-center gap-y-10 bg-neutral-50',
+        'container flex flex-col items-center justify-center gap-y-10',
         !isLanding && 'hidden lg:flex',
       ])}
     >
