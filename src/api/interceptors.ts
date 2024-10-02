@@ -1,5 +1,12 @@
+import { API_DOMAINS } from '@/constants/api'
 import { path } from '@/routes/path'
-import { getAccessToken, getRefreshToken, setToken } from '@/utils/handle-token'
+import {
+  getAccessToken,
+  getRefreshToken,
+  getSocialProvider,
+  removeToken,
+  setToken,
+} from '@/utils/handle-token'
 import { AxiosError, HttpStatusCode, InternalAxiosRequestConfig } from 'axios'
 import { postRefreshToken } from './auth/post-refresh-token'
 import { baseAPI } from './axios-instance'
@@ -18,16 +25,26 @@ export const checkAccessToken = (config: InternalAxiosRequestConfig) => {
 }
 
 export const handleAuthError = async (error: AxiosError) => {
-  if (
-    !error.response ||
-    !error.config ||
-    error.response.status !== HttpStatusCode.Unauthorized
-  )
+  if (error.response?.status === HttpStatusCode.InternalServerError)
     return Promise.reject(error)
 
-  const originalRequest = error.config
+  const originalRequest = error.config!
+  const isRefreshTokenRequest = originalRequest.url?.includes(
+    `${API_DOMAINS.AUTH}/refresh`
+  )
 
-  if (error.response.status === HttpStatusCode.Unauthorized) {
+  if (
+    error.response?.status === HttpStatusCode.Unauthorized &&
+    isRefreshTokenRequest
+  ) {
+    removeToken()
+    return Promise.reject(error)
+  }
+
+  if (
+    error.response?.status === HttpStatusCode.Unauthorized &&
+    !isRefreshTokenRequest
+  ) {
     const refreshToken = getRefreshToken()
 
     if (!refreshToken) {
@@ -39,9 +56,9 @@ export const handleAuthError = async (error: AxiosError) => {
       const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
         await postRefreshToken({
           refreshToken,
-          socialProvider: '',
+          socialProvider: getSocialProvider() || '',
         })
-      setToken(newAccessToken, newRefreshToken)
+      setToken({ accessToken: newAccessToken, refreshToken: newRefreshToken })
 
       originalRequest.headers.retry = true
       originalRequest.headers.Authorization = `Bearer ${newAccessToken}`
