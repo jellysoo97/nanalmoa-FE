@@ -5,12 +5,12 @@ import { immer } from 'zustand/middleware/immer'
 type UserState = {
   user: {
     isLoggedIn: boolean
-    userId: number | null
+    userId: string | null
   }
 }
 
 type UserActions = {
-  setUser: (userId: number | null) => void
+  setUser: (userId: string | null) => void
 }
 
 const initialState: UserState = {

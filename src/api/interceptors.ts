@@ -38,7 +38,6 @@ export const handleAuthError = async (error: AxiosError) => {
     try {
       const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
         await postRefreshToken({
-          userId: 0,
           refreshToken,
           socialProvider: '',
         })
