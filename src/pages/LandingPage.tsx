@@ -8,12 +8,12 @@ type Props = {
 }
 
 const LandingPage = ({ isLanding = false }: Props) => {
-  const { user } = useUser()
+  const { user, isUserLoading } = useUser()
 
-  if (isLanding) {
+  if (isLanding && !isUserLoading) {
     setTimeout(() => {
       window.location.href = user.isLoggedIn ? path.schedules : path.login
-    }, 1000)
+    }, 2000)
   }
 
   return (

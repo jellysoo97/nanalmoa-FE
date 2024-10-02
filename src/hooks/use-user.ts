@@ -1,19 +1,22 @@
-import { getUserMe } from '@/api/users/get-user-me'
+import { getUsersMe } from '@/api/users/get-users-me'
 import { QUERY_KEYS } from '@/constants/api'
 import { useUserStore } from '@/store/user'
-import { GetUserMeRes } from '@/types/auth'
+import { GetUsersMeRes } from '@/types/auth'
 import { getAccessToken } from '@/utils/handle-token'
 import { useQuery } from '@tanstack/react-query'
+import { useEffect } from 'react'
 
 export const useUser = () => {
-  const { data, isSuccess, isError, isLoading } = useQuery<GetUserMeRes>({
+  const { data, isLoading } = useQuery<GetUsersMeRes>({
     queryKey: [QUERY_KEYS.GET_USER_ME, getAccessToken()],
-    queryFn: getUserMe,
+    queryFn: getUsersMe,
   })
   const { user, setUser } = useUserStore()
 
-  if (isSuccess) setUser(data.user.id)
-  if (isError) setUser(null)
+  useEffect(() => {
+    if (data) setUser(data)
+    if (!data) setUser(null)
+  }, [data, setUser])
 
   return {
     user,

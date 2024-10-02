@@ -1,8 +1,12 @@
 export interface IUser {
-  id: number
-  email: string
+  userUuid: string
+  userId: number
   name: string
   profileImage: string
+  createdAt: Date
+  updatedAt: Date
+  email: string
+  isManager: boolean
 }
 
 export interface PostLoginReq {
@@ -22,8 +26,9 @@ export interface GetKaKaoLoginRes {
   user: IUser
 }
 
+export interface GetNaverLoginRes extends GetKaKaoLoginRes {}
+
 export interface PostRefreshTokenReq {
-  userId: number
   refreshToken: string
   socialProvider: string
 }
@@ -33,4 +38,4 @@ export interface PostRefreshTokenRes {
   refreshToken: string
 }
 
-export interface GetUserMeRes extends PostLoginRes {}
+export interface GetUsersMeRes extends IUser {}

@@ -9,8 +9,8 @@ const EventContainer = () => {
   const { user, isUserLoading } = useUser()
   const { isLoading, data } = useQuery<ISchedule[]>({
     queryKey: [QUERY_KEYS.GET_SCHEDULES],
-    queryFn: () => getSchedules(user.userId || 0),
-    enabled: !isUserLoading && !!user.userId,
+    queryFn: () => getSchedules(user.info?.userId || 0),
+    enabled: !isUserLoading && !!user.info?.userId,
   })
 
   if (isUserLoading || isLoading) return <div>로딩 중...</div>
@@ -18,7 +18,7 @@ const EventContainer = () => {
 
   return (
     <>
-      {data.map((schedule) => (
+      {data?.map((schedule) => (
         <EventItem key={schedule.scheduleId} schedule={schedule} />
       ))}
     </>
