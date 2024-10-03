@@ -8,7 +8,7 @@ type Props = {
 }
 
 const LandingPage = ({ isLanding = false }: Props) => {
-  const { user, isUserLoading } = useUser()
+  const { user, isUserLoading } = useUser(isLanding)
 
   if (isLanding && !isUserLoading) {
     setTimeout(() => {

@@ -6,10 +6,11 @@ import { getAccessToken } from '@/utils/handle-token'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 
-export const useUser = () => {
+export const useUser = (enabled: boolean = true) => {
   const { data, isLoading } = useQuery<GetUsersMeRes>({
     queryKey: [QUERY_KEYS.GET_USER_ME, getAccessToken()],
     queryFn: getUsersMe,
+    enabled,
   })
   const { user, setUser } = useUserStore()
 
