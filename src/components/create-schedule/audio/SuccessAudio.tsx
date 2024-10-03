@@ -7,59 +7,49 @@ import {
 } from '@/types/schedules'
 import { useState } from 'react'
 import MediaAnaysisResultCarousel from '../MediaAnalysisResultCarousel'
+import { CreateScheduleStepEnum } from '@/types/common'
+import { useModal } from '@/hooks/use-modal'
+import EditModal from '../EditModal'
 
 type Props = {
   results: PostUploadAudioFileRes
   createSchedules: (payload: PostSchedulesReq) => void
+  moveStep: (step: CreateScheduleStepEnum) => void
 }
 
-const SuccessAudio = ({ results, createSchedules }: Props) => {
+const SuccessAudio = ({ results, createSchedules, moveStep }: Props) => {
   const [selectedResult, setSelectedResult] = useState<IMediaAnalysisResult>(
     results[0]
   )
-
   const handleSelectedResultChange = (result: IMediaAnalysisResult) => {
     setSelectedResult(result)
   }
+  //분석값 post
   const handleCreate = () => {
     if (selectedResult) {
       createSchedules({
-        ...selectedResult,
+        userId: selectedResult.userId,
+        categoryId: selectedResult.categoryId,
+        startDate: selectedResult.startDate,
+        endDate: selectedResult.endDate,
+        title: selectedResult.title,
+        place: selectedResult.place,
+        isAllDay: selectedResult.isAllDay,
       })
+      moveStep(CreateScheduleStepEnum.RegisterResult)
     }
   }
-
-  console.log(selectedResult)
-
+  //모달 핸들러
+  const { isModalOpen, openModal, closeModal } = useModal()
+  const handleRetry = () => {
+    moveStep(CreateScheduleStepEnum.UploadMedia) // 다시 시도하기
+  }
+  const handleManualInput = () => {
+    moveStep(CreateScheduleStepEnum.Info) // 폼 컴포넌트
+  }
   return (
     <div className="flex h-full flex-col">
-      {/* TODO: 중간발표 보류 */}
-      {/* <div className="ml-auto flex h-10 items-center text-red-500">
-        <InfoIcon />
-        <p>도움말</p>
-      </div> */}
-      <div className="mt-3 flex justify-evenly">
-        <div className="flex flex-col items-center justify-center">
-          <div className="mx-auto my-1 flex h-7 w-7 items-center justify-center rounded-full bg-gray-400 font-bold text-white">
-            <p className="mt-1">1</p>
-          </div>
-          등록안내
-        </div>
-        <div className="flex flex-col items-center justify-center">
-          <div className="mx-auto my-1 flex h-7 w-7 items-center justify-center rounded-full bg-primary-base font-bold text-white">
-            <p className="mt-1">2</p>
-          </div>
-          음성등록
-        </div>
-        <div className="flex flex-col items-center justify-center">
-          <div className="mx-auto my-1 flex h-7 w-7 items-center justify-center rounded-full bg-gray-400 font-bold text-white">
-            <p className="mt-1">3</p>
-          </div>
-          등록완료
-        </div>
-      </div>
-
-      <div className="-mt-10 flex flex-col items-center justify-center pb-5">
+      <div className="flex w-full flex-col items-center justify-center pb-5">
         <img
           src={SuccessFace}
           alt="SuccessFace"
@@ -73,40 +63,21 @@ const SuccessAudio = ({ results, createSchedules }: Props) => {
           selectedResult={selectedResult}
           handleSelectedResultChange={handleSelectedResultChange}
         />
-        {/* <div className="flex h-28 w-3/4 flex-col items-center justify-center rounded-lg border-2 text-lg">
-          <p>2024년 12월 14일</p>
-          <div className="flex w-full flex-row items-center justify-center">
-            <p className="rounded bg-primary-blue text-white">경조사</p>
-            <p>막내 결혼식</p>
-          </div>
-        </div> */}
         <div className="mt-6 flex w-full flex-col items-center justify-between">
           <p>이대로 등록할까요?</p>
           <div className="mt-4 flex items-center gap-x-6">
-            <Button
-              theme="outline"
-              text="수정하기"
-              onClick={() => {
-                alert('준비 중입니다.')
-              }}
-            />
+            <Button theme="outline" text="수정하기" onClick={openModal} />
             <Button theme="solid" text="등록하기" onClick={handleCreate} />
           </div>
         </div>
+        {isModalOpen && (
+          <EditModal
+            onClose={closeModal}
+            onRetry={handleRetry}
+            onManualInput={handleManualInput}
+          />
+        )}
       </div>
-
-      {/* TODO: 중간발표 보류 */}
-      {/* <Link
-        to={path.schedules}
-        className="mx-auto mb-8 mt-auto w-1/3 rounded bg-gray-300 p-2 font-semibold"
-      >
-        <IconButton
-          direction="horizontal"
-          icon={<HomeIcon />}
-          text="처음으로"
-          className="mx-auto gap-x-1"
-        />
-      </Link> */}
     </div>
   )
 }
