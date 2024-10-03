@@ -40,7 +40,7 @@ const LoginRedirectPage = () => {
     accessToken,
     refreshToken,
   }: GetKaKaoLoginRes | GetNaverLoginRes) => {
-    setToken({ accessToken, refreshToken, socialProvider: at || '' })
+    setToken({ accessToken, refreshToken })
 
     setTimeout(() => {
       window.location.href = path.schedules
