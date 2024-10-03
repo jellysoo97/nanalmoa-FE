@@ -8,7 +8,7 @@ const CategoryField = () => {
   const { control } = useFormContext()
 
   const options = Object.keys(CategoryEnum).map((key, idx) => ({
-    value: idx,
+    value: idx + 1,
     label: key,
   }))
 
