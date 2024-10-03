@@ -30,7 +30,6 @@ export interface GetNaverLoginRes extends GetKaKaoLoginRes {}
 
 export interface PostRefreshTokenReq {
   refreshToken: string
-  socialProvider: string
 }
 
 export interface PostRefreshTokenRes {
