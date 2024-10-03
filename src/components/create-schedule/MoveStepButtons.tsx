@@ -18,6 +18,14 @@ const MoveStepButtons = ({ currentStep, moveStep }: Props) => {
     () => currentStep === CreateScheduleStepEnum.RegisterResult,
     [currentStep]
   )
+  const isUploadMediaStep = useMemo(
+    () => currentStep === CreateScheduleStepEnum.UploadMedia,
+    [currentStep]
+  )
+  const isAnalysisResultStep = useMemo(
+    () => currentStep === CreateScheduleStepEnum.AnalysisResult,
+    [currentStep]
+  )
 
   return (
     <div
@@ -27,7 +35,7 @@ const MoveStepButtons = ({ currentStep, moveStep }: Props) => {
         isLastStep && 'justify-start'
       )}
     >
-      {!isFirstStep && (
+      {!isFirstStep && !isLastStep && (
         <IconButton
           direction="horizontal"
           icon={<PrevIcon className="h-4 w-4" />}
@@ -36,7 +44,7 @@ const MoveStepButtons = ({ currentStep, moveStep }: Props) => {
           onClick={() => moveStep(currentStep - 1)}
         />
       )}
-      {!isLastStep && (
+      {!isLastStep && !isUploadMediaStep && !isAnalysisResultStep && (
         <IconButton
           direction="horizontal"
           icon={<NextIcon className="h-4 w-4" />}

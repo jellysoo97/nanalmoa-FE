@@ -23,6 +23,7 @@ export interface IMediaAnalysisResult {
   title: string
   place: string
   isAllDay: boolean
+  categoryId: number
 }
 
 export interface GetScheduleByIdRes extends ISchedule {}
