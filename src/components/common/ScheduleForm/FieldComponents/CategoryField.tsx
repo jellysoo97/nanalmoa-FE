@@ -2,6 +2,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 import CategoryTag from '../../CategoryTag'
 import { Categories, CategoryEnum } from '@/types/category'
 import Select, { components } from 'react-select'
+import './react-select.css'
 
 const CategoryField = () => {
   const { control } = useFormContext()
@@ -10,6 +11,13 @@ const CategoryField = () => {
     value: idx,
     label: key,
   }))
+
+  const CustomPlaceholder = () => (
+    <div>
+      <span className="hidden sm:inline">카테고리</span>
+      <span> 선택</span>
+    </div>
+  )
 
   return (
     <div className="mb-4 flex justify-between">
@@ -37,8 +45,11 @@ const CategoryField = () => {
                 options={options}
                 value={options.find((option) => option.value === value)}
                 onChange={(selectedOption) => onChange(selectedOption?.value)}
-                placeholder="카테고리 선택"
+                placeholder={<CustomPlaceholder />}
                 classNamePrefix="react-select"
+                className="select-placeholder"
+                menuPlacement="auto"
+                menuPosition="fixed"
                 components={{
                   Option: ({ ...props }) => (
                     <components.Option {...props}>
@@ -48,11 +59,16 @@ const CategoryField = () => {
                   SingleValue: ({ data }) => (
                     <CategoryTag
                       label={data.label as Categories}
-                      className="px-2 py-1 text-center"
+                      className="px-2 py-1 text-center sm:text-sm"
                     />
                   ),
                 }}
                 styles={{
+                  placeholder: (base) => ({
+                    ...base,
+                    fontSize: 'inherit',
+                    lineHeight: 'inherit',
+                  }),
                   control: (base) => ({
                     ...base,
                     height: '36px',

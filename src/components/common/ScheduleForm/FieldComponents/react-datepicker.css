@@ -1,0 +1,91 @@
+.custom-datepicker {
+  @apply w-full flex flex-row;
+}
+
+.react-datepicker__month-container {
+  @apply w-full border-r;
+  scrollbar-width: none;
+}
+
+.react-datepicker__time-container {
+  @apply w-2/5 border-l-0;
+}
+
+.react-datepicker__time-container .react-datepicker__time {
+  @apply h-full;
+}
+
+.react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box {
+  @apply w-full h-full;
+}
+
+.react-datepicker__header {
+  @apply bg-gray-100 border-none;
+}
+
+.react-datepicker__day-names, .react-datepicker__week {
+  @apply flex justify-between;
+}
+
+.react-datepicker__day-name, .react-datepicker__day {
+  @apply w-6 h-6 flex items-center justify-center m-0 text-xs;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected,
+.react-datepicker__time-list-item--selected {
+  @apply bg-primary-700 text-white !important;
+}
+
+.react-datepicker__day--selected:hover,
+.react-datepicker__day--keyboard-selected:hover,
+.react-datepicker__time-list-item--selected:hover {
+  @apply bg-primary-700 !important;
+}
+
+.react-datepicker__day:hover,
+.react-datepicker__time-list-item:hover {
+  @apply bg-primary-500 !important;
+}
+
+/* TODO: scrollbar 스타일 수정 */
+.react-datepicker__time-list {
+  @apply !p-0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.react-datepicker__time-list::-webkit-scrollbar {
+  display: none;
+}
+
+.react-datepicker__time-list-item {
+  @apply text-xs py-1;
+}
+
+.react-datepicker__navigation-icon::before {
+  @apply border-primary-700;
+}
+
+.react-datepicker__navigation:hover *::before {
+  @apply border-primary-900;
+}
+
+.react-datepicker__time-container {
+  @apply w-28 h-36 border-l border-gray-200;
+}
+
+@media (max-width: 640px) {
+  /* .custom-datepicker {
+    @apply flex-col;
+  } */
+
+  .react-datepicker__month-container,
+  .react-datepicker__time-container {
+    @apply w-full border-l-0;
+  }
+
+  .react-datepicker__time-container {
+    @apply h-36 border-l border-gray-200;
+  }
+}

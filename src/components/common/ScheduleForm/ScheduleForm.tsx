@@ -1,5 +1,4 @@
 import { SubmitHandler, useForm, FormProvider } from 'react-hook-form'
-import 'react-datepicker/dist/react-datepicker.css'
 import TextInputField from './FieldComponents/TextInputField'
 import DateTimeField from './FieldComponents/DateTimeField'
 import CategoryField from './FieldComponents/CategoryField'
@@ -11,6 +10,8 @@ type Props<T> = {
   defaultValue?: Partial<ISchedule>
   onSubmit?: (data: T) => void
 }
+
+// TODO: form background 색상 수정
 
 const ScheduleForm = <T extends {}>({ defaultValue, onSubmit }: Props<T>) => {
   type FormData = Omit<Partial<T>, 'userId'>
@@ -29,6 +30,7 @@ const ScheduleForm = <T extends {}>({ defaultValue, onSubmit }: Props<T>) => {
   }
 
   const methods = useForm<FormData>({
+    // TODO: Type 수정
     defaultValues: getDefaultValues(),
   })
 
@@ -58,7 +60,7 @@ const ScheduleForm = <T extends {}>({ defaultValue, onSubmit }: Props<T>) => {
           <button
             className="flex w-full items-center justify-between pt-4 text-left"
             type="button"
-            onClick={(e) => {
+            onClick={() => {
               setIsOpen(!isOpen)
             }}
           >
