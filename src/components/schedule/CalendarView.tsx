@@ -1,32 +1,71 @@
-import { format, addMonths, subMonths } from 'date-fns'
+import {
+  format,
+  addMonths,
+  subMonths,
+  isWithinInterval,
+  subDays,
+  startOfDay,
+  endOfDay,
+} from 'date-fns'
 import { ko } from 'date-fns/locale'
 import { useCalendar } from '@/hooks/use-calendar'
+import { NextIcon, PrevIcon } from '../icons'
+import EventContainer from './EventContainer'
+import { useState } from 'react'
 
 const CalendarView = () => {
-  const { currentDate, setCurrentDate, rows } = useCalendar()
+  const [currentDate, setCurrentDate] = useState<Date | undefined>(undefined)
+  const { currentMonth, setCurrentMonth, rows, schedules } =
+    useCalendar(setCurrentDate)
+
+  const filteredSchedules = schedules
+    ? currentDate
+      ? schedules.filter((schedule) => {
+          return isWithinInterval(currentDate, {
+            start: endOfDay(subDays(schedule.startDate, 1)),
+            end: startOfDay(subDays(schedule.endDate, 1)),
+          })
+        })
+      : schedules
+    : []
 
   return (
-    <div className="mx-auto mt-10 max-w-md text-black">
-      <div className="mb-4 flex items-center justify-between">
-        <button onClick={() => setCurrentDate(subMonths(currentDate, 1))}>
-          이전 달
-        </button>
-        <h2 className="text-xl font-bold">
-          {format(currentDate, 'yyyy년 MM월', { locale: ko })}
-        </h2>
-        <button onClick={() => setCurrentDate(addMonths(currentDate, 1))}>
-          다음 달
-        </button>
+    <>
+      <div className="mx-auto mt-2 max-w-md text-black">
+        <div className="mb-5 flex items-center justify-between">
+          <button
+            onClick={() => {
+              setCurrentMonth(subMonths(currentMonth, 1))
+              setCurrentDate(undefined)
+            }}
+          >
+            <PrevIcon />
+          </button>
+          <button className="text-xl font-bold">
+            {format(currentMonth, 'yyyy년 MM월', { locale: ko })}
+          </button>
+          <button
+            onClick={() => {
+              setCurrentMonth(addMonths(currentMonth, 1))
+              setCurrentDate(undefined)
+            }}
+          >
+            <NextIcon />
+          </button>
+        </div>
+        {/* <div className="text-gray-400 font-medium pb-2">날짜를 선택해주세요</div> */}
+        <div className="mb-2 grid grid-cols-7 gap-2">
+          {['월', '화', '수', '목', '금', '토', '일'].map((day) => (
+            <div key={day} className="text-center font-bold">
+              {day}
+            </div>
+          ))}
+        </div>
+        {rows}
       </div>
-      <div className="mb-2 grid grid-cols-7 gap-2">
-        {['월', '화', '수', '목', '금', '토', '일'].map((day) => (
-          <div key={day} className="text-center font-bold">
-            {day}
-          </div>
-        ))}
-      </div>
-      {rows}
-    </div>
+
+      <EventContainer schedules={filteredSchedules} />
+    </>
   )
 }
 
