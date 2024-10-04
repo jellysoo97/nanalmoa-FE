@@ -24,7 +24,7 @@ export const QUERY_KEYS = {
   GET_USER_ME: 'me',
   GET_SCHEDULES: 'schedules',
   GET_SCHEDULE_BY_ID: 'scheduleById',
-  GET_SCHEDULE_BY_RANGE: 'scheduleById',
+  GET_SCHEDULE_BY_RANGE: 'scheduleByRange',
   POST_AUDIO_FILE: 'postAudioFile',
   POST_SCHEDULES: 'postSchedules',
 }
