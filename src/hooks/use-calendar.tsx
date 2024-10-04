@@ -1,3 +1,4 @@
+import { GetSchedulesRes } from '@/types/schedules'
 import {
   addDays,
   endOfMonth,
@@ -8,28 +9,16 @@ import {
   startOfMonth,
   startOfWeek,
 } from 'date-fns'
-import { useState } from 'react'
-import { useRangeSchedule } from './use-range-schedule'
-import { formatDate } from '@/utils/format-date'
-import { DateFormatTypeEnum } from '@/types/common'
 
-export const useCalendar = (func: (date: Date | undefined) => void) => {
-  const [currentMonth, setCurrentMonth] = useState(new Date())
+type Props = {
+  setCurrentDate: React.Dispatch<React.SetStateAction<Date | undefined>>
+  currentMonth: Date
+  schedules?: GetSchedulesRes
+}
 
+export const useCalendar = ({ setCurrentDate, currentMonth }: Props) => {
   const monthStart = startOfMonth(currentMonth)
   const monthEnd = endOfMonth(currentMonth)
-
-  const scheduleStartDate = formatDate(
-    DateFormatTypeEnum.DateWithHypen,
-    monthStart
-  )
-  const scheduleEndDate = formatDate(DateFormatTypeEnum.DateWithHypen, monthEnd)
-
-  const { data: schedules, isLoading } = useRangeSchedule(
-    123,
-    scheduleStartDate,
-    scheduleEndDate
-  )
 
   const startDate = startOfWeek(monthStart, { weekStartsOn: 1 })
   const endDate = endOfWeek(monthEnd, { weekStartsOn: 1 })
@@ -62,7 +51,7 @@ export const useCalendar = (func: (date: Date | undefined) => void) => {
           {/* TODO: 연속된 일정 스타일 적용 */}
           {/* <div className={`absolute inset-0 opacity-60 ${scheduleStyle}`}></div> */}
           <button
-            onClick={() => func(currentDay)}
+            onClick={() => setCurrentDate(currentDay)}
             className={`z-50 flex h-10 w-10 items-center justify-center rounded-full ${!isCurrentMonth ? 'text-gray-400' : ''}`}
           >
             {format(day, dateFormat)}
@@ -80,5 +69,5 @@ export const useCalendar = (func: (date: Date | undefined) => void) => {
     )
   }
 
-  return { currentMonth, setCurrentMonth, rows, schedules, isLoading }
+  return { rows }
 }

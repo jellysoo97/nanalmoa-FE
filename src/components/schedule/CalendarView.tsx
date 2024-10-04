@@ -6,17 +6,32 @@ import {
   subDays,
   startOfDay,
   endOfDay,
+  startOfMonth,
+  endOfMonth,
 } from 'date-fns'
 import { ko } from 'date-fns/locale'
 import { useCalendar } from '@/hooks/use-calendar'
 import { NextIcon, PrevIcon } from '../icons'
 import EventContainer from './EventContainer'
 import { useState } from 'react'
+import { formatDate } from '@/utils/format-date'
+import { DateFormatTypeEnum } from '@/types/common'
+import { useRangeSchedule } from '@/hooks/use-range-schedule'
 
 const CalendarView = () => {
   const [currentDate, setCurrentDate] = useState<Date | undefined>(undefined)
-  const { currentMonth, setCurrentMonth, rows, schedules } =
-    useCalendar(setCurrentDate)
+  const [currentMonth, setCurrentMonth] = useState(new Date())
+
+  const monthStart = startOfMonth(currentMonth)
+  const monthEnd = endOfMonth(currentMonth)
+
+  const { data: schedules } = useRangeSchedule(
+    123,
+    formatDate(DateFormatTypeEnum.DateWithHypen, monthStart),
+    formatDate(DateFormatTypeEnum.DateWithHypen, monthEnd)
+  )
+
+  const { rows } = useCalendar({ setCurrentDate, currentMonth })
 
   const filteredSchedules = schedules
     ? currentDate
