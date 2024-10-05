@@ -4,18 +4,15 @@ import DateTimeField from './FieldComponents/DateTimeField'
 import CategoryField from './FieldComponents/CategoryField'
 import { useState } from 'react'
 import DownArrowIcon from '@/components/icons/DownArrowIcon'
-import { ISchedule } from '@/types/schedules'
+import { ISchedule, IScheduleForm } from '@/types/schedules'
 
-type Props<T> = {
+type Props = {
   defaultValue?: Partial<ISchedule>
-  onSubmit?: (data: T) => void
+  onSubmit: (data: IScheduleForm) => void
 }
 
 // TODO: form background 색상 수정
-
-const ScheduleForm = <T extends {}>({ defaultValue, onSubmit }: Props<T>) => {
-  type FormData = Omit<Partial<T>, 'userId'>
-
+const ScheduleForm = ({ defaultValue, onSubmit }: Props) => {
   const getDefaultValues = () => {
     if (!defaultValue) return {}
 
@@ -29,19 +26,21 @@ const ScheduleForm = <T extends {}>({ defaultValue, onSubmit }: Props<T>) => {
     }
   }
 
-  const methods = useForm<FormData>({
+  const methods = useForm<IScheduleForm>({
     // TODO: Type 수정
     defaultValues: getDefaultValues(),
   })
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
-  const handleFormSubmit: SubmitHandler<FormData> = async (data) => {
+  const handleFormSubmit: SubmitHandler<IScheduleForm> = async (
+    data: IScheduleForm
+  ) => {
     const payload = {
       ...data,
       title: data.title ? data.title : '새로운 일정',
-      userId: 1,
-    } as T
+    } as IScheduleForm
+
     onSubmit(payload)
   }
 
@@ -76,7 +75,7 @@ const ScheduleForm = <T extends {}>({ defaultValue, onSubmit }: Props<T>) => {
               <TextInputField
                 id="place"
                 label="장소"
-                placeholder="일정의 장소를 입력해주세요"
+                placeholder="장소를 입력해주세요"
               />
             </div>
           )}

@@ -37,6 +37,17 @@ export interface PostUploadAudioFileReq {
 
 export interface PostUploadAudioFileRes extends Array<IMediaAnalysisResult> {}
 
+export interface IScheduleForm {
+  categoryId: number
+  startDate: Date
+  endDate: Date
+  title: string
+  place: string
+  memo?: string
+  isGroupSchedule?: boolean
+  isAllDay: boolean
+}
+
 export interface PostSchedulesReq {
   userId: number
   categoryId?: number
