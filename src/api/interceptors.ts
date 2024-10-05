@@ -3,7 +3,6 @@ import { path } from '@/routes/path'
 import {
   getAccessToken,
   getRefreshToken,
-  getSocialProvider,
   removeToken,
   setToken,
 } from '@/utils/handle-token'
@@ -56,7 +55,6 @@ export const handleAuthError = async (error: AxiosError) => {
       const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
         await postRefreshToken({
           refreshToken,
-          socialProvider: getSocialProvider() || '',
         })
       setToken({ accessToken: newAccessToken, refreshToken: newRefreshToken })
 

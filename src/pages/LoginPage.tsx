@@ -11,6 +11,7 @@ import {
 import { errorMessages } from '@/constants/validation'
 import { path } from '@/routes/path'
 import { PostLoginReq, PostLoginRes } from '@/types/auth'
+import { generateRandomState } from '@/utils/generate-random-state'
 import { setToken } from '@/utils/handle-token'
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError, HttpStatusCode } from 'axios'
@@ -18,8 +19,9 @@ import { useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
 
 const LoginPage = () => {
+  const naverRandomState = generateRandomState()
   const kakaoUrl = `${KAKAO_AUTH_API_URL}?response_type=code&client_id=${import.meta.env.VITE_KAKAO_REST_API_KEY}&redirect_uri=${window.origin}${path.loginRedirect}?at=kakao`
-  const naverUrl = `${NAVER_AUTH_API_URL}?response_type=code&client_id=${import.meta.env.VITE_NAVER_CLIENT_ID}&state=${import.meta.env.VITE_NAVER_STATE}&redirect_uri=${window.origin}${path.loginRedirect}?at=naver`
+  const naverUrl = `${NAVER_AUTH_API_URL}?response_type=code&client_id=${import.meta.env.VITE_NAVER_CLIENT_ID}&state=${naverRandomState}&redirect_uri=${window.origin}${path.loginRedirect}?at=naver`
 
   const {
     register,
@@ -31,7 +33,7 @@ const LoginPage = () => {
     mutationKey: [QUERY_KEYS.POST_LOGIN],
     mutationFn: postLogin,
     onSuccess: ({ accessToken, refreshToken }) => {
-      setToken({ accessToken, refreshToken, socialProvider: '' })
+      setToken({ accessToken, refreshToken })
 
       setTimeout(() => {
         window.location.href = path.schedules
