@@ -22,11 +22,11 @@ const DateTimeField = () => {
     { value?: string; onClick?: () => void }
   >(({ value, onClick }, ref) => (
     <div
-      className="mt-1 flex cursor-pointer space-x-2"
+      className="mt-1 flex cursor-pointer space-x-1"
       onClick={onClick}
       ref={ref}
     >
-      <div className="w-28 rounded-lg bg-gray-200 px-3 py-3 text-center text-xs text-gray-700 sm:w-36 sm:py-2 sm:text-base">
+      <div className="w-28 rounded-lg bg-gray-200 px-3 py-3 text-center text-xs text-gray-700 sm:w-32 sm:py-2 sm:text-base">
         {value ? value.split(' ').slice(0, 3).join(' ') : '날짜 선택'}
       </div>
       {!isAllDay && (
@@ -52,7 +52,7 @@ const DateTimeField = () => {
       label="날짜와 시간"
       renderInput={() => (
         <div className="pt-5">
-          <div className="mb-6 flex items-center justify-between">
+          <div className="mb-6 flex justify-between">
             <h2 className="text-sm sm:text-base">하루 종일</h2>
             <Controller
               name="isAllDay"
