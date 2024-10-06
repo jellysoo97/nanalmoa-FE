@@ -48,7 +48,7 @@ const MediaAnaysisResultCarousel = ({
                 )}
               </p>
               <div className="flex items-center gap-x-1">
-                <CategoryTag label={'약속'} />
+                <CategoryTag label={'가족'} />
                 <p>{result.title}</p>
               </div>
             </div>
