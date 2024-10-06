@@ -35,6 +35,8 @@ const ScheduleDetailPage = () => {
   if (isLoading) return <div>로딩 중...</div>
   if (!data) return <div>데이터가 없습니다.</div>
 
+  console.log(data)
+
   return (
     <div className="px-5">
       <div className="flex justify-between py-2">
@@ -64,7 +66,7 @@ const ScheduleDetailPage = () => {
         <div className="mb-5 flex flex-col sm:flex-row sm:items-center">
           <div className="mr-4 w-24 text-left font-bold">카테고리</div>
           <div>
-            <CategoryTag label="약속" />
+            <CategoryTag label={data?.category?.categoryName || '기타'} />
           </div>
         </div>
         <InfoItem

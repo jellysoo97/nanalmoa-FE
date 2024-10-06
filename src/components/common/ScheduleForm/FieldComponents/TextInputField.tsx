@@ -35,16 +35,16 @@ const TextInputField = ({
       label={label}
       error={errors[id] as FieldError}
       renderInput={() => (
-        <div className="flex">
+        <div className="flex w-full">
           <input
             id={id}
             type="text"
             placeholder={placeholder}
             {...(defaultValue !== undefined ? { defaultValue } : {})}
             {...register(id, registerOptions)}
-            className="animate-border focus:shadow-outline w-full appearance-none border-b-2 border-gray-300 px-3 py-2 leading-tight text-gray-700 transition-colors duration-300 ease-in-out focus:border-green-800 focus:outline-none"
+            className="animate-border focus:shadow-outline w-4/5 w-full appearance-none border-b-2 border-gray-300 bg-transparent px-3 py-2 leading-tight text-gray-700 transition-colors duration-300 ease-in-out focus:border-green-800 focus:outline-none"
           />
-          <p className="mt-1 text-right text-xs text-gray-500">
+          <p className="mt-1 w-1/5 text-right text-xs text-gray-500">
             {watchId?.length ?? 0}/240
           </p>
         </div>
