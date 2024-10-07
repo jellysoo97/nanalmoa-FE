@@ -50,13 +50,22 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
+      - name: ssh test
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+        script: whoami
+
       # EC2에 압축된 빌드 파일 복사
       - name: Copy to EC2
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
+          password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           source: dist.zip
           target: /home/${{ secrets.SSH_USERNAME }}/nanalmoa-fe/
@@ -67,7 +76,7 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
+          password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT }}
           script: |
             bash /home/${{ secrets.SSH_USERNAME }}/nanalmoa-fe/deploy.sh
