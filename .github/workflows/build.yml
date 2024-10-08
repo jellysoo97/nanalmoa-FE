@@ -1,8 +1,8 @@
 name: 'nanalmoa-fe-build'
 
 on:
-  push:
-    branches: ['main']
+  pull_request:
+    branches: ['main', 'release']
 
 jobs:
   build:
