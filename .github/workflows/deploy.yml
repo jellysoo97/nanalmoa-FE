@@ -51,6 +51,7 @@ jobs:
         run: |
           if [ -f dist.zip ]; then
             echo "dist.zip found."
+            pwd
             ls -lh dist.zip
             du -h dist.zip
           else
@@ -71,7 +72,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           source: './dist.zip'
-          target: /home/${{ secrets.SSH_USERNAME }}/nanalmoa-fe/
+          target: /home/ubuntu/nanalmoa-fe/
 
       # EC2에서 배포 스크립트 실행
       - name: Execute deploy script
