@@ -1,8 +1,8 @@
 import { DesktopLayout, Layout } from '@/components/layout'
 import {
   CreateAudioSchdulePage,
+  CreateManualSchedulePage,
   CreatePhotoSchedulePage,
-  DateCreatePage,
   HomePage,
   LandingPage,
   LoginPage,
@@ -63,7 +63,7 @@ const AppRouter = createBrowserRouter([
           },
           {
             path: path.createSchedule.manual,
-            element: <DateCreatePage />,
+            element: <CreateManualSchedulePage />,
           },
         ],
       },
