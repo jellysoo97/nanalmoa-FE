@@ -7,6 +7,7 @@ import DownArrowIcon from '@/components/icons/DownArrowIcon'
 import { ISchedule, IScheduleForm } from '@/types/schedules'
 import TextAreaField from './FieldComponents/TextAreaField'
 import GroupField from './FieldComponents/GroupField'
+import RepetitionField from './FieldComponents/RepetitionField'
 
 type Props = {
   defaultValue?: Partial<ISchedule>
@@ -83,6 +84,7 @@ const ScheduleForm = ({ defaultValue, onSubmit }: Props) => {
               />
 
               <GroupField />
+              <RepetitionField />
 
               <TextAreaField
                 id="memo"
