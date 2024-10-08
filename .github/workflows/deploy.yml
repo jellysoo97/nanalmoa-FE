@@ -70,7 +70,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          source: dist.zip
+          source: './dist.zip'
           target: /home/${{ secrets.SSH_USERNAME }}/nanalmoa-fe/
 
       # EC2에서 배포 스크립트 실행
