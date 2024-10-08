@@ -6,6 +6,7 @@ import { useState } from 'react'
 import DownArrowIcon from '@/components/icons/DownArrowIcon'
 import { ISchedule, IScheduleForm } from '@/types/schedules'
 import TextAreaField from './FieldComponents/TextAreaField'
+import GroupField from './FieldComponents/GroupField'
 
 type Props = {
   defaultValue?: Partial<ISchedule>
@@ -33,7 +34,7 @@ const ScheduleForm = ({ defaultValue, onSubmit }: Props) => {
     defaultValues: getDefaultValues(),
   })
 
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [isOpen, setIsOpen] = useState<boolean>(true)
 
   const handleFormSubmit: SubmitHandler<IScheduleForm> = async (
     data: IScheduleForm
@@ -80,6 +81,8 @@ const ScheduleForm = ({ defaultValue, onSubmit }: Props) => {
                 label="장소"
                 placeholder="장소를 입력해주세요"
               />
+
+              <GroupField />
 
               <TextAreaField
                 id="memo"
