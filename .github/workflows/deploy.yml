@@ -61,6 +61,21 @@ jobs:
           source: dist.zip
           target: /home/${{ secrets.SSH_USERNAME }}/nanalmoa-fe/
 
+      - name: Verify zip file exists on EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            if [ -f "/home/${{ secrets.SSH_USERNAME }}/nanalmoa-fe/dist.zip" ]; then
+              echo "dist.zip found on EC2."
+            else
+              echo "dist.zip not found on EC2."
+              exit 1
+            fi
+
       # EC2에서 배포 스크립트 실행
       - name: Execute deploy script
         uses: appleboy/ssh-action@master
