@@ -37,7 +37,7 @@ const MediaAnaysisResultCarousel = ({
               className={cn(
                 'hidden',
                 index === currentIndex &&
-                  'flex h-32 w-full flex-col items-center justify-center rounded-md border-2 border-neutral-400 p-6'
+                  'flex h-32 w-full flex-col items-center justify-center rounded-md border-2 border-neutral-400 p-2'
               )}
               data-carousel-item
             >
@@ -48,7 +48,7 @@ const MediaAnaysisResultCarousel = ({
                 )}
               </p>
               <div className="flex items-center gap-x-1">
-                <CategoryTag label={'약속'} />
+                <CategoryTag label={result.category.categoryName} />
                 <p>{result.title}</p>
               </div>
             </div>
