@@ -46,6 +46,17 @@ jobs:
       - name: Zip build files
         run: zip -r dist.zip ./dist
 
+      - name: Verify Zip Build File
+        run: |
+          if [ -f dist.zip ]; then
+            echo "dist.zip found."
+            ls -lh dist.zip
+            du -h dist.zip
+          else
+            echo "dist.zip not found."
+            exit 1
+          fi
+
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
