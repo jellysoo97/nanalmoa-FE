@@ -8,6 +8,7 @@ export enum DateFormatTypeEnum {
   Time24 = 'HH:mm',
   FullDateTimeKR = 'yyyy년 MM월 dd일 HH:mm',
   CurrentDateTime = "yyyy-MM-dd'T'HH:mm:ss'Z'",
+  DayOfTheWeek = 'EEEE',
 }
 
 export enum CreateScheduleStepEnum {
