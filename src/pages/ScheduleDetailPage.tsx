@@ -33,12 +33,14 @@ const InfoItem = ({ label, content }: InfoItemProps) => (
 
 const DateItem = ({ date }: dateItemProp) => (
   <div>
-    <div className="mr-1 flex gap-1 text-sm sm:text-base">
-      <div>{formatDate(DateFormatTypeEnum.DateWithKorean, date)}</div>
+    <div>
+      <span className="text-xs sm:text-base">
+        {formatDate(DateFormatTypeEnum.DateWithKorean, date)}
+      </span>
 
-      <div>
+      <span className="ml-1 hidden sm:inline sm:text-base">
         ({formatDate(DateFormatTypeEnum.DayOfTheWeek, date, { locale: ko })[0]})
-      </div>
+      </span>
     </div>
 
     <div className="text-base font-bold sm:text-lg">
@@ -61,7 +63,7 @@ const ScheduleDetailPage = () => {
   console.log(data)
 
   return (
-    <div className="px-5">
+    <div className="px-4 sm:px-5">
       <div className="flex justify-between py-3">
         <Link
           to={path.schedules}
@@ -95,7 +97,7 @@ const ScheduleDetailPage = () => {
 
         <div className="flex py-4">
           <DateItem date={data.startDate} />
-          <NextIcon />
+          <NextIcon className="w-5 sm:w-10" />
           <DateItem date={data.endDate} />
         </div>
         {/* <InfoItem
@@ -117,9 +119,10 @@ const ScheduleDetailPage = () => {
 
         <InfoItem label="장소" content={data.place} />
 
-        {data.memo.split('\n').map((line) => (
-          <InfoItem label="메모" content={line} />
-        ))}
+        {data.memo !== '' &&
+          data.memo
+            .split('\n')
+            .map((line) => <InfoItem label="메모" content={line} />)}
       </div>
     </div>
   )
