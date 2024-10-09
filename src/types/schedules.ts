@@ -1,7 +1,7 @@
 import { Categories } from './category'
 
 export interface ISchedule {
-  userId: number
+  userUuid: string
   category: {
     categoryId: number
     categoryName: Categories
@@ -17,13 +17,16 @@ export interface ISchedule {
 }
 
 export interface IMediaAnalysisResult {
-  userId: number
+  userUuid: string
   startDate: Date
   endDate: Date
   title: string
   place: string
   isAllDay: boolean
-  categoryId: number
+  category: {
+    categoryId: number
+    categoryName: Categories
+  }
 }
 
 export interface GetScheduleByIdRes extends ISchedule {}
@@ -49,7 +52,7 @@ export interface IScheduleForm {
 }
 
 export interface PostSchedulesReq {
-  userId: number
+  userUuid: string
   categoryId?: number
   startDate: Date
   endDate: Date
