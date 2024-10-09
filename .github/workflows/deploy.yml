@@ -1,0 +1,73 @@
+name: 'nanalmoa-fe-deploy'
+
+on:
+  push:
+    branches: ['release']
+
+jobs:
+  build:
+    name: Build App
+    runs-on: ubuntu-latest
+    steps:
+      # 레포 클론
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      # Node.js 설치
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node_version: '21.5.0'
+
+      # node_modules 캐시
+      - name: Cache node modules
+        uses: actions/cache@v3
+        id: cache
+        with:
+          path: node_modules
+          key: npm-packages-${{ hashFiles('**/yarn.lock') }}
+
+      # 모듈에 변화가 있을 때(cache-hit == true)만 의존성 설치
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: yarn install
+
+      # .env 파일 생성
+      - name: Create env file
+        run: |
+          touch .env
+          echo "${{ secrets.ENV }}" > .env
+
+      # 레포 빌드
+      - name: Build
+        run: yarn build
+
+      # 빌드 폴더 압축 -> 압축 파일을 배포 예정
+      - name: Zip build files
+        run: zip -r dist.zip ./dist
+
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      # EC2에 압축된 빌드 파일 복사
+      - name: Copy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: dist.zip
+          target: /home/${{ secrets.SSH_USERNAME }}/nanalmoa-fe/
+
+      # EC2에서 배포 스크립트 실행
+      - name: Execute deploy script
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            bash /home/${{ secrets.SSH_USERNAME }}/nanalmoa-fe/deploy.sh
