@@ -6,6 +6,9 @@ type Props = {
 }
 
 const EventContainer = ({ schedules }: Props) => {
+  // TODO: 일정 없을때 메세지 다듬기
+  if (!schedules?.length) return <div>일정이 없습니다.</div>
+
   return (
     <>
       {schedules?.map((schedule) => (
