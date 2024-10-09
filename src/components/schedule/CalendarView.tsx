@@ -26,7 +26,6 @@ const CalendarView = () => {
   const monthEnd = endOfMonth(currentMonth)
 
   const { data: schedules } = useRangeSchedule(
-    123,
     formatDate(DateFormatTypeEnum.DateWithHypen, monthStart),
     formatDate(DateFormatTypeEnum.DateWithHypen, monthEnd)
   )

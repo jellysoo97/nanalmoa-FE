@@ -1,6 +1,7 @@
 import { postSchedules } from '@/api/schedules/post-schedules'
 import ScheduleForm from '@/components/common/ScheduleForm/ScheduleForm'
 import { QUERY_KEYS } from '@/constants/api'
+import { useUser } from '@/hooks/use-user'
 import {
   IScheduleForm,
   PostSchedulesReq,
@@ -10,6 +11,8 @@ import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 
 const DateCreate = () => {
+  const { user } = useUser()
+
   const mutation = useMutation<PostSchedulesRes, AxiosError, PostSchedulesReq>({
     mutationKey: [QUERY_KEYS.POST_SCHEDULES],
     mutationFn: postSchedules,
@@ -22,19 +25,18 @@ const DateCreate = () => {
   })
 
   const handleSubmit = (data: IScheduleForm) => {
-    const payload = {
-      ...data,
-      userId: 123,
-    } as PostSchedulesReq
+    if (!user?.info?.userUuid) return
 
-    mutation.mutate(payload, {
-      onSuccess: (response) => {
-        console.log('일정 생성 성공:', response)
-      },
-      onError: (error) => {
-        console.error('일정 생성 실패:', error)
-      },
-    })
+    if (data) {
+      console.log(data)
+
+      const payload = {
+        ...data,
+        userUuid: user.info.userUuid,
+      } as PostSchedulesReq
+
+      mutation.mutate(payload)
+    }
   }
 
   return (
