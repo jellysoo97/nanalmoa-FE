@@ -35,7 +35,7 @@ const ScheduleForm = ({ defaultValue, onSubmit }: Props) => {
     defaultValues: getDefaultValues(),
   })
 
-  const [isOpen, setIsOpen] = useState<boolean>(true)
+  const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const handleFormSubmit: SubmitHandler<IScheduleForm> = async (
     data: IScheduleForm
@@ -50,7 +50,7 @@ const ScheduleForm = ({ defaultValue, onSubmit }: Props) => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(handleFormSubmit)} className="p-10">
+      <form onSubmit={methods.handleSubmit(handleFormSubmit)} className="px-10 pb-10 pt-5">
         <TextInputField
           id="title"
           label="일정 제목"

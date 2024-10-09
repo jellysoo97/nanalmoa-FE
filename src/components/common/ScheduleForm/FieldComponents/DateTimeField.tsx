@@ -26,11 +26,11 @@ const DateTimeField = () => {
       onClick={onClick}
       ref={ref}
     >
-      <div className="w-28 rounded-lg bg-gray-200 px-3 py-3 text-center text-xs text-gray-700 sm:w-32 sm:py-2 sm:text-base">
+      <div className="w-28 sm:w-36 rounded-lg bg-gray-200 px-3 py-3 text-center text-xs text-gray-700 sm:py-2 sm:text-base">
         {value ? value.split(' ').slice(0, 3).join(' ') : '날짜 선택'}
       </div>
       {!isAllDay && (
-        <div className="w-24 rounded-lg bg-gray-200 px-3 py-3 text-center text-xs text-gray-700 sm:w-28 sm:py-2 sm:text-base">
+        <div className="w-24 sm:w-28 rounded-lg bg-gray-200 px-3 py-3 text-center text-xs text-gray-700 sm:py-2 sm:text-base">
           {value ? value.split(' ').slice(3, 5).join(' ') : '시간 선택'}
         </div>
       )}

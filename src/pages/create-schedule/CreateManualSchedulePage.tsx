@@ -1,6 +1,11 @@
 import { postSchedules } from '@/api/schedules/post-schedules'
+import { Stepper } from '@/components/common'
 import ScheduleForm from '@/components/common/ScheduleForm/ScheduleForm'
+import SuccessPostAudio from '@/components/create-schedule/audio/SuccessPostAudio'
 import { QUERY_KEYS } from '@/constants/api'
+import { createManualScheduleSteps } from '@/constants/schedules'
+import { useUser } from '@/hooks/use-user'
+import { CreateScheduleStepEnum } from '@/types/common'
 import {
   IScheduleForm,
   PostSchedulesReq,
@@ -8,28 +13,38 @@ import {
 } from '@/types/schedules'
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
+import { useEffect, useRef, useState } from 'react'
 
-const DateCreate = () => {
+const CreateManualSchedulePage = () => {
+  const { user } = useUser();
+
+  const [currentStep, setCurrentStep] = useState(CreateScheduleStepEnum.Info)
+
+  const topRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (currentStep === CreateScheduleStepEnum.UploadMedia && topRef.current) {
+      topRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [currentStep]);
+
   const mutation = useMutation<PostSchedulesRes, AxiosError, PostSchedulesReq>({
     mutationKey: [QUERY_KEYS.POST_SCHEDULES],
     mutationFn: postSchedules,
-    onSuccess: (res) => {
-      console.log(res)
-    },
-    onError: (err) => {
-      console.error('err', err)
-    },
   })
 
   const handleSubmit = (data: IScheduleForm) => {
+    if (!user?.info?.userUuid) return;
+
     const payload = {
       ...data,
-      userId: 123,
-    } as PostSchedulesReq
+      userUuid: user.info?.userUuid,
+    } as PostSchedulesReq;
 
     mutation.mutate(payload, {
       onSuccess: (response) => {
         console.log('일정 생성 성공:', response)
+        setCurrentStep(CreateScheduleStepEnum.UploadMedia)
       },
       onError: (error) => {
         console.error('일정 생성 실패:', error)
@@ -38,10 +53,16 @@ const DateCreate = () => {
   }
 
   return (
-    <>
-      <ScheduleForm onSubmit={handleSubmit} />
-    </>
+    <div ref={topRef} className="py-5">
+      <div className="flex justify-center">
+        <Stepper steps={createManualScheduleSteps} currentStep={currentStep} />
+      </div>
+
+      {currentStep === CreateScheduleStepEnum.UploadMedia && <SuccessPostAudio />}
+      {currentStep === CreateScheduleStepEnum.Info && <ScheduleForm onSubmit={handleSubmit} />}
+
+    </div>
   )
 }
 
-export default DateCreate
+export default CreateManualSchedulePage;
