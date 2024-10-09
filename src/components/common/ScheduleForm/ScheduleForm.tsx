@@ -5,6 +5,9 @@ import CategoryField from './FieldComponents/CategoryField'
 import { useState } from 'react'
 import DownArrowIcon from '@/components/icons/DownArrowIcon'
 import { ISchedule, IScheduleForm } from '@/types/schedules'
+import TextAreaField from './FieldComponents/TextAreaField'
+import GroupField from './FieldComponents/GroupField'
+import RepetitionField from './FieldComponents/RepetitionField'
 
 type Props = {
   defaultValue?: Partial<ISchedule>
@@ -16,13 +19,14 @@ const ScheduleForm = ({ defaultValue, onSubmit }: Props) => {
   const getDefaultValues = () => {
     if (!defaultValue) return {}
 
-    const { title, isAllDay, startDate, endDate, category } = defaultValue
+    const { title, isAllDay, startDate, endDate, category, memo } = defaultValue
     return {
       title,
       categoryId: category?.categoryId,
       isAllDay,
       startDate,
       endDate,
+      memo,
     }
   }
 
@@ -31,7 +35,7 @@ const ScheduleForm = ({ defaultValue, onSubmit }: Props) => {
     defaultValues: getDefaultValues(),
   })
 
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const [isOpen, setIsOpen] = useState<boolean>(true)
 
   const handleFormSubmit: SubmitHandler<IScheduleForm> = async (
     data: IScheduleForm
@@ -70,12 +74,22 @@ const ScheduleForm = ({ defaultValue, onSubmit }: Props) => {
               }`}
             />
           </button>
+
           {isOpen && (
             <div className="py-6">
               <TextInputField
                 id="place"
                 label="장소"
                 placeholder="장소를 입력해주세요"
+              />
+
+              <GroupField />
+              <RepetitionField />
+
+              <TextAreaField
+                id="memo"
+                label="메모"
+                placeholder="자유롭게 작성해주세요"
               />
             </div>
           )}
