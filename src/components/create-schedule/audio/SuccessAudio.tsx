@@ -17,7 +17,7 @@ import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { QUERY_KEYS } from '@/constants/api'
 import { postSchedules } from '@/api/schedules/post-schedules'
-import { useUserStore } from '@/store/user'
+import { useUser } from '@/hooks/use-user'
 
 type Props = {
   results: PostUploadAudioFileRes
@@ -26,7 +26,7 @@ type Props = {
 }
 
 const SuccessAudio = ({ results, createSchedules, moveStep }: Props) => {
-  const { user } = useUserStore()
+  const { user } = useUser()
   const userUuid = user.info?.userUuid
 
   const [isManualInput, setIsManualInput] = useState<boolean>(false)
