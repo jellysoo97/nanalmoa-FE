@@ -3,7 +3,6 @@ import {
   addMonths,
   subMonths,
   isWithinInterval,
-  subDays,
   startOfDay,
   endOfDay,
   startOfMonth,
@@ -36,8 +35,8 @@ const CalendarView = () => {
     ? currentDate
       ? schedules.filter((schedule) => {
           return isWithinInterval(currentDate, {
-            start: endOfDay(subDays(schedule.startDate, 1)),
-            end: startOfDay(subDays(schedule.endDate, 1)),
+            start: startOfDay(schedule.startDate),
+            end: endOfDay(schedule.endDate),
           })
         })
       : schedules
