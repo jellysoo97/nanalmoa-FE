@@ -9,8 +9,8 @@ export const useRangeSchedule = (start: string, end: string) => {
 
   const { isLoading, data } = useQuery<GetSchedulesRes>({
     queryKey: [QUERY_KEYS.GET_SCHEDULE_BY_RANGE, start],
-    queryFn: () => getScheduleByRange(user.info?.userId, start, end),
-    enabled: !isUserLoading && !!user.info?.userId,
+    queryFn: () => getScheduleByRange(user.info!.userUuid, start, end),
+    enabled: !isUserLoading && !!user.info?.userUuid,
   })
 
   return { isLoading, data }

@@ -3,7 +3,7 @@ import { authAPI } from '../axios-instance'
 import { API_DOMAINS } from '@/constants/api'
 
 export const getScheduleByRange = async (
-  userId: number,
+  userUuid: string,
   startDate: string,
   endDate: string
 ) => {
@@ -11,7 +11,7 @@ export const getScheduleByRange = async (
   const { data } = await authAPI.get<GetSchedulesRes>(
     `${API_DOMAINS.SCHEDULES}/range`,
     {
-      params: { userId, startDate, endDate },
+      params: { userUuid, startDate, endDate },
     }
   )
 
