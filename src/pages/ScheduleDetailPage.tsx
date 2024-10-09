@@ -8,19 +8,42 @@ import { ISchedule } from '@/types/schedules'
 import { formatDate } from '@/utils/format-date'
 import { useQuery } from '@tanstack/react-query'
 import { Link, useParams } from 'react-router-dom'
+import { ko } from 'date-fns/locale'
+import { NextIcon } from '@/components/icons'
+import Divider from '@/components/common/Divider'
 
 type InfoItemProps = {
   label: string
   content: string
 }
 
+type dateItemProp = {
+  date: Date
+}
+
 const InfoItem = ({ label, content }: InfoItemProps) => (
   <div
-    className="mb-5 flex flex-col sm:flex-row sm:items-center"
+    className="my-5 flex flex-col sm:flex-row sm:items-center"
     aria-label={`${label}: ${content}`}
   >
     <div className="mr-4 w-24 text-left font-bold">{label}</div>
     <div>{content}</div>
+  </div>
+)
+
+const DateItem = ({ date }: dateItemProp) => (
+  <div>
+    <div className="mr-1 flex gap-1 text-sm sm:text-base">
+      <div>{formatDate(DateFormatTypeEnum.DateWithKorean, date)}</div>
+
+      <div>
+        ({formatDate(DateFormatTypeEnum.DayOfTheWeek, date, { locale: ko })[0]})
+      </div>
+    </div>
+
+    <div className="text-base font-bold sm:text-lg">
+      {formatDate(DateFormatTypeEnum.Time24, date)}
+    </div>
   </div>
 )
 
@@ -39,7 +62,7 @@ const ScheduleDetailPage = () => {
 
   return (
     <div className="px-5">
-      <div className="flex justify-between py-2">
+      <div className="flex justify-between py-3">
         <Link
           to={path.schedules}
           className="w-25 flex rounded border-gray-700 py-2"
@@ -61,21 +84,42 @@ const ScheduleDetailPage = () => {
         </div>
       </div>
 
-      <div className="px-7 py-5">
-        <InfoItem label="제목" content={data.title} />
-        <div className="mb-5 flex flex-col sm:flex-row sm:items-center">
-          <div className="mr-4 w-24 text-left font-bold">카테고리</div>
-          <div>
-            <CategoryTag label={data?.category?.categoryName || '기타'} />
-          </div>
+      <div className="px-7 py-2">
+        <CategoryTag
+          className="my-1 inline-block h-6"
+          label={data?.category?.categoryName || '기타'}
+        />
+        <div className="mb-3 text-xl font-bold">{data.title}</div>
+
+        <Divider />
+
+        <div className="flex py-4">
+          <DateItem date={data.startDate} />
+          <NextIcon />
+          <DateItem date={data.endDate} />
         </div>
-        <InfoItem
-          label="날짜 및 시간"
+        {/* <InfoItem
+          label="시작 일자"
           content={formatDate(
             DateFormatTypeEnum.FullDateTimeKR,
             data.startDate
           )}
         />
+        <InfoItem
+          label="종료 일자"
+          content={formatDate(
+            DateFormatTypeEnum.FullDateTimeKR,
+            data.endDate
+          )}
+        /> */}
+
+        <Divider />
+
+        <InfoItem label="장소" content={data.place} />
+
+        {data.memo.split('\n').map((line) => (
+          <InfoItem label="메모" content={line} />
+        ))}
       </div>
     </div>
   )
