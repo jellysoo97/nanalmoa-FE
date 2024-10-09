@@ -16,8 +16,6 @@ const DailyView = () => {
     formatDate(DateFormatTypeEnum.DateWithHypen, dayEnd)
   )
 
-  if (!schedules) return <div>일정이 없습니다.</div>
-
   return (
     <>
       <div className="mb-3">
@@ -26,6 +24,7 @@ const DailyView = () => {
           setSelectedDate={setSelectedDate}
         />
       </div>
+      {!schedules && <div>일정이 없습니다.</div>}
       <EventContainer schedules={schedules} />
     </>
   )
