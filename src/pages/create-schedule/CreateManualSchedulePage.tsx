@@ -24,7 +24,7 @@ const DateCreate = () => {
   const handleSubmit = (data: IScheduleForm) => {
     const payload = {
       ...data,
-      userId: 123,
+      userUuid: '123',
     } as PostSchedulesReq
 
     mutation.mutate(payload, {
