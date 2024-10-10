@@ -13,15 +13,16 @@ type WeekDaySelectorProps = {
   setSelectedDate: (date: Date) => void
 }
 
+// TODO: 스타일 다듬기
 const Day: React.FC<DayProps> = ({ date, isSelected, onClick }) => {
   const dayOfWeek = format(date, 'E', { locale: ko })
   const isWeekend = dayOfWeek === '토' || dayOfWeek === '일'
 
   return (
     <div
-      className={`flex cursor-pointer flex-col items-center p-2 ${
+      className={`flex w-10 cursor-pointer flex-col items-center border border-gray-200 bg-gray-200 p-2 sm:w-12 ${
         isSelected ? 'bg-primary-500 text-white' : ''
-      } ${isToday(date) ? 'border-b-2 border-primary-700' : ''}`}
+      } ${isToday(date) ? 'border-b-2 border-b-primary-800' : ''}`}
       onClick={() => onClick(date)}
     >
       <div className={`text-sm ${isWeekend ? 'text-red-500' : ''}`}>
@@ -60,7 +61,7 @@ const WeekdaySelector = ({
   }
 
   return (
-    <div className="flex justify-center space-x-2">
+    <div className="flex justify-center space-x-1 border-b px-2 pt-2">
       {generateDates().map((date, index) => (
         <Day
           key={date.toISOString()}

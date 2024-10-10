@@ -43,9 +43,9 @@ const DateItem = ({ date }: dateItemProp) => (
       </span>
     </div>
 
-    <div className="text-base font-bold sm:text-lg">
+    <span className="text-base font-bold sm:text-xl">
       {formatDate(DateFormatTypeEnum.Time24, date)}
-    </div>
+    </span>
   </div>
 )
 
@@ -100,29 +100,16 @@ const ScheduleDetailPage = () => {
           <NextIcon className="w-5 sm:w-10" />
           <DateItem date={data.endDate} />
         </div>
-        {/* <InfoItem
-          label="시작 일자"
-          content={formatDate(
-            DateFormatTypeEnum.FullDateTimeKR,
-            data.startDate
-          )}
-        />
-        <InfoItem
-          label="종료 일자"
-          content={formatDate(
-            DateFormatTypeEnum.FullDateTimeKR,
-            data.endDate
-          )}
-        /> */}
 
         <Divider />
 
-        <InfoItem label="장소" content={data.place} />
+        <InfoItem label="장소" content={data.place === '' ? '-' : data.place} />
 
         {data.memo !== '' &&
           data.memo
             .split('\n')
             .map((line) => <InfoItem label="메모" content={line} />)}
+        {data.memo === '' && <InfoItem label="메모" content="-" />}
       </div>
     </div>
   )
