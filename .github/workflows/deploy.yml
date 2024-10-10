@@ -5,8 +5,8 @@ on:
     branches: ['release']
 
 jobs:
-  build:
-    name: Build App
+  deploy:
+    name: Build & Deploy
     runs-on: ubuntu-latest
     steps:
       # 레포 클론
@@ -46,13 +46,22 @@ jobs:
       - name: Zip build files
         run: zip -r dist.zip ./dist
 
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
-    steps:
+      # 압축 파일 확인
+      - name: Verify Zip Build File
+        run: |
+          if [ -f dist.zip ]; then
+            echo "dist.zip found."
+            pwd
+            ls -lh dist.zip
+            du -h dist.zip
+          else
+            echo "dist.zip not found."
+            exit 1
+          fi
+
       # EC2에 압축된 빌드 파일 복사
       - name: Copy to EC2
-        uses: appleboy/ssh-action@master
+        uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}

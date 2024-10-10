@@ -10,9 +10,7 @@ import {
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 
-const DateCreate = () => {
-  const { user } = useUser()
-
+const CreateManualSchedulePage = () => {
   const mutation = useMutation<PostSchedulesRes, AxiosError, PostSchedulesReq>({
     mutationKey: [QUERY_KEYS.POST_SCHEDULES],
     mutationFn: postSchedules,
@@ -46,4 +44,4 @@ const DateCreate = () => {
   )
 }
 
-export default DateCreate
+export default CreateManualSchedulePage

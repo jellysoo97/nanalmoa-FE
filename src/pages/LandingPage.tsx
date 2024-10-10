@@ -13,7 +13,7 @@ const LandingPage = ({ isLanding = false }: Props) => {
   if (isLanding && !isUserLoading) {
     setTimeout(() => {
       window.location.href = user.isLoggedIn ? path.schedules : path.login
-    }, 2000)
+    }, 3000)
   }
 
   return (
