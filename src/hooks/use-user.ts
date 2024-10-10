@@ -12,6 +12,7 @@ export const useUser = (enabled: boolean = true) => {
     queryFn: getUsersMe,
     enabled,
   })
+
   const { user, setUser } = useUserStore()
 
   useEffect(() => {

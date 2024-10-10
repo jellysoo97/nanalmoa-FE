@@ -10,7 +10,7 @@ export interface ISchedule {
   endDate: Date
   title: string
   place: string
-  memo?: string
+  memo: string
   isGroupSchedule: boolean
   isAllDay: boolean
   scheduleId: number

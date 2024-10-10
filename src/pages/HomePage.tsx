@@ -1,5 +1,5 @@
 import CalendarView from '@/components/schedule/CalendarView'
-import EventContainer from '@/components/schedule/EventContainer'
+import DailyView from '@/components/schedule/DailyView'
 import Tabs from '@/components/schedule/Tabs'
 import { useState } from 'react'
 
@@ -19,7 +19,7 @@ const HomePage = () => {
         />
       </div>
 
-      {activeTab === '일간' && <EventContainer />}
+      {activeTab === '일간' && <DailyView />}
 
       {activeTab === '월간' && <CalendarView />}
     </>

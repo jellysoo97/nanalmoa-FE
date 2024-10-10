@@ -1,15 +1,33 @@
 import EventItem from './EventItem'
 import { GetSchedulesRes } from '@/types/schedules'
+import CalendarImg from '@/assets/imgs/calendarImg.png'
 
 type Props = {
-  schedules?: GetSchedulesRes | []
+  schedules: GetSchedulesRes | []
+  isLoading?: boolean
 }
 
-const EventContainer = ({ schedules }: Props) => {
-  // TODO: useRangeSchedule hook isLoading Prop 연결
-  // if (isLoading) return <div>로딩 중...</div>
+const EventContainer = ({ schedules, isLoading }: Props) => {
+  if (isLoading) {
+    return null
+  }
 
-  if (!schedules?.length) return <div>데이터가 없습니다.</div>
+  if (!isLoading && !schedules?.length)
+    return (
+      <div className="pb-10">
+        <img
+          src={CalendarImg}
+          alt="CalendarImg"
+          className="mx-auto mb-1 mt-5 w-1/3"
+          width={240}
+          height={240}
+        />
+        <div className="mb-1 text-center text-lg font-bold">
+          일정이 없습니다!
+        </div>
+        <div className="text-center text-xs">일정을 등록해보세요!</div>
+      </div>
+    )
 
   return (
     <>

@@ -17,7 +17,7 @@ type Props = {
 // TODO: form background 색상 수정
 const ScheduleForm = ({ defaultValue, onSubmit }: Props) => {
   const getDefaultValues = () => {
-    if (!defaultValue) return {}
+    if (!defaultValue) return { isAllDay: false }
 
     const { title, isAllDay, startDate, endDate, category, memo } = defaultValue
     return {
