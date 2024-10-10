@@ -3,6 +3,7 @@ import { QUERY_KEYS } from '@/constants/api'
 import { GetSchedulesRes } from '@/types/schedules'
 import { useQuery } from '@tanstack/react-query'
 import { useUser } from './use-user'
+import { calendarScheduleFilter } from '@/utils/calendar-schedule-filter'
 
 export const useRangeSchedule = (start: string, end: string) => {
   const { user, isUserLoading } = useUser()
@@ -13,5 +14,9 @@ export const useRangeSchedule = (start: string, end: string) => {
     enabled: !isUserLoading && !!user.info?.userUuid,
   })
 
-  return { isLoading, data }
+  const isSchedule = data?.length
+    ? calendarScheduleFilter(data, new Date(start))
+    : []
+
+  return { isLoading, data, isSchedule }
 }
