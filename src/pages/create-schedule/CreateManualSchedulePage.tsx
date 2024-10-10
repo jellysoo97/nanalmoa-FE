@@ -11,6 +11,8 @@ import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 
 const CreateManualSchedulePage = () => {
+  const { user } = useUser()
+
   const mutation = useMutation<PostSchedulesRes, AxiosError, PostSchedulesReq>({
     mutationKey: [QUERY_KEYS.POST_SCHEDULES],
     mutationFn: postSchedules,
@@ -26,8 +28,6 @@ const CreateManualSchedulePage = () => {
     if (!user?.info?.userUuid) return
 
     if (data) {
-      console.log(data)
-
       const payload = {
         ...data,
         userUuid: user.info.userUuid,
