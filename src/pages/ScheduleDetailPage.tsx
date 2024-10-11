@@ -92,6 +92,8 @@ const ScheduleDetailPage = () => {
     queryFn: () => getScheduleById(id as string),
   })
 
+  console.log('data', data)
+
   if (isLoading) return <div>로딩 중...</div>
   if (!data) return <div>데이터가 없습니다.</div>
 

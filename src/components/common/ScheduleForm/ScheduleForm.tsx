@@ -2,7 +2,7 @@ import { SubmitHandler, useForm, FormProvider } from 'react-hook-form'
 import TextInputField from './FieldComponents/TextInputField'
 import DateTimeField from './FieldComponents/DateTimeField'
 import CategoryField from './FieldComponents/CategoryField'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import DownArrowIcon from '@/components/icons/DownArrowIcon'
 import { ISchedule, IScheduleForm } from '@/types/schedules'
 import TextAreaField from './FieldComponents/TextAreaField'
@@ -21,7 +21,7 @@ const ScheduleForm = ({
   onSubmit,
   buttonMessage = '등록하기',
 }: Props) => {
-  const getDefaultValues = () => {
+  const getDefaultValues = useCallback(() => {
     if (!defaultValue) return {}
 
     const { title, isAllDay, startDate, endDate, category, memo } = defaultValue
@@ -33,12 +33,17 @@ const ScheduleForm = ({
       endDate: new Date(endDate!),
       memo,
     }
-  }
+  }, [defaultValue])
 
   const methods = useForm<IScheduleForm>({
-    // TODO: Type 수정
     defaultValues: getDefaultValues(),
   })
+
+  const { reset } = methods
+
+  useEffect(() => {
+    reset(getDefaultValues())
+  }, [defaultValue, reset, getDefaultValues])
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
