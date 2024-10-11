@@ -52,13 +52,15 @@ export const useCalendar = ({
         days.push(
           <div
             className={`relative flex w-10 items-center justify-center py-2 text-center sm:w-12 ${
-              !isSameMonth(day, monthStart) ? 'text-gray-300' : formatDay(day)
+              !isSameMonth(day, monthStart)
+                ? 'text-neutral-300'
+                : formatDay(day)
             }`}
             key={currentDay.toISOString()}
           >
             <button
               onClick={() => setCurrentDate(currentDay)}
-              className={`z-50 flex h-9 w-9 items-center justify-center text-base hover:font-bold sm:h-10 sm:w-10 sm:text-lg ${!isCurrentMonth && 'text-gray-400'} ${scheduleClass} `}
+              className={`z-50 flex h-9 w-9 items-center justify-center text-base hover:font-bold sm:h-10 sm:w-10 sm:text-lg ${!isCurrentMonth && 'text-neutral-400'} ${scheduleClass} `}
             >
               {format(day, dateFormat)}
             </button>

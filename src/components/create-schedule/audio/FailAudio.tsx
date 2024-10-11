@@ -48,7 +48,7 @@ const FailAudio = ({ moveStep }: FailProps) => {
         </div>
         <Link
           to={path.schedules}
-          className="mx-auto mb-8 mt-auto w-1/2 rounded bg-gray-300 p-2 font-semibold"
+          className="mx-auto mb-8 mt-auto w-1/2 rounded bg-neutral-300 p-2 font-semibold"
         >
           <IconButton
             direction="horizontal"

@@ -1,6 +1,8 @@
-import React from 'react'
-import { format, addDays, subDays, isToday } from 'date-fns'
+import { useWindowSize } from '@/hooks/use-window-size'
+import { cn } from '@/utils/cn'
+import { addDays, format, isToday, subDays } from 'date-fns'
 import { ko } from 'date-fns/locale'
+import React, { useCallback, useMemo } from 'react'
 
 type DayProps = {
   date: Date
@@ -19,19 +21,29 @@ const Day: React.FC<DayProps> = ({ date, isSelected, onClick }) => {
   const isWeekend = dayOfWeek === '토' || dayOfWeek === '일'
 
   return (
-    <div
-      className={`flex w-10 cursor-pointer flex-col items-center border border-gray-200 bg-gray-200 p-2 sm:w-12 ${
-        isSelected ? 'bg-primary-500 text-white' : ''
-      } ${isToday(date) ? 'border-b-2 border-b-primary-800' : ''}`}
+    <button
+      className={cn(
+        'flex min-w-12 flex-col items-center justify-center gap-y-1 p-2',
+        'rounded-md bg-transparent shadow-md',
+        isSelected && 'scale-110 border-none bg-primary-400 text-neutral-50'
+      )}
       onClick={() => onClick(date)}
     >
-      <div className={`text-sm ${isWeekend ? 'text-red-500' : ''}`}>
+      <span className={cn('text-sm', isWeekend && 'text-red-500')}>
         {dayOfWeek}
-      </div>
-      <div className={`text-lg font-bold ${isWeekend ? 'text-red-500' : ''}`}>
+      </span>
+      <span className={cn('text-lg font-bold', isWeekend && 'text-red-500')}>
         {format(date, 'd')}
-      </div>
-    </div>
+      </span>
+      {isToday(date) && (
+        <div
+          className={cn(
+            'h-[6px] w-[6px] rounded-full',
+            isSelected ? 'bg-white' : 'bg-primary-400'
+          )}
+        />
+      )}
+    </button>
   )
 }
 
@@ -39,10 +51,12 @@ const WeekdaySelector = ({
   selectedDate,
   setSelectedDate,
 }: WeekDaySelectorProps) => {
-  const daysToShow = 7
+  const [windowWidth] = useWindowSize()
+
+  const daysToShow = useMemo(() => (windowWidth <= 640 ? 5 : 7), [windowWidth])
   const middleIndex = Math.floor(daysToShow / 2)
 
-  const generateDates = (): Date[] => {
+  const generateDates = useCallback(() => {
     const dates: Date[] = []
     for (let i = -middleIndex; i <= middleIndex; i++) {
       dates.push(
@@ -54,14 +68,14 @@ const WeekdaySelector = ({
       )
     }
     return dates
-  }
+  }, [daysToShow, selectedDate])
 
   const handleDateClick = (date: Date): void => {
     setSelectedDate(date)
   }
 
   return (
-    <div className="flex justify-center space-x-1 border-b px-2 pt-2">
+    <div className="flex w-full items-center justify-evenly">
       {generateDates().map((date, index) => (
         <Day
           key={date.toISOString()}

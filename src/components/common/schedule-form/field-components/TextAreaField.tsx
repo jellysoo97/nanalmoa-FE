@@ -15,7 +15,7 @@ const TextAreaField = ({ id, label, placeholder }: Prop) => {
       id={id}
       label={label}
       renderInput={() => (
-        <div className="w-full rounded border-2 border-gray-300 p-3">
+        <div className="w-full rounded border-2 border-neutral-300 p-3">
           <textarea
             id={id}
             {...register(id)}

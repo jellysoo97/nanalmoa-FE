@@ -1,5 +1,10 @@
+import { getScheduleByMonth } from '@/api/schedules/get-schedule-by-month'
+import { QUERY_KEYS } from '@/constants/api'
+import { useUser } from '@/hooks/use-user'
 import { DateFormatTypeEnum } from '@/types/common'
+import { GetSchedulesRes } from '@/types/schedules'
 import { formatDate } from '@/utils/format-date'
+import { useQuery } from '@tanstack/react-query'
 import {
   addMonths,
   endOfDay,
@@ -8,14 +13,9 @@ import {
   isWithinInterval,
   startOfDay,
 } from 'date-fns'
-import EventContainer from './EventContainer'
 import { useState } from 'react'
+import EventContainer from './EventContainer'
 import WeekdaySelector from './WeekdaySelector'
-import { getScheduleByMonth } from '@/api/schedules/get-schedule-by-month'
-import { QUERY_KEYS } from '@/constants/api'
-import { useQuery } from '@tanstack/react-query'
-import { GetSchedulesRes } from '@/types/schedules'
-import { useUser } from '@/hooks/use-user'
 
 const DailyView = () => {
   const { user, isUserLoading } = useUser()
@@ -44,18 +44,18 @@ const DailyView = () => {
     : []
 
   return (
-    <>
-      <div className="mb-3">
-        <div className="mb-2 flex justify-center text-lg font-bold sm:mb-3 sm:text-xl">
+    <div className="flex h-full flex-col items-center gap-y-5">
+      <div className="flex w-full flex-col items-center gap-y-3">
+        <h1 className="text-lg font-bold sm:text-xl">
           {formatDate(DateFormatTypeEnum.YearAndMonthKo, selectedDate)}
-        </div>
+        </h1>
         <WeekdaySelector
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
         />
       </div>
       <EventContainer schedules={schedules} isLoading={isLoading} />
-    </>
+    </div>
   )
 }
 
