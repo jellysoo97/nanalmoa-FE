@@ -6,10 +6,11 @@ import { cn } from '@/utils/cn'
 
 type Props = {
   currentStep: CreateScheduleStepEnum
+  disabled?: boolean
   moveStep: (step: CreateScheduleStepEnum) => void
 }
 
-const MoveStepButtons = ({ currentStep, moveStep }: Props) => {
+const MoveStepButtons = ({ currentStep, disabled, moveStep }: Props) => {
   const isFirstStep = useMemo(
     () => currentStep === CreateScheduleStepEnum.Info,
     [currentStep]
@@ -51,6 +52,7 @@ const MoveStepButtons = ({ currentStep, moveStep }: Props) => {
           text="다음 단계로"
           className="rounded-md bg-primary-500 px-3 py-2 text-white"
           isIconFront={false}
+          disabled={disabled}
           onClick={() => moveStep(currentStep + 1)}
         />
       )}
