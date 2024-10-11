@@ -26,7 +26,7 @@ const CreateAudioSchdulePage = () => {
   const { closeModal } = useModal()
 
   const [currentStep, setCurrentStep] = useState<CreateScheduleStepEnum>(
-    CreateScheduleStepEnum.AnalysisResult
+    CreateScheduleStepEnum.Info
   )
   const [results, setResults] = useState<PostUploadAudioFileRes>()
   const [abortController, setAbortController] =
@@ -96,6 +96,12 @@ const CreateAudioSchdulePage = () => {
     })
   }
 
+  const isNextDisabled =
+    (currentStep === CreateScheduleStepEnum.UploadMedia &&
+      mutation.status === 'idle') ||
+    (currentStep === CreateScheduleStepEnum.AnalysisResult &&
+      createSchedulesStatus === 'idle')
+
   return (
     <div className="flex h-full flex-col items-center gap-y-8">
       <Stepper steps={createAudioScheduleSteps} currentStep={currentStep} />
@@ -145,10 +151,7 @@ const CreateAudioSchdulePage = () => {
 
       <MoveStepButtons
         currentStep={currentStep}
-        disabled={
-          mutation.status === 'idle' ||
-          (mutation.status === 'success' && createSchedulesStatus === 'idle')
-        }
+        disabled={isNextDisabled}
         moveStep={moveStep}
       />
     </div>
