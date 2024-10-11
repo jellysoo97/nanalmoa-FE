@@ -14,8 +14,10 @@ type Props = {
 const EventItem = ({ schedule }: Props) => {
   const isDurationScheduleInSameDay = useMemo(
     () =>
-      schedule.startDate.getDate() === schedule.endDate.getDate() &&
-      schedule.startDate.getTime() !== schedule.endDate.getTime(),
+      new Date(schedule.startDate).getDate() ===
+        new Date(schedule.endDate).getDate() &&
+      new Date(schedule.startDate).getTime() !==
+        new Date(schedule.endDate).getTime(),
     [schedule]
   )
 
