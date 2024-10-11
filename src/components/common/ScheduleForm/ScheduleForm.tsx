@@ -50,7 +50,7 @@ const ScheduleForm = ({ defaultValue, onSubmit }: Props) => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(handleFormSubmit)} className="p-10">
+      <form onSubmit={methods.handleSubmit(handleFormSubmit)}>
         <TextInputField
           id="title"
           label="일정 제목"

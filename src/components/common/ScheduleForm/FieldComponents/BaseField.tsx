@@ -3,19 +3,38 @@ import { FieldError } from 'react-hook-form'
 interface FormFieldProps {
   id: string
   label: string
+  length?: number
   error?: FieldError
   renderInput: () => React.ReactNode
 }
 
-const BaseField = ({ id, label, error, renderInput }: FormFieldProps) => {
+const TEXT_MAX_LENGTH = 240
+
+const BaseField = ({
+  id,
+  label,
+  length,
+  error,
+  renderInput,
+}: FormFieldProps) => {
+  const hasLength = typeof length === 'number'
+
   return (
     <div className="mb-6">
-      <label
-        htmlFor={id}
-        className="mb-2 block text-base font-bold text-gray-700"
-      >
-        {label}
-      </label>
+      <div className="flex items-center justify-between">
+        <label
+          htmlFor={id}
+          className="mb-2 block text-base font-bold text-gray-700"
+        >
+          {label}
+        </label>
+        {hasLength && (
+          <p className="text-xs text-neutral-500">
+            {length} / {TEXT_MAX_LENGTH}
+          </p>
+        )}
+      </div>
+
       {renderInput()}
       {error && <span className="text-xs text-red-500">{error.message}</span>}
     </div>
