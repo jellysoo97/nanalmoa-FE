@@ -44,18 +44,18 @@ const DailyView = () => {
     : []
 
   return (
-    <>
-      <div className="mb-3">
-        <div className="mb-2 flex justify-center text-lg font-bold sm:mb-3 sm:text-xl">
+    <div className="flex flex-col items-center gap-y-5">
+      <div className="flex w-full flex-col items-center gap-y-3">
+        <h1 className="text-lg font-bold sm:text-xl">
           {formatDate(DateFormatTypeEnum.YearAndMonthKo, selectedDate)}
-        </div>
+        </h1>
         <WeekdaySelector
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
         />
       </div>
       <EventContainer schedules={schedules} isLoading={isLoading} />
-    </>
+    </div>
   )
 }
 
