@@ -41,7 +41,7 @@ type dateItemProp = {
 
 const InfoItem = ({ label, content }: InfoItemProps) => (
   <div
-    className="mb-5 flex flex-col sm:flex-row sm:items-center"
+    className="my-5 flex flex-col sm:flex-row sm:items-center"
     aria-label={`${label}: ${content}`}
   >
     <div className="mr-4 w-24 text-left font-bold">{label}</div>
@@ -91,8 +91,6 @@ const ScheduleDetailPage = () => {
     queryKey: [QUERY_KEYS.GET_SCHEDULE_BY_ID, isUpdate],
     queryFn: () => getScheduleById(id as string),
   })
-
-  console.log('data', data)
 
   if (isLoading) return <div>로딩 중...</div>
   if (!data) return <div>데이터가 없습니다.</div>
@@ -180,21 +178,35 @@ const ScheduleDetailPage = () => {
             </div>
           </div>
 
-          <div className="px-7 py-5">
-            <InfoItem label="제목" content={data.title} />
-            <div className="mb-5 flex flex-col sm:flex-row sm:items-center">
-              <div className="mr-4 w-24 text-left font-bold">카테고리</div>
-              <div>
-                <CategoryTag label={data?.category?.categoryName || '기타'} />
+          <div>
+            <div className="px-7 py-2">
+              <CategoryTag
+                className="my-1 inline-block h-6"
+                label={data?.category?.categoryName || '기타'}
+              />
+              <div className="mb-3 text-xl font-bold">{data.title}</div>
+
+              <Divider />
+
+              <div className="flex py-4">
+                <DateItem date={data.startDate} />
+                <NextIcon className="w-5 sm:w-10" />
+                <DateItem date={data.endDate} />
               </div>
+
+              <Divider />
+
+              <InfoItem
+                label="장소"
+                content={data.place === '' ? '-' : data.place}
+              />
+
+              {data.memo !== '' &&
+                data.memo
+                  .split('\n')
+                  .map((line) => <InfoItem label="메모" content={line} />)}
+              {data.memo === '' && <InfoItem label="메모" content="-" />}
             </div>
-            <InfoItem
-              label="날짜 및 시간"
-              content={formatDate(
-                DateFormatTypeEnum.FullDateTimeKR,
-                data.startDate
-              )}
-            />
           </div>
         </div>
       )}

@@ -16,17 +16,17 @@ import { AxiosError } from 'axios'
 import { useEffect, useRef, useState } from 'react'
 
 const CreateManualSchedulePage = () => {
-  const { user } = useUser();
+  const { user } = useUser()
 
   const [currentStep, setCurrentStep] = useState(CreateScheduleStepEnum.Info)
 
-  const topRef = useRef<HTMLDivElement>(null);
+  const topRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (currentStep === CreateScheduleStepEnum.UploadMedia && topRef.current) {
-      topRef.current.scrollIntoView({ behavior: 'smooth' });
+      topRef.current.scrollIntoView({ behavior: 'smooth' })
     }
-  }, [currentStep]);
+  }, [currentStep])
 
   const mutation = useMutation<PostSchedulesRes, AxiosError, PostSchedulesReq>({
     mutationKey: [QUERY_KEYS.POST_SCHEDULES],
@@ -34,12 +34,12 @@ const CreateManualSchedulePage = () => {
   })
 
   const handleSubmit = (data: IScheduleForm) => {
-    if (!user?.info?.userUuid) return;
+    if (!user?.info?.userUuid) return
 
     const payload = {
       ...data,
       userUuid: user.info?.userUuid,
-    } as PostSchedulesReq;
+    } as PostSchedulesReq
 
     mutation.mutate(payload, {
       onSuccess: (response) => {
@@ -58,11 +58,14 @@ const CreateManualSchedulePage = () => {
         <Stepper steps={createManualScheduleSteps} currentStep={currentStep} />
       </div>
 
-      {currentStep === CreateScheduleStepEnum.UploadMedia && <SuccessPostAudio />}
-      {currentStep === CreateScheduleStepEnum.Info && <ScheduleForm onSubmit={handleSubmit} />}
-
+      {currentStep === CreateScheduleStepEnum.UploadMedia && (
+        <SuccessPostAudio />
+      )}
+      {currentStep === CreateScheduleStepEnum.Info && (
+        <ScheduleForm onSubmit={handleSubmit} />
+      )}
     </div>
   )
 }
 
-export default CreateManualSchedulePage;
+export default CreateManualSchedulePage

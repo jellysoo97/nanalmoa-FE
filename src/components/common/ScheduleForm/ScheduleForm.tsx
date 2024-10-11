@@ -15,14 +15,13 @@ type Props = {
   buttonMessage?: string
 }
 
-// TODO: form background 색상 수정
 const ScheduleForm = ({
   defaultValue,
   onSubmit,
   buttonMessage = '등록하기',
 }: Props) => {
   const getDefaultValues = useCallback(() => {
-    if (!defaultValue) return {}
+    if (!defaultValue) return { isAllDay: false }
 
     const { title, isAllDay, startDate, endDate, category, memo } = defaultValue
     return {
