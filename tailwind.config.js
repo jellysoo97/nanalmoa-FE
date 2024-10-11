@@ -11,8 +11,8 @@ export default {
       xs: ['0.875rem', '1.125rem'],
       sm: ['1rem', '1.125rem'],
       base: ['1.125rem', '1.5rem'],
-      lg: ['1.25rem', '1.75rem'],
-      xl: ['1.5rem', '2rem'],
+      lg: ['1.25rem', '1.5rem'],
+      xl: ['1.5rem', '1.75rem'],
       '2xl': ['2.25rem', '2.5rem'],
     },
     extend: {

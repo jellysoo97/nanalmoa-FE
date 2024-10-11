@@ -9,7 +9,7 @@ const LoadingSpinner = ({
       <svg
         aria-hidden="true"
         className={cn(
-          'h-8 w-8 animate-spin fill-blue-600 text-gray-200',
+          'h-8 w-8 animate-spin fill-blue-600 text-neutral-200',
           className
         )}
         viewBox="0 0 100 101"

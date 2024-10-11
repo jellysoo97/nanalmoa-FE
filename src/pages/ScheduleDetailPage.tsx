@@ -14,7 +14,7 @@ import { formatDate } from '@/utils/format-date'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { Link, useParams } from 'react-router-dom'
 import { ko } from 'date-fns/locale'
-import { CloseIcon, NextIcon } from '@/components/icons'
+import { NextIcon } from '@/components/icons'
 import Divider from '@/components/common/Divider'
 import { deleteSchedule } from '@/api/schedules/delete-schedule'
 import Modal from '@/components/common/Modal'
@@ -22,7 +22,7 @@ import PostUpdateIcon from '@/components/icons/PostUpdateIcon'
 import TrashCanIcon from '@/components/icons/TrashCanIcon'
 import { useModal } from '@/hooks/use-modal'
 import { useState } from 'react'
-import ScheduleForm from '@/components/common/ScheduleForm/ScheduleForm'
+import ScheduleForm from '@/components/common/schedule-form/ScheduleForm'
 import { AxiosError } from 'axios'
 import { updateSchedule } from '@/api/schedules/patch-schedule-update'
 import { toast } from 'react-toastify'
@@ -122,10 +122,10 @@ const ScheduleDetailPage = () => {
     <>
       {!isUpdate && (
         <div className="px-5">
-          <div className="flex justify-between px-4 py-2">
+          <div className="flex justify-between px-4">
             <Link to={path.schedules} className="w-25 flex py-6">
-              <PrevIcon className="mt-1 h-5" />
-              <div className="text-lg text-gray-600 hover:text-gray-900">
+              <PrevIcon className="mt-1 h-4" />
+              <div className="text-lg text-neutral-600 hover:text-neutral-900">
                 돌아가기
               </div>
             </Link>
@@ -135,12 +135,12 @@ const ScheduleDetailPage = () => {
                 onClick={() => setIsUpdate(true)}
                 className="w-12 hover:font-bold"
               >
-                <PostUpdateIcon className="mx-auto w-8" />
+                <PostUpdateIcon className="mx-auto w-7 sm:w-8" />
                 <div>수정</div>
               </button>
 
               <button onClick={openModal} className="w-12">
-                <TrashCanIcon className="mx-auto w-8" />
+                <TrashCanIcon className="mx-auto w-7 sm:w-8" />
                 <div className="hover:font-bold">삭제</div>
               </button>
 
@@ -212,14 +212,19 @@ const ScheduleDetailPage = () => {
       )}
 
       {isUpdate && (
-        <div className="px-2">
-          <button
-            onClick={() => setIsUpdate(false)}
-            className="mx-7 mb-2 mt-7 flex rounded bg-primary-500 pr-2 pt-1 text-white"
-          >
-            <CloseIcon className="pb-1" />
-            <div className="text-lg">수정 취소</div>
-          </button>
+        <div className="px-2 py-3">
+          <div className="flex justify-between">
+            <h1 className="mb-3 pt-2 text-base font-bold sm:text-lg">
+              일정 수정
+            </h1>
+            <button
+              onClick={() => setIsUpdate(false)}
+              className="mb-5 flex rounded bg-primary-500 px-1 pr-2 pt-1 text-white"
+            >
+              <div className="px-2 pb-1 text-base sm:text-lg">수정 취소</div>
+            </button>
+          </div>
+          <Divider className="mb-3" />
           <ScheduleForm
             defaultValue={data}
             onSubmit={handleUpdateSchedule}

@@ -44,8 +44,8 @@ const CalendarView = () => {
     : []
 
   return (
-    <div>
-      <div className="mx-auto mt-2 max-w-md text-black">
+    <div className="flex flex-1 flex-col gap-y-5">
+      <div className="mx-auto mt-3 w-full text-black">
         <div className="mb-5 flex items-center justify-between px-8">
           <button
             onClick={() => {
@@ -81,8 +81,8 @@ const CalendarView = () => {
 
       <Divider />
 
-      <div className="py-4">
-        <div className="pb-4 pl-6 pt-2 text-lg font-bold sm:text-xl">
+      <div className="flex h-full flex-col gap-y-5">
+        <h1 className="text-lg font-bold sm:text-xl">
           {currentDate ? (
             <div>
               {formatDate(DateFormatTypeEnum.MonthAndDayKo, currentDate)} 일정
@@ -92,7 +92,7 @@ const CalendarView = () => {
               {formatDate(DateFormatTypeEnum.MonthKo, currentMonth)} 전체 일정
             </div>
           )}
-        </div>
+        </h1>
         <EventContainer schedules={filteredSchedules} />
       </div>
     </div>

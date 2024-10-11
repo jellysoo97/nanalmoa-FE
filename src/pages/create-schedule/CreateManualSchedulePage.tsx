@@ -1,7 +1,7 @@
 import { postSchedules } from '@/api/schedules/post-schedules'
 import { Stepper } from '@/components/common'
-import ScheduleForm from '@/components/common/ScheduleForm/ScheduleForm'
 import SuccessPostAudio from '@/components/create-schedule/audio/SuccessPostAudio'
+import ScheduleForm from '@/components/common/schedule-form/ScheduleForm'
 import { QUERY_KEYS } from '@/constants/api'
 import { createManualScheduleSteps } from '@/constants/schedules'
 import { useUser } from '@/hooks/use-user'
@@ -62,7 +62,10 @@ const CreateManualSchedulePage = () => {
         <SuccessPostAudio />
       )}
       {currentStep === CreateScheduleStepEnum.Info && (
-        <ScheduleForm onSubmit={handleSubmit} />
+        <div className="mt-3 flex flex-col gap-y-5 sm:px-4">
+          <h1 className="text-lg font-bold sm:text-xl">일정 수동 등록</h1>
+          <ScheduleForm onSubmit={handleSubmit} />
+        </div>
       )}
     </div>
   )

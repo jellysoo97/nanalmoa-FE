@@ -26,11 +26,11 @@ const DateTimeField = () => {
       onClick={onClick}
       ref={ref}
     >
-      <div className="w-28 sm:w-36 rounded-lg bg-gray-200 px-3 py-3 text-center text-xs text-gray-700 sm:py-2 sm:text-base">
+      <div className="w-28 rounded-lg bg-neutral-200 px-3 py-3 text-center text-xs text-neutral-700 sm:w-36 sm:py-2 sm:text-base">
         {value ? value.split(' ').slice(0, 3).join(' ') : '날짜 선택'}
       </div>
       {!isAllDay && (
-        <div className="w-24 sm:w-28 rounded-lg bg-gray-200 px-3 py-3 text-center text-xs text-gray-700 sm:py-2 sm:text-base">
+        <div className="w-24 rounded-lg bg-neutral-200 px-3 py-3 text-center text-xs text-neutral-700 sm:w-28 sm:py-2 sm:text-base">
           {value ? value.split(' ').slice(3, 5).join(' ') : '시간 선택'}
         </div>
       )}
@@ -75,7 +75,7 @@ const DateTimeField = () => {
 
           <div className="space-y-4">
             <div className="flex justify-between">
-              <label className="mb-1 block w-7 py-3 text-sm text-xs font-medium text-gray-700 sm:w-20 sm:text-base">
+              <label className="mb-1 block w-7 py-3 text-sm text-xs font-medium text-neutral-700 sm:w-20 sm:text-base">
                 <span>시작</span>
                 <span className="hidden sm:inline"> 일자</span>
               </label>
@@ -118,7 +118,7 @@ const DateTimeField = () => {
             </div>
 
             <div className="flex justify-between">
-              <label className="mb-1 block w-7 py-3 text-xs font-medium text-gray-700 sm:w-20 sm:text-base">
+              <label className="mb-1 block w-7 py-3 text-xs font-medium text-neutral-700 sm:w-20 sm:text-base">
                 <span>종료</span>
                 <span className="hidden sm:inline"> 일자</span>
               </label>

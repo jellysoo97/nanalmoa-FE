@@ -1,5 +1,7 @@
 import { FieldError, useFormContext } from 'react-hook-form'
 import BaseField from './BaseField'
+import { Input } from '../..'
+import { cn } from '@/utils/cn'
 
 type Props = {
   id: string
@@ -33,20 +35,21 @@ const TextInputField = ({
     <BaseField
       id={id}
       label={label}
+      length={watchId?.length || 0}
       error={errors[id] as FieldError}
       renderInput={() => (
         <div className="flex w-full">
-          <input
+          <Input
             id={id}
             type="text"
             placeholder={placeholder}
             {...(defaultValue !== undefined ? { defaultValue } : {})}
             {...register(id, registerOptions)}
-            className="animate-border focus:shadow-outline w-4/5 w-full appearance-none border-b-2 border-gray-300 bg-transparent px-3 py-2 leading-tight text-gray-700 transition-colors duration-300 ease-in-out focus:border-green-800 focus:outline-none"
+            className={cn(
+              'animate-border focus:shadow-outline appearance-none border-neutral-300 leading-tight',
+              'text-neutral-700 transition-colors duration-300 ease-in-out focus:border-green-800 focus:outline-none'
+            )}
           />
-          <p className="mt-1 w-1/5 text-right text-xs text-gray-500">
-            {watchId?.length ?? 0}/240
-          </p>
         </div>
       )}
     />

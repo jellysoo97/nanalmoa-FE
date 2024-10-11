@@ -13,6 +13,7 @@ const IconButton = ({
   icon,
   text = '',
   className,
+  disabled,
   isIconFront = true,
   ...props
 }: Props) => {
@@ -23,7 +24,8 @@ const IconButton = ({
           ? 'flex items-center'
           : 'flex flex-col items-center',
         'text-neutral-700',
-        className
+        className,
+        disabled && 'bg-neutral-400 text-white'
       )}
       {...props}
     >
