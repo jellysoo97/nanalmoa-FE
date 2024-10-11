@@ -18,7 +18,7 @@ const Tabs = <T extends string>({
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`z-10 py-2 text-sm font-medium transition-colors duration-300 ${
+            className={`z-10 py-2 text-sm font-medium transition-colors duration-300 sm:py-3 ${
               activeTab === tab
                 ? 'text-white'
                 : 'text-neutral-500 hover:text-neutral-700'
