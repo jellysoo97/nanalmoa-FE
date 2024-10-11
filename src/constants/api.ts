@@ -25,4 +25,5 @@ export const QUERY_KEYS = {
   GET_SCHEDULE_BY_RANGE: 'scheduleByRange',
   POST_AUDIO_FILE: 'postAudioFile',
   POST_SCHEDULES: 'postSchedules',
+  UPDATE_SCHEDULES: 'updateSchedules',
 }

@@ -12,10 +12,15 @@ import RepetitionField from './FieldComponents/RepetitionField'
 type Props = {
   defaultValue?: Partial<ISchedule>
   onSubmit: (data: IScheduleForm) => void
+  buttonMessage?: string
 }
 
 // TODO: form background 색상 수정
-const ScheduleForm = ({ defaultValue, onSubmit }: Props) => {
+const ScheduleForm = ({
+  defaultValue,
+  onSubmit,
+  buttonMessage = '등록하기',
+}: Props) => {
   const getDefaultValues = () => {
     if (!defaultValue) return {}
 
@@ -24,8 +29,8 @@ const ScheduleForm = ({ defaultValue, onSubmit }: Props) => {
       title,
       categoryId: category?.categoryId,
       isAllDay,
-      startDate,
-      endDate,
+      startDate: new Date(startDate!),
+      endDate: new Date(endDate!),
       memo,
     }
   }
@@ -50,7 +55,10 @@ const ScheduleForm = ({ defaultValue, onSubmit }: Props) => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(handleFormSubmit)} className="px-10 pb-10 pt-5">
+      <form
+        onSubmit={methods.handleSubmit(handleFormSubmit)}
+        className="px-10 pb-10 pt-5"
+      >
         <TextInputField
           id="title"
           label="일정 제목"
@@ -99,7 +107,7 @@ const ScheduleForm = ({ defaultValue, onSubmit }: Props) => {
           type="submit"
           className="mx-auto mt-5 block flex rounded bg-primary-500 px-4 py-2 text-white"
         >
-          등록하기
+          {buttonMessage}
         </button>
       </form>
     </FormProvider>
