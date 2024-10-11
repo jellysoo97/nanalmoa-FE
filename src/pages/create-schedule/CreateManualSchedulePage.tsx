@@ -1,5 +1,5 @@
 import { postSchedules } from '@/api/schedules/post-schedules'
-import ScheduleForm from '@/components/common/ScheduleForm/ScheduleForm'
+import ScheduleForm from '@/components/common/schedule-form/ScheduleForm'
 import { QUERY_KEYS } from '@/constants/api'
 import { useUser } from '@/hooks/use-user'
 import {

@@ -1,13 +1,13 @@
 import { SubmitHandler, useForm, FormProvider } from 'react-hook-form'
-import TextInputField from './FieldComponents/TextInputField'
-import DateTimeField from './FieldComponents/DateTimeField'
-import CategoryField from './FieldComponents/CategoryField'
+import TextInputField from './field-components/TextInputField'
+import DateTimeField from './field-components/DateTimeField'
+import CategoryField from './field-components/CategoryField'
 import { useState } from 'react'
 import DownArrowIcon from '@/components/icons/DownArrowIcon'
 import { ISchedule, IScheduleForm } from '@/types/schedules'
-import TextAreaField from './FieldComponents/TextAreaField'
-import GroupField from './FieldComponents/GroupField'
-import RepetitionField from './FieldComponents/RepetitionField'
+import TextAreaField from './field-components/TextAreaField'
+import GroupField from './field-components/GroupField'
+import RepetitionField from './field-components/RepetitionField'
 
 type Props = {
   defaultValue?: Partial<ISchedule>
