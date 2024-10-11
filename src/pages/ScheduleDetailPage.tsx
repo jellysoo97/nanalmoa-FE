@@ -25,6 +25,9 @@ import { useState } from 'react'
 import ScheduleForm from '@/components/common/ScheduleForm/ScheduleForm'
 import { AxiosError } from 'axios'
 import { updateSchedule } from '@/api/schedules/patch-schedule-update'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import Toast from '@/components/common/Toast'
 
 type InfoItemProps = {
   label: string
@@ -94,6 +97,7 @@ const ScheduleDetailPage = () => {
 
   const handleDeleteSchedule = () => {
     deleteSchedule(Number(id))
+    window.location.href = `${path.schedules}`
   }
 
   const handleUpdateSchedule = (res: IScheduleForm) => {
@@ -104,11 +108,12 @@ const ScheduleDetailPage = () => {
 
     mutation.mutate(payload, {
       onSuccess: (response) => {
-        console.log('일정 생성 성공:', response)
+        console.log('일정 수정 성공:', response)
         setIsUpdate(false)
+        toast.success('일정 수정에 성공했습니다!')
       },
       onError: (error) => {
-        console.error('일정 생성 실패:', error)
+        console.error('일정 수정 실패:', error)
       },
     })
   }
@@ -208,6 +213,8 @@ const ScheduleDetailPage = () => {
           />
         </div>
       )}
+
+      <Toast />
     </>
   )
 }
