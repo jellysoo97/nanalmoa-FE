@@ -6,10 +6,11 @@ import { cn } from '@/utils/cn'
 
 type Props = {
   currentStep: CreateScheduleStepEnum
+  disabled?: boolean
   moveStep: (step: CreateScheduleStepEnum) => void
 }
 
-const MoveStepButtons = ({ currentStep, moveStep }: Props) => {
+const MoveStepButtons = ({ currentStep, disabled, moveStep }: Props) => {
   const isFirstStep = useMemo(
     () => currentStep === CreateScheduleStepEnum.Info,
     [currentStep]
@@ -18,14 +19,14 @@ const MoveStepButtons = ({ currentStep, moveStep }: Props) => {
     () => currentStep === CreateScheduleStepEnum.RegisterResult,
     [currentStep]
   )
-  const isUploadMediaStep = useMemo(
-    () => currentStep === CreateScheduleStepEnum.UploadMedia,
-    [currentStep]
-  )
-  const isAnalysisResultStep = useMemo(
-    () => currentStep === CreateScheduleStepEnum.AnalysisResult,
-    [currentStep]
-  )
+  // const isUploadMediaStep = useMemo(
+  //   () => currentStep === CreateScheduleStepEnum.UploadMedia,
+  //   [currentStep]
+  // )
+  // const isAnalysisResultStep = useMemo(
+  //   () => currentStep === CreateScheduleStepEnum.AnalysisResult,
+  //   [currentStep]
+  // )
 
   return (
     <div
@@ -40,17 +41,18 @@ const MoveStepButtons = ({ currentStep, moveStep }: Props) => {
           direction="horizontal"
           icon={<PrevIcon className="h-4 w-4" />}
           text="이전 단계로"
-          className="rounded-md border border-primary-blue px-3 py-2 text-primary-blue"
+          className="rounded-md border border-primary-base px-3 py-2 text-primary-base"
           onClick={() => moveStep(currentStep - 1)}
         />
       )}
-      {!isLastStep && !isUploadMediaStep && !isAnalysisResultStep && (
+      {!isLastStep && (
         <IconButton
           direction="horizontal"
           icon={<NextIcon className="h-4 w-4" />}
           text="다음 단계로"
-          className="rounded-md bg-primary-blue px-3 py-2 text-white"
+          className="rounded-md bg-primary-500 px-3 py-2 text-white"
           isIconFront={false}
+          disabled={disabled}
           onClick={() => moveStep(currentStep + 1)}
         />
       )}

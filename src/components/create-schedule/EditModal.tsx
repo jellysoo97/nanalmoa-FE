@@ -13,6 +13,7 @@ const EditModal = ({ onClose, onRetry, onManualInput }: Props) => {
         <div className="flex w-full justify-center gap-2">
           <Button
             text="다시 시도하기"
+            theme="outline"
             onClick={() => {
               if (onRetry) {
                 onRetry()

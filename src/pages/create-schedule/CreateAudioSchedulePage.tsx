@@ -26,7 +26,7 @@ const CreateAudioSchdulePage = () => {
   const { closeModal } = useModal()
 
   const [currentStep, setCurrentStep] = useState<CreateScheduleStepEnum>(
-    CreateScheduleStepEnum.Info
+    CreateScheduleStepEnum.AnalysisResult
   )
   const [results, setResults] = useState<PostUploadAudioFileRes>()
   const [abortController, setAbortController] =
@@ -83,6 +83,7 @@ const CreateAudioSchdulePage = () => {
     mutate: createSchedules,
     isSuccess: isCreateSchedulesSuccess,
     isError: isCreateSchedulesError,
+    status: createSchedulesStatus,
   } = useMutation<PostSchedulesRes, AxiosError, PostSchedulesReq>({
     mutationKey: [QUERY_KEYS.POST_SCHEDULES],
     mutationFn: postSchedules,
@@ -96,8 +97,9 @@ const CreateAudioSchdulePage = () => {
   }
 
   return (
-    <div className="flex h-full flex-col items-center px-2 py-4">
+    <div className="flex h-full flex-col items-center gap-y-8">
       <Stepper steps={createAudioScheduleSteps} currentStep={currentStep} />
+
       <div className="flex flex-1">
         {currentStep === CreateScheduleStepEnum.Info && (
           <AboutAudioStep moveStep={moveStep} />
@@ -115,7 +117,7 @@ const CreateAudioSchdulePage = () => {
             onRightButtonClick={handleCancel}
           />
         )}
-        {currentStep === CreateScheduleStepEnum.AnalysisResult &&
+        {currentStep !== CreateScheduleStepEnum.AnalysisResult &&
           mutation.isSuccess &&
           results && (
             <SuccessAudio
@@ -140,7 +142,15 @@ const CreateAudioSchdulePage = () => {
             <FailAudio moveStep={moveStep} />
           )}
       </div>
-      <MoveStepButtons currentStep={currentStep} moveStep={moveStep} />
+
+      <MoveStepButtons
+        currentStep={currentStep}
+        disabled={
+          mutation.status === 'idle' ||
+          (mutation.status === 'success' && createSchedulesStatus === 'idle')
+        }
+        moveStep={moveStep}
+      />
     </div>
   )
 }

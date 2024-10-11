@@ -18,7 +18,7 @@ const MediaAnalysisLoadingModal = ({
   return (
     <Modal onClose={onClose}>
       <div className="flex flex-col items-center gap-y-4 p-4">
-        <LoadingSpinner className="h-12 w-12" />
+        <LoadingSpinner className="h-12 w-12 fill-primary-base" />
         <p className="whitespace-pre-wrap text-center">{text}</p>
         <Divider />
         <div className="flex flex-col items-center gap-y-2">
