@@ -1,8 +1,8 @@
 import { SubmitHandler, useForm, FormProvider } from 'react-hook-form'
+import { useCallback, useEffect, useState } from 'react'
 import TextInputField from './field-components/TextInputField'
 import DateTimeField from './field-components/DateTimeField'
 import CategoryField from './field-components/CategoryField'
-import { useState } from 'react'
 import DownArrowIcon from '@/components/icons/DownArrowIcon'
 import { ISchedule, IScheduleForm } from '@/types/schedules'
 import TextAreaField from './field-components/TextAreaField'
@@ -12,11 +12,15 @@ import RepetitionField from './field-components/RepetitionField'
 type Props = {
   defaultValue?: Partial<ISchedule>
   onSubmit: (data: IScheduleForm) => void
+  buttonMessage?: string
 }
 
-// TODO: form background 색상 수정
-const ScheduleForm = ({ defaultValue, onSubmit }: Props) => {
-  const getDefaultValues = () => {
+const ScheduleForm = ({
+  defaultValue,
+  onSubmit,
+  buttonMessage = '등록하기',
+}: Props) => {
+  const getDefaultValues = useCallback(() => {
     if (!defaultValue) return { isAllDay: false }
 
     const { title, isAllDay, startDate, endDate, category, memo } = defaultValue
@@ -24,18 +28,23 @@ const ScheduleForm = ({ defaultValue, onSubmit }: Props) => {
       title,
       categoryId: category?.categoryId,
       isAllDay,
-      startDate,
-      endDate,
+      startDate: new Date(startDate!),
+      endDate: new Date(endDate!),
       memo,
     }
-  }
+  }, [defaultValue])
 
   const methods = useForm<IScheduleForm>({
-    // TODO: Type 수정
     defaultValues: getDefaultValues(),
   })
 
-  const [isOpen, setIsOpen] = useState<boolean>(true)
+  const { reset } = methods
+
+  useEffect(() => {
+    reset(getDefaultValues())
+  }, [defaultValue, reset, getDefaultValues])
+
+  const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const handleFormSubmit: SubmitHandler<IScheduleForm> = async (
     data: IScheduleForm
@@ -99,7 +108,7 @@ const ScheduleForm = ({ defaultValue, onSubmit }: Props) => {
           type="submit"
           className="mx-auto mt-5 block flex rounded bg-primary-500 px-4 py-2 text-white"
         >
-          등록하기
+          {buttonMessage}
         </button>
       </form>
     </FormProvider>

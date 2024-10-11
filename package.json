@@ -25,6 +25,7 @@
     "react-hook-form": "^7.53.0",
     "react-router-dom": "^6.26.2",
     "react-select": "^5.8.1",
+    "react-toastify": "^10.0.5",
     "zustand": "^5.0.0-rc.2"
   },
   "devDependencies": {

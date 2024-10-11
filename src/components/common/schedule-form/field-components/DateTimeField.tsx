@@ -26,7 +26,7 @@ const DateTimeField = () => {
       onClick={onClick}
       ref={ref}
     >
-      <div className="w-28 rounded-lg bg-neutral-200 px-3 py-3 text-center text-xs text-neutral-700 sm:w-32 sm:py-2 sm:text-base">
+      <div className="w-28 rounded-lg bg-neutral-200 px-3 py-3 text-center text-xs text-neutral-700 sm:w-36 sm:py-2 sm:text-base">
         {value ? value.split(' ').slice(0, 3).join(' ') : '날짜 선택'}
       </div>
       {!isAllDay && (
