@@ -21,6 +21,11 @@ export enum CreateScheduleStepEnum {
   RegisterResult,
 }
 
+export enum TabEnum {
+  Daily = '일간',
+  Monthly = '월간',
+}
+
 export type TModal = {
   onClose: () => void
   onRetry?: () => void
