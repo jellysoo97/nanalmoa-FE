@@ -9,7 +9,7 @@ const HomePage = () => {
   const tabs = Object.values(TabEnum)
 
   return (
-    <div className="flex flex-col gap-y-5">
+    <div className="flex flex-1 flex-col gap-y-5">
       <Tabs<TabEnum>
         activeTab={activeTab}
         setActiveTab={setActiveTab}
