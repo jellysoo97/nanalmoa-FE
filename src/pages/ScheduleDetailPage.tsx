@@ -67,10 +67,10 @@ const ScheduleDetailPage = () => {
       <div className="flex justify-between py-3">
         <Link
           to={path.schedules}
-          className="w-25 flex rounded border-gray-700 py-2"
+          className="w-25 flex rounded border-neutral-700 py-2"
         >
           <PrevIcon className="mt-1 h-5" />
-          <div className="text-base text-gray-600 hover:text-gray-900">
+          <div className="text-base text-neutral-600 hover:text-neutral-900">
             돌아가기
           </div>
         </Link>

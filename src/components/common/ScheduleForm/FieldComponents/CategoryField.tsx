@@ -23,7 +23,7 @@ const CategoryField = () => {
     <div className="mb-4 flex justify-between">
       <label
         htmlFor="categoryId"
-        className="w-36 py-5 text-base font-bold text-gray-700"
+        className="w-36 py-5 text-base font-bold text-neutral-700"
       >
         카테고리
       </label>

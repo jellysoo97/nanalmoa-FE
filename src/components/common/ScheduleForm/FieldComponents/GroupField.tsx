@@ -53,7 +53,7 @@ const CustomMenu = (props: MenuProps<User, true>) => {
       <div className="p-2">
         <div className="flex overflow-hidden rounded border">
           <div className="w-1/3 border-r">
-            <h3 className="border-b bg-gray-100 p-2 font-semibold">
+            <h3 className="border-b bg-neutral-100 p-2 font-semibold">
               그룹 목록
             </h3>
             <ul>
@@ -71,7 +71,7 @@ const CustomMenu = (props: MenuProps<User, true>) => {
             </ul>
           </div>
           <div className="w-2/3">
-            <h3 className="border-b bg-gray-100 p-2 font-semibold">
+            <h3 className="border-b bg-neutral-100 p-2 font-semibold">
               사용자 목록
             </h3>
             <ul>
@@ -91,7 +91,7 @@ const CustomMenu = (props: MenuProps<User, true>) => {
                     props.setValue(newValue, 'select-option')
                   }}
                 >
-                  <div className="mr-2 flex h-8 w-8 items-center justify-center rounded-full bg-gray-300">
+                  <div className="mr-2 flex h-8 w-8 items-center justify-center rounded-full bg-neutral-300">
                     {user.name[0]}
                   </div>
                   <span>{user.name}</span>

@@ -24,7 +24,7 @@ const BaseField = ({
       <div className="flex items-center justify-between">
         <label
           htmlFor={id}
-          className="mb-2 block text-base font-bold text-gray-700"
+          className="mb-2 block text-base font-bold text-neutral-700"
         >
           {label}
         </label>

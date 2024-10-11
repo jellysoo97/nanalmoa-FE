@@ -81,7 +81,7 @@ const EventItem = ({ schedule }: Props) => {
           </span>
         </div>
         <div className="flex justify-end">
-          <span className="rounded-lg bg-gray-200 px-2 py-1 text-xs">
+          <span className="rounded-lg bg-neutral-200 px-2 py-1 text-xs">
             요양사 최요양
           </span>
         </div>

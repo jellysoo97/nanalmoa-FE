@@ -59,7 +59,7 @@ const ScheduleForm = ({ defaultValue, onSubmit }: Props) => {
         <DateTimeField />
         <CategoryField />
 
-        <div className="rounded border-b border-gray-200 pb-3">
+        <div className="rounded border-b border-neutral-200 pb-3">
           <button
             className="flex w-full items-center justify-between pt-4 text-left"
             type="button"
