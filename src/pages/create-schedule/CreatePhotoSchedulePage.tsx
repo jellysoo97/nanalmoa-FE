@@ -19,7 +19,7 @@ const CreatePhotoSchedulePage = () => {
     CreateScheduleStepEnum.UploadMedia
   )
   const [analysisResult, setAnalysisResult] =
-    useState<IMediaAnalysisResult | null>(null)
+    useState<Array<IMediaAnalysisResult> | null>(null)
 
   const moveStep = (step: CreateScheduleStepEnum) => {
     setCurrentStep(step)
@@ -65,10 +65,15 @@ const CreatePhotoSchedulePage = () => {
           <AnalysisResultStep
             analysisResult={analysisResult}
             createScheduleMutation={createScheduleMutation}
+            moveStep={moveStep}
           />
         )}
         {currentStep === CreateScheduleStepEnum.RegisterResult && (
-          <RegisterResultStep isSuccess={createScheduleMutation.isSuccess} />
+          <RegisterResultStep
+            isSuccess={createScheduleMutation.isSuccess}
+            createScheduleMutation={createScheduleMutation}
+            moveStep={moveStep}
+          />
         )}
       </div>
       <MoveStepButtons

@@ -88,4 +88,4 @@ export interface PostAnalyzeImageReq {
   currentDateTime: Date
 }
 
-export interface PostAnalyzeImageRes extends IMediaAnalysisResult {}
+export interface PostAnalyzeImageRes extends Array<IMediaAnalysisResult> {}
