@@ -62,10 +62,7 @@ const CreateManualSchedulePage = () => {
         <SuccessPostAudio />
       )}
       {currentStep === CreateScheduleStepEnum.Info && (
-        <div className="mt-3 flex flex-col gap-y-5 sm:px-4">
-          <h1 className="text-lg font-bold sm:text-xl">일정 수동 등록</h1>
-          <ScheduleForm onSubmit={handleSubmit} />
-        </div>
+        <ScheduleForm onSubmit={handleSubmit} />
       )}
     </div>
   )

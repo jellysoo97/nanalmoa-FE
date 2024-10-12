@@ -38,7 +38,7 @@ const AboutAudioStep = ({ moveStep }: Props) => {
         <p className="font-bold">방법2) 음성 파일 선택하기</p>
         <p className="underline underline-offset-2">2. 음성을 확인해주세요.</p>
         <p className="underline underline-offset-2">
-          3. 음성에서 일정이 자동으로 분석됩니다.
+          3. 음성을 분석해 일정을 추출합니다.
         </p>
         <p>
           준비가 완료되셨으면
