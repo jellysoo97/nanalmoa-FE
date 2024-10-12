@@ -16,7 +16,7 @@ import { useMemo, useState } from 'react'
 
 const CreatePhotoSchedulePage = () => {
   const [currentStep, setCurrentStep] = useState<CreateScheduleStepEnum>(
-    CreateScheduleStepEnum.UploadMedia
+    CreateScheduleStepEnum.Info
   )
   const [analysisResult, setAnalysisResult] =
     useState<Array<IMediaAnalysisResult> | null>(null)
