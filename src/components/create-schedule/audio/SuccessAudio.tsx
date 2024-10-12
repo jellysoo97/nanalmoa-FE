@@ -41,7 +41,7 @@ const SuccessAudio = ({ results, createSchedules, moveStep }: Props) => {
     if (selectedResult) {
       createSchedules({
         userUuid: selectedResult.userUuid,
-        categoryId: selectedResult.category.categoryId,
+        categoryId: selectedResult.categoryId,
         startDate: selectedResult.startDate,
         endDate: selectedResult.endDate,
         title: selectedResult.title,

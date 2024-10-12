@@ -7,7 +7,7 @@ import { cn } from '@/utils/cn'
 
 type Props = {
   results: Array<IMediaAnalysisResult>
-  selectedResult: IMediaAnalysisResult
+  selectedResult: IMediaAnalysisResult | null
   handleSelectedResultChange: (result: IMediaAnalysisResult) => void
 }
 
@@ -16,6 +16,10 @@ const MediaAnaysisResultCarousel = ({
   selectedResult,
   handleSelectedResultChange,
 }: Props) => {
+  if (!selectedResult) {
+    return null
+  }
+
   const currentIndex = results.indexOf(selectedResult)
 
   return (
