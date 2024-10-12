@@ -48,7 +48,8 @@ const MediaAnaysisResultCarousel = ({
                 )}
               </p>
               <div className="flex items-center gap-x-1">
-                <CategoryTag label={result.category.categoryName} />
+                {/* TODO: 카테고리 임시 조치 */}
+                <CategoryTag label={'가족'} />
                 <p>{result.title}</p>
               </div>
             </div>
