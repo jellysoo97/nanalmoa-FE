@@ -14,6 +14,9 @@ import { PutMypage } from '@/types/auth'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import Toast from '@/components/common/Toast'
 
 const MyPage = () => {
   const navigate = useNavigate()
@@ -76,7 +79,7 @@ const MyPage = () => {
     if (Object.keys(payload).length > 0) {
       mutation.mutate(payload)
     } else {
-      alert('변경된 값이 없습니다.')
+      toast.error('변경된 값이 없습니다.')
     }
   }
 
@@ -85,7 +88,7 @@ const MyPage = () => {
     mutationKey: [QUERY_KEYS.POST_SMS_SEND],
     mutationFn: postSMSSend,
     onSuccess: () => {
-      alert('인증번호가 발송되었습니다. 5분 이내에 인증해주세요')
+      toast.success('인증번호가 발송되었습니다. 5분 이내에 인증해주세요')
       setIsSMSSent(true)
     },
     onError: (err) => {
@@ -97,7 +100,7 @@ const MyPage = () => {
     mutationKey: [QUERY_KEYS.POST_SMS_VERIFY],
     mutationFn: postSMSVerify,
     onSuccess: () => {
-      alert('인증 완료되었습니다')
+      toast.success('인증 완료되었습니다')
       setIsSMSSent(false)
     },
     onError: (err) => {
@@ -107,7 +110,7 @@ const MyPage = () => {
 
   const handleSMSSend = () => {
     if (!phoneNumber) {
-      alert('전화번호를 입력해 주세요.')
+      toast.error('전화번호를 입력해 주세요.')
       return
     }
     const payload = { phoneNumber: phoneNumber }
@@ -116,7 +119,7 @@ const MyPage = () => {
 
   const handleSMSVerify = () => {
     if (!smsVerify) {
-      alert('인증번호를 입력해 주세요.')
+      toast.error('인증번호를 입력해 주세요.')
       return
     }
     const payload = { phoneNumber: phoneNumber, code: smsVerify }
@@ -128,7 +131,7 @@ const MyPage = () => {
     mutationKey: [QUERY_KEYS.POST_EMAIL_SEND],
     mutationFn: postEmailSend,
     onSuccess: () => {
-      alert('인증번호가 발송되었습니다. 5분 이내에 인증해주세요')
+      toast.success('인증번호가 발송되었습니다. 5분 이내에 인증해주세요')
       setIsEmailSent(true)
     },
     onError: (err) => {
@@ -140,7 +143,7 @@ const MyPage = () => {
     mutationKey: [QUERY_KEYS.POST_EMAIL_VERIFY],
     mutationFn: postEmailVerify,
     onSuccess: () => {
-      alert('인증 완료되었습니다')
+      toast.success('인증 완료되었습니다')
       setIsEmailSent(false)
     },
     onError: (err) => {
@@ -150,7 +153,7 @@ const MyPage = () => {
 
   const handleEmailSend = () => {
     if (!email) {
-      alert('이메일을 입력해 주세요.')
+      toast.error('이메일을 입력해 주세요.')
       return
     }
     const payload = { email: email }
@@ -159,7 +162,7 @@ const MyPage = () => {
 
   const handleEmailVerify = () => {
     if (!smsVerify) {
-      alert('인증번호를 입력해 주세요.')
+      toast.error('인증번호를 입력해 주세요.')
       return
     }
     const payload = { email: phoneNumber, code: emailVerify }
@@ -331,6 +334,7 @@ const MyPage = () => {
           alert('탈퇴하시겠습니까?')
         }}
       />
+      <Toast />
     </div>
   )
 }
