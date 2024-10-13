@@ -5,14 +5,14 @@ import {
   postSMSVerify,
 } from '@/api/mypage/post-mypage-auth'
 import { putMypage } from '@/api/mypage/put-mypage'
-import SuccessFace from '@/assets/imgs/SuccessFace.png'
+import SuccessFace from '@/assets/imgs/success.png'
 import { Button } from '@/components/common'
 import { QUERY_KEYS } from '@/constants/api'
 import { useUser } from '@/hooks/use-user'
 import { path } from '@/routes/path'
 import { PutMypage } from '@/types/auth'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const MyPage = () => {
@@ -33,6 +33,15 @@ const MyPage = () => {
   const { user } = useUser()
   const userInfo = user.info
   const userProfile = userInfo?.profileImage || SuccessFace
+
+  useEffect(() => {
+    if (isEdit) {
+      setName('')
+      setPhoneNumber('')
+      setEmail('')
+      setAddress('')
+    }
+  }, [isEdit])
 
   //정보 수정
   const mutation = useMutation({
@@ -132,7 +141,7 @@ const MyPage = () => {
     mutationFn: postEmailVerify,
     onSuccess: () => {
       alert('인증 완료되었습니다')
-      setIsSMSSent(true)
+      setIsEmailSent(false)
     },
     onError: (err) => {
       console.log(err)
