@@ -12,7 +12,8 @@ export const API_DOMAINS = {
   AUTH: '/auth',
   USERS: '/users',
   SCHEDULES: '/schedules',
-  GROUP: '/group',
+  GROUP: '/groups',
+  ROUTINE: '/users-routine',
 }
 
 export const QUERY_KEYS = {
@@ -25,4 +26,11 @@ export const QUERY_KEYS = {
   GET_SCHEDULE_BY_RANGE: 'scheduleByRange',
   POST_AUDIO_FILE: 'postAudioFile',
   POST_SCHEDULES: 'postSchedules',
+  GET_GROUP_USER: 'groupUsers',
+  PUT_MYPAGE: 'mypage',
+  POST_SMS_SEND: 'smsSend',
+  POST_SMS_VERIFY: 'smsVerify',
+  POST_EMAIL_SEND: 'emailSend',
+  POST_EMAIL_VERIFY: 'emailVerify',
+  GET_ROUTINE: 'routine',
 }
