@@ -75,10 +75,16 @@ const UserSelector = ({ onClick }: Props) => {
                 className="flex cursor-pointer justify-between gap-2 py-3"
               >
                 <div className="flex gap-2">
-                  <img
-                    src={user.profileImage}
-                    className="size-8 rounded-full object-cover sm:size-9"
-                  />
+                  {!user.profileImage.length ? (
+                    <img
+                      src={user.profileImage}
+                      className="size-8 rounded-full object-cover sm:size-9"
+                    />
+                  ) : (
+                    <div className="flex size-8 items-center justify-center rounded-full border sm:size-9">
+                      {user.name[0]}
+                    </div>
+                  )}
                   <div className="flex items-center gap-1">
                     <div className="text-base font-semibold sm:text-lg">
                       {user.name}
