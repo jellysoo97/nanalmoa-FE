@@ -1,6 +1,12 @@
+import { getActivityRoutine } from '@/api/mypage/get-activity-routine'
+import { Button } from '@/components/common'
 import SelectTime from '@/components/common/SelectTime'
+import { QUERY_KEYS } from '@/constants/api'
+import { path } from '@/routes/path'
 import { cn } from '@/utils/cn'
-import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const SettingActivityPage = () => {
   const initialTimes = [
@@ -12,6 +18,16 @@ const SettingActivityPage = () => {
   ]
 
   const [times, setTimes] = useState(initialTimes)
+  const navigate = useNavigate()
+
+  const { data } = useQuery({
+    queryKey: [QUERY_KEYS.GET_ROUTINE],
+    queryFn: getActivityRoutine,
+  })
+
+  useEffect(() => {
+    console.log(data)
+  }, [data])
 
   const handleChange = (
     index: number,
@@ -27,8 +43,14 @@ const SettingActivityPage = () => {
 
   return (
     <div className="mx-auto w-full p-5">
-      <p className="mb-8 text-center text-xl">내 활동시간 정하기</p>
-      <div className="mx-auto w-80">
+      <Button
+        text="이전으로"
+        onClick={() => {
+          navigate(path.settings.base)
+        }}
+      />
+      <p className="my-4 text-center text-xl">내 활동시간 정하기</p>
+      <div className="mx-auto w-72">
         {times.map((time, index) => (
           <div
             className={cn(
