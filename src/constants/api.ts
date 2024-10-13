@@ -20,6 +20,7 @@ export const QUERY_KEYS = {
   GET_KAKAO_LOGIN: 'kakaoLogin',
   GET_NAVER_LOGIN: 'naverLogin',
   GET_USER_ME: 'me',
+  GET_USER_SEARCH: 'userSearch',
   GET_SCHEDULES: 'schedules',
   GET_SCHEDULE_BY_ID: 'scheduleById',
   GET_SCHEDULE_BY_RANGE: 'scheduleByRange',

@@ -38,3 +38,13 @@ export interface PostRefreshTokenRes {
 }
 
 export interface GetUsersMeRes extends IUser {}
+
+export interface PostUserSearchReq {
+  keyword: string
+}
+
+export interface UserWithPhoneNumber extends IUser {
+  phoneNumber: string
+}
+
+export interface PostUserSearchRes extends Array<UserWithPhoneNumber> {}
