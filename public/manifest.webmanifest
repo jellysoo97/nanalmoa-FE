@@ -1,0 +1,36 @@
+{
+  "id": "/",
+  "name": "나날모아",
+  "short_name": "나날모아",
+  "description": "손쉬운 일정 관리 앱, 나날모아\n나날모아 앱을 설치하여 더 간편하게 사용해보세요.",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#a2c083",
+  "background_color": "#fafafa",
+  "icons": [
+    {
+      "src": "/icons/anyIcon192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/anyIcon384.png",
+      "type": "image/png",
+      "sizes": "384x384",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/anyIcon512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/maskableIcon512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ]
+}

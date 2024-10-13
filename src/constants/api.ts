@@ -26,6 +26,7 @@ export const QUERY_KEYS = {
   GET_SCHEDULE_BY_RANGE: 'scheduleByRange',
   POST_AUDIO_FILE: 'postAudioFile',
   POST_SCHEDULES: 'postSchedules',
+  UPDATE_SCHEDULES: 'updateSchedules',
   GET_GROUP_USER: 'groupUsers',
   PUT_MYPAGE: 'mypage',
   POST_SMS_SEND: 'smsSend',

@@ -19,7 +19,7 @@ const CloseIcon = ({ className, ...props }: React.ComponentProps<'svg'>) => {
       ></g>
       <g id="SVGRepo_iconCarrier">
         {' '}
-        <rect width="24" height="24" fill="white"></rect>{' '}
+        <rect width="24" height="24"></rect>{' '}
         <path
           d="M7 17L16.8995 7.10051"
           stroke="currentColor"

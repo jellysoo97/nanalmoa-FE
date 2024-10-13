@@ -1,41 +1,50 @@
 import { SubmitHandler, useForm, FormProvider } from 'react-hook-form'
-import TextInputField from './FieldComponents/TextInputField'
-import DateTimeField from './FieldComponents/DateTimeField'
-import CategoryField from './FieldComponents/CategoryField'
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import TextInputField from './field-components/TextInputField'
+import DateTimeField from './field-components/DateTimeField'
+import CategoryField from './field-components/CategoryField'
 import DownArrowIcon from '@/components/icons/DownArrowIcon'
 import { ISchedule, IScheduleForm } from '@/types/schedules'
-import TextAreaField from './FieldComponents/TextAreaField'
-import GroupField from './FieldComponents/GroupField'
-import RepetitionField from './FieldComponents/RepetitionField'
+import TextAreaField from './field-components/TextAreaField'
+import GroupField from './field-components/GroupField'
+import RepetitionField from './field-components/RepetitionField'
 
 type Props = {
   defaultValue?: Partial<ISchedule>
   onSubmit: (data: IScheduleForm) => void
+  buttonMessage?: string
 }
 
-// TODO: form background 색상 수정
-const ScheduleForm = ({ defaultValue, onSubmit }: Props) => {
-  const getDefaultValues = () => {
-    if (!defaultValue) return {}
+const ScheduleForm = ({
+  defaultValue,
+  onSubmit,
+  buttonMessage = '등록하기',
+}: Props) => {
+  const getDefaultValues = useCallback(() => {
+    if (!defaultValue) return { isAllDay: false }
 
     const { title, isAllDay, startDate, endDate, category, memo } = defaultValue
     return {
       title,
       categoryId: category?.categoryId,
       isAllDay,
-      startDate,
-      endDate,
+      startDate: new Date(startDate!),
+      endDate: new Date(endDate!),
       memo,
     }
-  }
+  }, [defaultValue])
 
   const methods = useForm<IScheduleForm>({
-    // TODO: Type 수정
     defaultValues: getDefaultValues(),
   })
 
-  const [isOpen, setIsOpen] = useState<boolean>(true)
+  const { reset } = methods
+
+  useEffect(() => {
+    reset(getDefaultValues())
+  }, [defaultValue, reset, getDefaultValues])
+
+  const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const handleFormSubmit: SubmitHandler<IScheduleForm> = async (
     data: IScheduleForm
@@ -50,7 +59,7 @@ const ScheduleForm = ({ defaultValue, onSubmit }: Props) => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(handleFormSubmit)} className="p-10">
+      <form onSubmit={methods.handleSubmit(handleFormSubmit)}>
         <TextInputField
           id="title"
           label="일정 제목"
@@ -59,7 +68,7 @@ const ScheduleForm = ({ defaultValue, onSubmit }: Props) => {
         <DateTimeField />
         <CategoryField />
 
-        <div className="rounded border-b border-gray-200 pb-3">
+        <div className="rounded border-b border-neutral-200 pb-3">
           <button
             className="flex w-full items-center justify-between pt-4 text-left"
             type="button"
@@ -99,7 +108,7 @@ const ScheduleForm = ({ defaultValue, onSubmit }: Props) => {
           type="submit"
           className="mx-auto mt-5 block flex rounded bg-primary-500 px-4 py-2 text-white"
         >
-          등록하기
+          {buttonMessage}
         </button>
       </form>
     </FormProvider>

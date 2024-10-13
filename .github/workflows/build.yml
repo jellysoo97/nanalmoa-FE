@@ -1,0 +1,43 @@
+name: 'nanalmoa-fe-build'
+
+on:
+  pull_request:
+    branches: ['main', 'release']
+
+jobs:
+  build:
+    name: Build Test
+    runs-on: ubuntu-latest
+    steps:
+      # 레포 클론
+      - name: Clone Repo
+        uses: actions/checkout@v3
+
+      # Node.js 설치
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '21.5.0'
+
+      # node_modules 캐시
+      - name: Cache node modules
+        uses: actions/cache@v3
+        id: cache
+        with:
+          path: node_modules
+          key: npm-packages-${{ hashFiles('**/yarn.lock') }}
+
+      # 모듈에 변화가 있을 때(cache-hit == true)만 의존성 설치
+      - name: Install dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: yarn install
+
+      # .env 파일 생성
+      - name: Create env file
+        run: |
+          touch .env
+          echo "${{ secrets.ENV }}" > .env
+
+      # 레포 빌드
+      - name: Build
+        run: yarn build

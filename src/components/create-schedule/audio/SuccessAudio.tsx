@@ -1,5 +1,11 @@
-import SuccessFace from '@/assets/imgs/SuccessFace.png'
+import { postSchedules } from '@/api/schedules/post-schedules'
+import success from '@/assets/imgs/success.png'
 import { Button } from '@/components/common'
+import ScheduleForm from '@/components/common/schedule-form/ScheduleForm'
+import { QUERY_KEYS } from '@/constants/api'
+import { useModal } from '@/hooks/use-modal'
+import { useUser } from '@/hooks/use-user'
+import { CreateScheduleStepEnum } from '@/types/common'
 import {
   IMediaAnalysisResult,
   IScheduleForm,
@@ -7,17 +13,11 @@ import {
   PostSchedulesRes,
   PostUploadAudioFileRes,
 } from '@/types/schedules'
-import { useState } from 'react'
-import MediaAnaysisResultCarousel from '../MediaAnalysisResultCarousel'
-import { CreateScheduleStepEnum } from '@/types/common'
-import { useModal } from '@/hooks/use-modal'
-import EditModal from '../EditModal'
-import ScheduleForm from '@/components/common/ScheduleForm/ScheduleForm'
 import { useMutation } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
-import { QUERY_KEYS } from '@/constants/api'
-import { postSchedules } from '@/api/schedules/post-schedules'
-import { useUser } from '@/hooks/use-user'
+import { useState } from 'react'
+import EditModal from '../EditModal'
+import MediaAnaysisResultCarousel from '../MediaAnalysisResultCarousel'
 
 type Props = {
   results: PostUploadAudioFileRes
@@ -41,7 +41,7 @@ const SuccessAudio = ({ results, createSchedules, moveStep }: Props) => {
     if (selectedResult) {
       createSchedules({
         userUuid: selectedResult.userUuid,
-        categoryId: selectedResult.category.categoryId,
+        categoryId: selectedResult.categoryId,
         startDate: selectedResult.startDate,
         endDate: selectedResult.endDate,
         title: selectedResult.title,
@@ -91,45 +91,89 @@ const SuccessAudio = ({ results, createSchedules, moveStep }: Props) => {
     setIsManualInput(true)
   }
   return (
-    <div className="flex h-full flex-col">
-      <div className="flex w-full flex-col items-center justify-center pb-5">
-        {!isManualInput ? (
-          <div>
-            <img
-              src={SuccessFace}
-              alt="SuccessFace"
-              className="relative mx-auto mb-5 mt-10 w-1/3"
-              width={240}
-              height={240}
-            />
-            <p className="-mt-2 mb-6 text-center text-xl">
-              음성 분석에 성공했습니다.
-            </p>
-            <MediaAnaysisResultCarousel
-              results={results}
-              selectedResult={selectedResult}
-              handleSelectedResultChange={handleSelectedResultChange}
-            />
-            <div className="mt-6 flex w-full flex-col items-center justify-between">
-              <p>이대로 등록할까요?</p>
-              <div className="mt-4 flex items-center gap-x-6">
-                <Button theme="outline" text="수정하기" onClick={openModal} />
-                <Button theme="solid" text="등록하기" onClick={handleCreate} />
+    <>
+      <div className="flex flex-col items-center gap-y-10">
+        {!isManualInput && (
+          <>
+            <img src={success} alt="success" />
+
+            <div className="flex flex-col items-center gap-y-6">
+              <p className="text-center text-lg font-bold">
+                음성 분석에 성공했습니다.
+              </p>
+              <MediaAnaysisResultCarousel
+                results={results}
+                selectedResult={selectedResult}
+                handleSelectedResultChange={handleSelectedResultChange}
+              />
+              <div className="flex flex-col items-center gap-y-4">
+                <p>이대로 등록할까요?</p>
+                <div className="flex items-center gap-x-6">
+                  <Button theme="outline" text="수정하기" onClick={openModal} />
+                  <Button
+                    theme="solid"
+                    text="등록하기"
+                    onClick={handleCreate}
+                  />
+                </div>
               </div>
             </div>
-            {isModalOpen && (
-              <EditModal
-                onClose={closeModal}
-                onRetry={handleRetry}
-                onManualInput={handleManualInput}
-              />
-            )}
-          </div>
-        ) : (
+          </>
+        )}
+
+        {isManualInput && (
           <ScheduleForm defaultValue={selectedResult} onSubmit={handleSubmit} />
         )}
       </div>
-    </div>
+
+      {isModalOpen && (
+        <EditModal
+          onClose={closeModal}
+          onRetry={handleRetry}
+          onManualInput={handleManualInput}
+        />
+      )}
+    </>
+
+    // <div className="flex h-full flex-col">
+    //   <div className="flex w-full flex-col items-center justify-center pb-5">
+    //     {!isManualInput ? (
+    //       <div>
+    //         <img
+    //           src={success}
+    //           alt="success"
+    //           className="relative mx-auto mb-5 mt-10 w-1/3"
+    //           width={240}
+    //           height={240}
+    //         />
+    //         <p className="-mt-2 mb-6 text-center text-xl">
+    //           음성 분석에 성공했습니다.
+    //         </p>
+    //         <MediaAnaysisResultCarousel
+    //           results={results}
+    //           selectedResult={selectedResult}
+    //           handleSelectedResultChange={handleSelectedResultChange}
+    //         />
+    //         <div className="mt-6 flex w-full flex-col items-center justify-between">
+    //           <p>이대로 등록할까요?</p>
+    //           <div className="mt-4 flex items-center gap-x-6">
+    //             <Button theme="outline" text="수정하기" onClick={openModal} />
+    //             <Button theme="solid" text="등록하기" onClick={handleCreate} />
+    //           </div>
+    //         </div>
+    //         {isModalOpen && (
+    //           <EditModal
+    //             onClose={closeModal}
+    //             onRetry={handleRetry}
+    //             onManualInput={handleManualInput}
+    //           />
+    //         )}
+    //       </div>
+    //     ) : (
+    //       <ScheduleForm defaultValue={selectedResult} onSubmit={handleSubmit} />
+    //     )}
+    //   </div>
+    // </div>
   )
 }
 

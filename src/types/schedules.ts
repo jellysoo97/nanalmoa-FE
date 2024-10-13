@@ -10,7 +10,7 @@ export interface ISchedule {
   endDate: Date
   title: string
   place: string
-  memo?: string
+  memo: string
   isGroupSchedule: boolean
   isAllDay: boolean
   scheduleId: number
@@ -18,15 +18,14 @@ export interface ISchedule {
 
 export interface IMediaAnalysisResult {
   userUuid: string
+  categoryId: number
   startDate: Date
   endDate: Date
   title: string
   place: string
+  memo: string
   isAllDay: boolean
-  category: {
-    categoryId: number
-    categoryName: Categories
-  }
+  isGroupSchedule: boolean
 }
 
 export interface GetScheduleByIdRes extends ISchedule {}
@@ -70,3 +69,23 @@ export interface PostSchedulesRes extends PostSchedulesReq {
     categoryName: string
   }
 }
+
+export interface UpdateScheduleReq {
+  categoryId?: number
+  startDate?: Date
+  endDate?: Date
+  title?: string
+  place?: string
+  memo?: string
+  isGroupSchedule?: boolean
+  isAllDay?: boolean
+}
+
+export interface UpdateScheduleRes extends ISchedule {}
+
+export interface PostAnalyzeImageReq {
+  image: File
+  currentDateTime: Date
+}
+
+export interface PostAnalyzeImageRes extends Array<IMediaAnalysisResult> {}
