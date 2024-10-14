@@ -28,12 +28,13 @@ const Button = ({
           theme === 'outline' &&
           'border border-neutral-400 bg-white text-neutral-400',
         disabled && theme === 'solid' && 'bg-neutral-400 text-white',
+        isLoading && 'px-5',
         className
       )}
       disabled={disabled}
       {...props}
     >
-      {isLoading ? <LoadingSpinner className="h-5 w-5" /> : text}
+      {isLoading ? <LoadingSpinner className="h-6 w-6" /> : text}
     </button>
   )
 }
