@@ -14,6 +14,7 @@ export const API_DOMAINS = {
   SCHEDULES: '/schedules',
   GROUP: '/groups',
   ROUTINE: '/users-routine',
+  MANAGER: '/manager',
 }
 
 export const QUERY_KEYS = {
