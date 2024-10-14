@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import Divider from '../common/Divider'
 
 type Props = {
   title: string
@@ -8,7 +9,8 @@ type Props = {
 const SettingSection = ({ title, children }: Props) => {
   return (
     <div className="py-3">
-      <div className="px-2 py-3 text-lg font-medium">{title}</div>
+      <div className="px-1 py-3 text-lg font-medium">{title}</div>
+      <Divider />
       {children}
     </div>
   )
