@@ -5,7 +5,7 @@ import error from '@/assets/imgs/error.png'
 import success from '@/assets/imgs/success.png'
 import { Button, Input } from '@/components/common'
 import Toast from '@/components/common/Toast'
-import { errorMessages } from '@/constants/validation'
+import { errorMessages, validationSchema } from '@/constants/validation'
 import { path } from '@/routes/path'
 import { PostSignupReq } from '@/types/auth'
 import { setToken } from '@/utils/handle-token'
@@ -136,7 +136,7 @@ const SignupPage = () => {
                   {...register('phoneNumber', {
                     required: true,
                     pattern: {
-                      value: /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/,
+                      value: validationSchema.phoneNumber,
                       message: errorMessages.phoneNumber,
                     },
                   })}
@@ -183,7 +183,7 @@ const SignupPage = () => {
               errorMessage={touchedFields.email ? errors.email?.message : ''}
               {...register('email', {
                 pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                  value: validationSchema.email,
                   message: errorMessages.email,
                 },
               })}

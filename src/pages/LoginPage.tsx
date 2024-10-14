@@ -1,14 +1,14 @@
 import { postLogin } from '@/api/auth/post-login'
 import kakaoLogin from '@/assets/imgs/kakaoLogin.png'
 import naverLogin from '@/assets/imgs/naverLogin.png'
-import { Input } from '@/components/common'
+import { Button, Input } from '@/components/common'
 import Divider from '@/components/common/Divider'
 import {
   KAKAO_AUTH_API_URL,
   NAVER_AUTH_API_URL,
   QUERY_KEYS,
 } from '@/constants/api'
-import { errorMessages } from '@/constants/validation'
+import { errorMessages, validationSchema } from '@/constants/validation'
 import { path } from '@/routes/path'
 import { PostLoginReq, PostLoginRes } from '@/types/auth'
 import { generateRandomState } from '@/utils/generate-random-state'
@@ -56,26 +56,33 @@ const LoginPage = () => {
     <div className="container flex flex-col justify-center gap-y-10 px-6 py-2 sm:px-12">
       <div className="flex flex-col items-center gap-y-10">
         <h2 className="text-xl font-bold">환영합니다!🍀</h2>
-        <div className="flex w-full flex-col items-center gap-y-4">
-          <form className="w-full" onSubmit={onSubmit}>
-            {/* TODO: validation */}
-            <Input
-              label="전화번호"
-              placeholder="010-XXXX-XXXX"
-              errorMessage={errors.phoneNumber?.message}
-              {...register('phoneNumber')}
-            />
-          </form>
-          <div className="flex items-center gap-x-4 text-sm">
-            <p className="text-neutral-600">회원이 아니신가요?</p>
-            <Divider direction="vertical" className="bg-neutral-400" />
-            <Link to={path.signup}>
-              <p className="text-neutral-600 underline underline-offset-2">
-                회원가입
-              </p>
-            </Link>
+
+        <form className="flex w-full flex-col gap-y-10" onSubmit={onSubmit}>
+          <Input
+            label="전화번호"
+            placeholder="010-XXXX-XXXX"
+            errorMessage={errors.phoneNumber?.message}
+            {...register('phoneNumber', {
+              required: true,
+              pattern: {
+                value: validationSchema.phoneNumber,
+                message: errorMessages.phoneNumber,
+              },
+            })}
+          />
+          <div className="flex flex-col items-center gap-y-4">
+            <Button type="submit" text="로그인" className="w-full py-3" />
+            <div className="flex items-center gap-x-4 text-sm">
+              <p className="text-neutral-600">회원이 아니신가요?</p>
+              <Divider direction="vertical" className="bg-neutral-400" />
+              <Link to={path.signup}>
+                <p className="text-neutral-600 underline underline-offset-2">
+                  회원가입
+                </p>
+              </Link>
+            </div>
           </div>
-        </div>
+        </form>
       </div>
       <Divider />
       <div className="flex flex-col items-center gap-y-4">
