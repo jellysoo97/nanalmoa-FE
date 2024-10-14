@@ -10,5 +10,12 @@ export const path = {
     manual: '/schedules/create/manual',
   },
   scheduleDetail: ':id',
-  settings: '/settings',
+  settings: {
+    base: '/settings',
+    mypage: 'mypage',
+    alarmPermission: 'alarmPermission',
+    activityTime: 'activityTime',
+    group: 'group',
+    manager: 'manager',
+  },
 }

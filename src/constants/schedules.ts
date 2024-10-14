@@ -46,5 +46,5 @@ export const createManualScheduleSteps: TStep[] = [
   {
     label: '등록완료',
     value: CreateScheduleStepEnum.UploadMedia,
-  }
+  },
 ]

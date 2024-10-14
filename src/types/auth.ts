@@ -7,6 +7,8 @@ export interface IUser {
   updatedAt: Date
   email: string
   isManager: boolean
+  phoneNumber?: string
+  address?: string
 }
 
 export interface PostLoginReq {
@@ -38,6 +40,24 @@ export interface PostRefreshTokenRes {
 }
 
 export interface GetUsersMeRes extends IUser {}
+
+export interface PutMypage {
+  name?: string
+  phoneNumber?: string
+  phoneVerificationCode?: string
+  email?: string
+  emailVerificationCode?: string
+  address?: string
+}
+
+export interface GetRoutineRes {
+  userUuid: string
+  wakeUpTime: string
+  breakfastTime: string
+  lunchTime: string
+  dinnerTime: string
+  bedTime: string
+}
 
 export interface PostUserSearchReq {
   keyword: string

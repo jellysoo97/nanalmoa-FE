@@ -6,4 +6,4 @@ export { default as CreateManualSchedulePage } from './create-schedule/CreateMan
 export { default as CreateAudioSchdulePage } from './create-schedule/CreateAudioSchedulePage'
 export { default as CreatePhotoSchedulePage } from './create-schedule/CreatePhotoSchedulePage'
 export { default as ScheduleDetailPage } from './ScheduleDetailPage'
-export { default as SettingsPage } from './SettingsPage'
+export { default as SettingsPage } from './setting/SettingsPage'
