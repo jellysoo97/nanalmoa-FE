@@ -25,12 +25,7 @@ const DailyView = () => {
 
   const { isLoading, data } = useQuery<GetSchedulesRes>({
     queryKey: [QUERY_KEYS.GET_SCHEDULE_BY_RANGE, selectedMonth],
-    queryFn: () =>
-      getScheduleByMonth(
-        user.info!.userUuid,
-        getYear(selectedDate),
-        selectedMonth
-      ),
+    queryFn: () => getScheduleByMonth(getYear(selectedDate), selectedMonth),
     enabled: !isUserLoading && !!user.info?.userUuid,
   })
 
