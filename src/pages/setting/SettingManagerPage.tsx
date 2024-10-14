@@ -1,8 +1,12 @@
+import { getManagerInvitationReceived } from '@/api/manager/get-manager-invitation-received'
 import { getManagerInvitationSend } from '@/api/manager/get-manager-invitation-send'
 import { postManagerInvitation } from '@/api/manager/post-manager-invitation'
 import UserSelector from '@/components/common/UserSelector'
-import InvitationSection from '@/components/setting/InvitationSection'
+import InvitationLayout from '@/components/setting/InvitationLayout'
+import InvitationsSection from '@/components/setting/InvitationsSection'
 import InviteModal from '@/components/setting/InviteModal'
+import ReceivedInvitation from '@/components/setting/ReceivedInvitation'
+import SendedInvitation from '@/components/setting/SendedInvitation'
 import SettingSection from '@/components/setting/SettingSection'
 import SettingTitle from '@/components/setting/SettingTitle'
 import { QUERY_KEYS } from '@/constants/api'
@@ -22,9 +26,17 @@ const SettingManagerPage = () => {
     null
   )
 
+  // 보낸 초대 현황
   const { data: sendedInvitations } = useQuery<IGetManagerInvitationRes>({
-    queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_SEND],
+    queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_SEND, isModalOpen],
     queryFn: () => getManagerInvitationSend(),
+    enabled: !selectedUser,
+  })
+
+  // 받은 초대 현황
+  const { data: receivedInvitations } = useQuery<IGetManagerInvitationRes>({
+    queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_RECEIVED],
+    queryFn: () => getManagerInvitationReceived(),
     enabled: !selectedUser,
   })
 
@@ -59,18 +71,34 @@ const SettingManagerPage = () => {
 
       <SettingSection title="💌 초대 목록">
         <div className="py-3">
-          <InvitationSection
-            items={[]}
-            title="보낸 초대 현황"
-            noneMessage="보낸 초대가 없습니다."
-          />
+          <InvitationsSection
+            title="받은 초대 현황"
+            itemsLength={receivedInvitations?.length || 0}
+          >
+            <InvitationLayout
+              items={receivedInvitations}
+              Component={ReceivedInvitation}
+              message="받은 초대가 없습니다."
+              // 초대 거절
+              onClickReject={() => {}}
+              // 초대 수락
+              onClickAccept={() => {}}
+            />
+          </InvitationsSection>
         </div>
         <div>
-          <InvitationSection
-            items={sendedInvitations || []}
+          <InvitationsSection
             title="보낸 초대 현황"
-            noneMessage="받은 초대가 없습니다."
-          />
+            itemsLength={sendedInvitations?.length || 0}
+          >
+            <InvitationLayout
+              items={sendedInvitations}
+              Component={SendedInvitation}
+              message="보낸 초대가 없습니다."
+              // 초대 철회
+              onClickReject={() => {}}
+            />
+          </InvitationsSection>
         </div>
       </SettingSection>
 
