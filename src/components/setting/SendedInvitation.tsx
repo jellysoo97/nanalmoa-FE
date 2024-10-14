@@ -20,7 +20,7 @@ const SendedInvitation = ({ item, onClickReject }: Props) => {
 
   /* 그룹 dto에 맞게 수정해서 사용해주세요 */
   return (
-    <div className="flex justify-between rounded bg-neutral-200 px-3 py-[7px]">
+    <div className="mb-1 flex justify-between rounded bg-neutral-200 px-3 py-[7px]">
       <div className="font-bold">
         {isManagerInvitation(item) ? item.subordinateName : '그룹원 이름'}
       </div>

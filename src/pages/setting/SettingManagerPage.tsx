@@ -110,7 +110,7 @@ const SettingManagerPage = () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_SEND],
       })
-      toast.success('요청 전송에 성공했습니다!')
+      toast.success('초대에 성공했습니다!')
     },
     onError: () => {
       closeModal()
