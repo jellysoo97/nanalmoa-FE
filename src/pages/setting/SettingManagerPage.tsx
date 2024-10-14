@@ -101,6 +101,8 @@ const SettingManagerPage = () => {
     mutationCancel.mutate(id)
   }
 
+  // 새로운 관리자 초대 생성
+  // TODO: 현재 invalidateQueries 사용하여도 '보낸 초대 현황' 다시 요청되지 않음
   const mutation = useMutation<IPostManagerInvitationRes, AxiosError, string>({
     mutationFn: postManagerInvitation,
     onSuccess: () => {
