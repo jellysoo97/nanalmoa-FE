@@ -4,6 +4,7 @@ import { patchManagerAccept } from '@/api/manager/patch-manager-accept'
 import { patchManagerCancel } from '@/api/manager/patch-manager-cancel'
 import { patchManagerReject } from '@/api/manager/patch-manager-reject'
 import { postManagerInvitation } from '@/api/manager/post-manager-invitation'
+import Toast from '@/components/common/Toast'
 import UserSelector from '@/components/common/UserSelector'
 import InvitationLayout from '@/components/setting/InvitationLayout'
 import InvitationsSection from '@/components/setting/InvitationsSection'
@@ -24,6 +25,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { useState } from 'react'
+import { toast } from 'react-toastify'
 
 const SettingManagerPage = () => {
   const queryClient = useQueryClient()
@@ -102,12 +104,16 @@ const SettingManagerPage = () => {
   const mutation = useMutation<IPostManagerInvitationRes, AxiosError, string>({
     mutationFn: postManagerInvitation,
     onSuccess: () => {
+      closeModal()
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_SEND],
       })
-      closeModal()
+      toast.success('관리자 초대 요청 전송에 성공했습니다!')
     },
-    onError: () => {},
+    onError: () => {
+      closeModal()
+      toast.error('초대할 수 없는 사용자입니다.')
+    },
   })
 
   const handleInviteManagerModal = (user: UserWithPhoneNumber) => {
@@ -173,6 +179,7 @@ const SettingManagerPage = () => {
           onClick={handleInviteManager}
         />
       )}
+      <Toast />
     </div>
   )
 }
