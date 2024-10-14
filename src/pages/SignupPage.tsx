@@ -205,10 +205,10 @@ const SignupPage = () => {
           <div className="flex flex-col items-center gap-y-6">
             <h2 className="text-xl font-bold">회원가입에 성공했습니다!</h2>
             <Button
-              text="홈으로 가기"
+              text="로그인 하기"
               className="w-full py-3"
               onClick={() => {
-                window.location.href = path.schedules
+                window.location.href = path.login
               }}
             />
           </div>
