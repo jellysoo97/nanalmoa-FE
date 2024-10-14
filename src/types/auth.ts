@@ -11,6 +11,33 @@ export interface IUser {
   address?: string
 }
 
+export interface PostSignupReq {
+  phoneNumber: string
+  verificationCode: string
+  name: string
+  email: string
+  profileImage: string
+}
+
+export interface PostSignupRes {
+  accessToken: string
+  refreshToken: string
+}
+
+export interface PostSmsCodeReq {
+  phoneNumber: string
+}
+
+export interface PostSmsCodeRes {
+  message: string
+}
+
+export interface PostSmsVerifyReq extends PostSmsCodeReq {
+  code: string
+}
+
+export interface PostSmsVerifyRes extends PostSmsCodeRes {}
+
 export interface PostLoginReq {
   phoneNumber: string
 }
