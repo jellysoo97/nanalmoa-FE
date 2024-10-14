@@ -1,5 +1,7 @@
 import { getManagerInvitationReceived } from '@/api/manager/get-manager-invitation-received'
 import { getManagerInvitationSend } from '@/api/manager/get-manager-invitation-send'
+import { patchManagerCancel } from '@/api/manager/patch-manager-cancel'
+import { patchManagerReject } from '@/api/manager/patch-manager-reject'
 import { postManagerInvitation } from '@/api/manager/post-manager-invitation'
 import UserSelector from '@/components/common/UserSelector'
 import InvitationLayout from '@/components/setting/InvitationLayout'
@@ -14,13 +16,16 @@ import { useModal } from '@/hooks/use-modal'
 import { UserWithPhoneNumber } from '@/types/auth'
 import {
   IGetManagerInvitationRes,
+  IPatchManagerInvitationRes,
   IPostManagerInvitationRes,
+  IRejectManagerInvitationRes,
 } from '@/types/manager'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { useState } from 'react'
 
 const SettingManagerPage = () => {
+  const queryClient = useQueryClient()
   const { isModalOpen, openModal, closeModal } = useModal()
   const [selectedUser, setSelectedUser] = useState<UserWithPhoneNumber | null>(
     null
@@ -28,7 +33,7 @@ const SettingManagerPage = () => {
 
   // 보낸 초대 현황
   const { data: sendedInvitations } = useQuery<IGetManagerInvitationRes>({
-    queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_SEND, isModalOpen],
+    queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_SEND],
     queryFn: () => getManagerInvitationSend(),
     enabled: !selectedUser,
   })
@@ -40,10 +45,66 @@ const SettingManagerPage = () => {
     enabled: !selectedUser,
   })
 
+  // 받은 요청 거절
+  const mutationReject = useMutation<
+    IRejectManagerInvitationRes,
+    Error,
+    number
+  >({
+    mutationFn: (id: number) => patchManagerReject(id),
+    onSuccess: (data) => {
+      console.log('요청 거절 성공:', data)
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_RECEIVED],
+      })
+    },
+  })
+
+  const handleManagerReject = (id: number) => {
+    mutationReject.mutate(id)
+  }
+
+  // 받은 요청 수락
+  const mutationAccept = useMutation<IPatchManagerInvitationRes, Error, number>(
+    {
+      mutationFn: (id: number) => patchManagerReject(id),
+      onSuccess: (data) => {
+        console.log('요청 수락 성공:', data)
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_RECEIVED],
+        })
+      },
+    }
+  )
+
+  const handleManagerAccept = (id: number) => {
+    mutationAccept.mutate(id)
+  }
+
+  // 보낸 요청 철회
+  const mutationCancel = useMutation<IPatchManagerInvitationRes, Error, number>(
+    {
+      mutationFn: (id: number) => patchManagerCancel(id),
+      onSuccess: (data) => {
+        console.log('요청 철회 성공:', data)
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_SEND],
+        })
+      },
+    }
+  )
+
+  const handleManagerCancel = (id: number) => {
+    mutationCancel.mutate(id)
+  }
+
   const mutation = useMutation<IPostManagerInvitationRes, AxiosError, string>({
     mutationFn: postManagerInvitation,
     onSuccess: () => {
       closeModal()
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_SEND],
+      })
     },
     onError: () => {},
   })
@@ -80,9 +141,9 @@ const SettingManagerPage = () => {
               Component={ReceivedInvitation}
               message="받은 초대가 없습니다."
               // 초대 거절
-              onClickReject={() => {}}
+              onClickReject={handleManagerReject}
               // 초대 수락
-              onClickAccept={() => {}}
+              onClickAccept={handleManagerAccept}
             />
           </InvitationsSection>
         </div>
@@ -96,7 +157,7 @@ const SettingManagerPage = () => {
               Component={SendedInvitation}
               message="보낸 초대가 없습니다."
               // 초대 철회
-              onClickReject={() => {}}
+              onClickReject={handleManagerCancel}
             />
           </InvitationsSection>
         </div>

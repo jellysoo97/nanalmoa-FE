@@ -3,8 +3,8 @@ import { getGroupInvitationRes } from '@/types/group'
 
 type Props = {
   item: IManagerInvitation | getGroupInvitationRes
-  onClickReject: () => void
-  onClickAccept?: () => void
+  onClickReject: (id: number) => void
+  onClickAccept?: (id: number) => void
 }
 
 const ReceivedInvitation = ({ item, onClickReject, onClickAccept }: Props) => {
@@ -15,27 +15,48 @@ const ReceivedInvitation = ({ item, onClickReject, onClickAccept }: Props) => {
     return 'managerInvitationId' in item
   }
 
+  const inviteId = isManagerInvitation(item)
+    ? item.managerInvitationId
+    : item.invitationId
+
   /* 그룹 dto에 맞게 수정해서 사용해주세요 */
   return (
-    <div className="flex justify-between rounded bg-neutral-200 px-3 py-[7px]">
+    <div className="flex items-center justify-between rounded bg-neutral-200 px-3 py-[7px]">
       <div className="font-bold">
         {isManagerInvitation(item) ? item.subordinateName : '그룹원 이름'}
       </div>
       <div className="flex gap-1">
         {item.status === 'PENDING' && (
           <div className="flex gap-1">
-            <button
-              className="rounded border bg-blue-200 px-2 py-1 text-sm text-blue-500"
-              onClick={onClickAccept}
-            >
-              초대 수락
-            </button>
+            {onClickAccept && (
+              <button
+                className="rounded border bg-blue-200 px-2 py-1 text-sm text-blue-500"
+                onClick={() => onClickAccept(inviteId)}
+              >
+                초대 수락
+              </button>
+            )}
             <button
               className="rounded border bg-red-200 px-2 py-1 text-sm text-red-500"
-              onClick={onClickReject}
+              onClick={() => onClickReject(inviteId)}
             >
               초대 거절
             </button>
+          </div>
+        )}
+        {item.status === 'REJECTED' && (
+          <div className="rounded border border-red-500 px-2 py-1 text-sm text-red-500">
+            거절된 요청
+          </div>
+        )}
+        {item.status === 'ACCEPTED' && (
+          <div className="rounded border border-blue-500 px-2 py-1 text-sm text-blue-500">
+            승락된 요청
+          </div>
+        )}
+        {item.status === 'CANCELED' && (
+          <div className="rounded border border-neutral-500 px-2 py-1 text-sm text-neutral-500">
+            취소된 요청
           </div>
         )}
       </div>

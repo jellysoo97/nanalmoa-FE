@@ -5,16 +5,16 @@ type ItemType = getGroupInvitationRes[] | IGetManagerInvitationRes
 
 type ComponentProps<T extends ItemType> = {
   item: T[number]
-  onClickReject: () => void
-  onClickAccept?: () => void
+  onClickReject: (id: number) => void
+  onClickAccept?: (id: number) => void
 }
 
 type Props<T extends ItemType> = {
   items: T | undefined
   Component: React.ComponentType<ComponentProps<T>>
   message?: string
-  onClickReject: () => void
-  onClickAccept?: () => void
+  onClickReject: (id: number) => void
+  onClickAccept?: (id: number) => void
 }
 
 const InvitationLayout = <T extends ItemType>({

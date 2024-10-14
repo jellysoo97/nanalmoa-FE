@@ -1,19 +1,9 @@
 import { IManagerInvitation } from '@/types/manager'
-// import { formatDate } from '@/utils/format-date'
-// import { DateFormatTypeEnum } from '@/types/common'
-import { cn } from '@/utils/cn'
 import { getGroupInvitationRes } from '@/types/group'
 
 type Props = {
   item: IManagerInvitation | getGroupInvitationRes
-  onClickReject: () => void
-}
-
-// TODO: 상태 추가 및 스타일 추가
-type inviteTypes = 'PENDING' | string
-
-const inviteClasses: Record<inviteTypes, string> = {
-  PENDING: 'text-blue-500 border border-blue-500',
+  onClickReject: (id: number) => void
 }
 
 const SendedInvitation = ({ item, onClickReject }: Props) => {
@@ -24,6 +14,10 @@ const SendedInvitation = ({ item, onClickReject }: Props) => {
     return 'managerInvitationId' in item
   }
 
+  const inviteId = isManagerInvitation(item)
+    ? item.managerInvitationId
+    : item.invitationId
+
   /* 그룹 dto에 맞게 수정해서 사용해주세요 */
   return (
     <div className="flex justify-between rounded bg-neutral-200 px-3 py-[7px]">
@@ -31,26 +25,33 @@ const SendedInvitation = ({ item, onClickReject }: Props) => {
         {isManagerInvitation(item) ? item.subordinateName : '그룹원 이름'}
       </div>
       <div className="flex gap-1">
-        {/* {isManagerInvitation(item) && (
-          <div className="flex items-center text-xs">
-            {formatDate(DateFormatTypeEnum.MonthAndDay, item.updatedAt)}
-          </div>
-        )} */}
-        <div
-          className={cn(
-            'rounded px-2 py-1 text-sm',
-            inviteClasses[item.status]
-          )}
-        >
-          {item.status === 'PENDING' ? '요청중' : ''}
-        </div>
         {item.status === 'PENDING' && (
-          <button
-            onClick={onClickReject}
-            className="rounded bg-red-200 px-2 py-1 text-sm text-red-500"
-          >
-            요청 철회
-          </button>
+          <>
+            <div className="rounded border border-primary-700 px-2 py-1 text-sm text-primary-700">
+              요청중
+            </div>
+            <button
+              onClick={() => onClickReject(inviteId)}
+              className="rounded bg-red-200 px-2 py-1 text-sm text-red-500"
+            >
+              요청 철회
+            </button>
+          </>
+        )}
+        {item.status === 'REJECTED' && (
+          <div className="rounded border border-red-500 px-2 py-1 text-sm text-red-500">
+            거절된 요청
+          </div>
+        )}
+        {item.status === 'ACCEPTED' && (
+          <div className="rounded border border-blue-500 px-2 py-1 text-sm text-blue-500">
+            승락된 요청
+          </div>
+        )}
+        {item.status === 'CANCELED' && (
+          <div className="rounded border border-neutral-500 px-2 py-1 text-sm text-neutral-500">
+            취소된 요청
+          </div>
         )}
       </div>
     </div>
