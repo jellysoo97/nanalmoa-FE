@@ -2,6 +2,7 @@ export const path = {
   login: '/login',
   loginRedirect: '/login/redirect',
   signup: '/signup',
+  signupResult: '/signup/result',
   schedules: '/schedules',
   createSchedule: {
     base: 'create',
