@@ -9,6 +9,7 @@ import { AxiosError } from 'axios'
 import { ChangeEvent, useState } from 'react'
 import Divider from './Divider'
 import { CloseIcon } from '../icons'
+import UserMiniProfile from './UserMiniProfile'
 
 type Props = {
   onClick?: (user: UserWithPhoneNumber) => void
@@ -74,32 +75,13 @@ const UserSelector = ({ onClick }: Props) => {
                 key={user.userId}
                 className="flex cursor-pointer justify-between gap-2 py-3"
               >
-                <div className="flex gap-2">
-                  {!user.profileImage.length ? (
-                    <img
-                      src={user.profileImage}
-                      className="size-8 rounded-full object-cover sm:size-9"
-                    />
-                  ) : (
-                    <div className="flex size-8 items-center justify-center rounded-full border sm:size-9">
-                      {user.name[0]}
-                    </div>
-                  )}
-                  <div className="flex items-center gap-1">
-                    <div className="text-base font-semibold sm:text-lg">
-                      {user.name}
-                    </div>
-                    <div className="text-[12px] text-neutral-500 sm:text-xs">
-                      {user.phoneNumber ? user.phoneNumber : user.email}
-                    </div>
-                  </div>
-                </div>
+                <UserMiniProfile user={user} />
                 {onClick && (
                   <button
                     className="rounded bg-primary-500 px-2 py-1 text-xs text-white sm:text-base"
                     onClick={() => onClick(user)}
                   >
-                    <span>추가</span>
+                    <span>초대</span>
                     <span className="hidden sm:inline">하기</span>
                   </button>
                 )}
