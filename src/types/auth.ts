@@ -58,3 +58,13 @@ export interface GetRoutineRes {
   dinnerTime: string
   bedTime: string
 }
+
+export interface PostUserSearchReq {
+  keyword: string
+}
+
+export interface UserWithPhoneNumber extends IUser {
+  phoneNumber: string
+}
+
+export interface PostUserSearchRes extends Array<UserWithPhoneNumber> {}
