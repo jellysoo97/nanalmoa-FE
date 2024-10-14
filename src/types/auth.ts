@@ -40,6 +40,7 @@ export interface PostSmsVerifyRes extends PostSmsCodeRes {}
 
 export interface PostLoginReq {
   phoneNumber: string
+  verificationCode: string
 }
 
 export interface PostLoginRes {
