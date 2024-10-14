@@ -7,21 +7,30 @@ import {
   LandingPage,
   LoginPage,
   LoginRedirectPage,
+  MyPage,
   ScheduleDetailPage,
+  SettingActivityPage,
+  SettingAlarmPage,
+  SettingGroupPage,
+  SettingManagerPage,
   SettingsPage,
+  SignupPage,
 } from '@/pages'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
 import { path } from './path'
-import MyPage from '@/pages/setting/MyPage'
-import SettingAlarmPage from '@/pages/setting/SettingAlarmPage'
-import SettingGroupPage from '@/pages/setting/SettingGroupPage'
-import SettingManagerPage from '@/pages/setting/SettingManagerPage'
-import SettingActivityPage from '@/pages/setting/SettingActivityPage'
 
 const AppRouter = createBrowserRouter([
   {
     path: '/',
     element: <LandingPage isLanding />,
+  },
+  {
+    path: path.signup,
+    element: (
+      <DesktopLayout>
+        <SignupPage />
+      </DesktopLayout>
+    ),
   },
   {
     path: path.login,
