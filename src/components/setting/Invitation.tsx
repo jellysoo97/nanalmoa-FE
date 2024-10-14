@@ -15,8 +15,8 @@ const inviteClasses: Record<inviteTypes, string> = {
   PENDING: 'text-blue-500 bg-blue-200',
 }
 
-/* manager 타입이면 true, group 타입이면 false를 반환합니다 */
 const Invitation = ({ item }: Props) => {
+  /* manager 타입이면 true, group 타입이면 false를 반환합니다 */
   const isManagerInvitation = (
     item: IManagerInvitation | getGroupInvitationRes
   ): item is IManagerInvitation => {
