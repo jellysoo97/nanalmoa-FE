@@ -61,6 +61,8 @@ const SignupPage = () => {
     mutationFn: () =>
       postSignup({
         ...getValues(),
+        email: getValues('email') ? getValues('email') : null,
+        profileImage: null,
       }),
     onSuccess: ({ accessToken, refreshToken }) => {
       setToken({ accessToken, refreshToken })
@@ -102,7 +104,7 @@ const SignupPage = () => {
 
       return () => clearInterval(intervalId)
     }
-  }, [leftTime, sendCodeMutation.status])
+  }, [leftTime, sendCodeMutation.isSuccess])
 
   return (
     <div className="container flex flex-col justify-center gap-y-10 px-6 py-2 sm:px-12">
@@ -178,7 +180,13 @@ const SignupPage = () => {
             <Input
               label="이메일"
               placeholder="이메일 없이도 가입이 가능합니다"
-              {...register('email')}
+              errorMessage={touchedFields.email ? errors.email?.message : ''}
+              {...register('email', {
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                  message: errorMessages.email,
+                },
+              })}
             />
             <Button
               type="submit"

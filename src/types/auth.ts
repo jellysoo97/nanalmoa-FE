@@ -15,8 +15,8 @@ export interface PostSignupReq {
   phoneNumber: string
   verificationCode: string
   name: string
-  email: string
-  profileImage: string
+  email: string | null
+  profileImage: string | null
 }
 
 export interface PostSignupRes {
