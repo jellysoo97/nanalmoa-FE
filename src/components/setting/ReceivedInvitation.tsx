@@ -51,7 +51,7 @@ const ReceivedInvitation = ({ item, onClickReject, onClickAccept }: Props) => {
         )}
         {item.status === 'ACCEPTED' && (
           <div className="rounded border border-blue-500 px-2 py-1 text-sm text-blue-500">
-            승락된 요청
+            수락된 요청
           </div>
         )}
         {item.status === 'CANCELED' && (

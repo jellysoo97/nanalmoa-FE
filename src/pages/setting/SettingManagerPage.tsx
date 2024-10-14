@@ -1,5 +1,6 @@
 import { getManagerInvitationReceived } from '@/api/manager/get-manager-invitation-received'
 import { getManagerInvitationSend } from '@/api/manager/get-manager-invitation-send'
+import { patchManagerAccept } from '@/api/manager/patch-manager-accept'
 import { patchManagerCancel } from '@/api/manager/patch-manager-cancel'
 import { patchManagerReject } from '@/api/manager/patch-manager-reject'
 import { postManagerInvitation } from '@/api/manager/post-manager-invitation'
@@ -67,7 +68,7 @@ const SettingManagerPage = () => {
   // 받은 요청 수락
   const mutationAccept = useMutation<IPatchManagerInvitationRes, Error, number>(
     {
-      mutationFn: (id: number) => patchManagerReject(id),
+      mutationFn: (id: number) => patchManagerAccept(id),
       onSuccess: (data) => {
         console.log('요청 수락 성공:', data)
         queryClient.invalidateQueries({
@@ -101,10 +102,10 @@ const SettingManagerPage = () => {
   const mutation = useMutation<IPostManagerInvitationRes, AxiosError, string>({
     mutationFn: postManagerInvitation,
     onSuccess: () => {
-      closeModal()
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_SEND],
       })
+      closeModal()
     },
     onError: () => {},
   })
