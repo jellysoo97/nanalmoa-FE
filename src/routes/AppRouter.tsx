@@ -3,6 +3,7 @@ import {
   CreateAudioSchdulePage,
   CreateManualSchedulePage,
   CreatePhotoSchedulePage,
+  ErrorBoundary,
   HomePage,
   LandingPage,
   LoginPage,
@@ -24,6 +25,7 @@ const AppRouter = createBrowserRouter([
   {
     path: '/',
     element: <LandingPage isLanding />,
+    errorElement: <ErrorBoundary />,
   },
   {
     path: path.signup,
