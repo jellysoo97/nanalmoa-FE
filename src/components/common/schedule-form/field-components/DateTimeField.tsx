@@ -5,7 +5,13 @@ import BaseField from './BaseField'
 import { ko } from 'date-fns/locale'
 import 'react-datepicker/dist/react-datepicker.css'
 import './react-datepicker.css'
-import { addDays } from 'date-fns'
+import {
+  addDays,
+  setHours,
+  setMilliseconds,
+  setMinutes,
+  setSeconds,
+} from 'date-fns'
 import { toast } from 'react-toastify'
 import Toast from '../../Toast'
 
@@ -51,6 +57,10 @@ const DateTimeField = () => {
     return true
   }
 
+  const setMidnight = (date: Date) => {
+    return setHours(setMinutes(setSeconds(setMilliseconds(date, 0), 0), 0), 0)
+  }
+
   return (
     <>
       <BaseField
@@ -66,7 +76,19 @@ const DateTimeField = () => {
                 render={({ field }) => (
                   <label className="switch">
                     {/* TODO: checkbox -> toggle로 수정 예정 */}
-                    <input type="checkbox" {...field} checked={field.value} />
+                    <input
+                      type="checkbox"
+                      {...field}
+                      checked={field.value}
+                      onChange={(e) => {
+                        field.onChange(e)
+                        if (e.target.checked) {
+                          if (startDate)
+                            setValue('startDate', setMidnight(startDate))
+                          if (endDate) setValue('endDate', setMidnight(endDate))
+                        }
+                      }}
+                    />
                     <span className="slider round"></span>
                   </label>
                 )}
@@ -100,7 +122,6 @@ const DateTimeField = () => {
                               setValue('endDate', addDays(date, 1))
                             } else if (validateEndDate(endDate, date)) {
                               setValue('startDate', date)
-                              setValue('endDate', addDays(date, 1))
                             }
                           }
                         }}
