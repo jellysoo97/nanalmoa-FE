@@ -7,7 +7,7 @@ export const postLogin = async (payload: PostLoginReq) => {
   const { data } = await authAPI.post<
     PostLoginReq,
     AxiosResponse<PostLoginRes>
-  >(`${API_DOMAINS.AUTH}/login`, payload)
+  >(`${API_DOMAINS.AUTH}/basic/login`, payload)
 
   return data
 }

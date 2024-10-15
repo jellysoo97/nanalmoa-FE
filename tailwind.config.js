@@ -11,8 +11,8 @@ export default {
       xs: ['0.875rem', '1.125rem'],
       sm: ['1rem', '1.125rem'],
       base: ['1.125rem', '1.5rem'],
-      lg: ['1.25rem', '1.75rem'],
-      xl: ['1.5rem', '2rem'],
+      lg: ['1.25rem', '1.5rem'],
+      xl: ['1.5rem', '1.75rem'],
       '2xl': ['2.25rem', '2.5rem'],
     },
     extend: {
@@ -39,6 +39,16 @@ export default {
       boxShadow: {
         base: '1px 4px 10px rgba(0, 0, 0, 0.2)',
       },
+      keyframes: {
+        'bottom-sheet-up': {
+          '0%': { transform: 'translateY(100dvh)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        'bottom-sheet-down': {
+          '0%': { transform: 'translateY(0)', opacity: '1' },
+          '100%': { transform: 'translateY(100dvh)', opacity: '0' },
+        },
+      },
     },
   },
   plugins: [
@@ -49,6 +59,12 @@ export default {
         },
         '.container': {
           '@apply max-w-lg mx-auto h-dvh overflow-hidden bg-neutral-50': '',
+        },
+        '.animate-bottom-sheet-up': {
+          animation: 'bottom-sheet-up 0.2s ease-in-out',
+        },
+        '.animate-bottom-sheet-down': {
+          animation: 'bottom-sheet-down 0.2s ease-in-out',
         },
       })
     ),

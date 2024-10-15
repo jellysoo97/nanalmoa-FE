@@ -1,11 +1,8 @@
-import { IconButton } from '@/components/common'
-import FailFace from '@/assets/imgs/FailFace.png'
-import { HomeIcon } from '@/components/icons'
-import { Link } from 'react-router-dom'
-import { path } from '@/routes/path'
+import error from '@/assets/imgs/error.png'
+import { Button } from '@/components/common'
 import { useModal } from '@/hooks/use-modal'
-import SelectMethodModal from '../SelectMethodModal'
 import { CreateScheduleStepEnum } from '@/types/common'
+import SelectMethodModal from '../SelectMethodModal'
 
 type FailProps = {
   moveStep: (step: CreateScheduleStepEnum) => void
@@ -15,15 +12,29 @@ const FailAudio = ({ moveStep }: FailProps) => {
   const { isModalOpen, openModal, closeModal } = useModal()
   return (
     <>
-      <div className="flex h-full flex-col p-5">
-        <div className="-mt-10 flex flex-col items-center justify-center pb-5">
-          <img
-            src={FailFace}
-            alt="FailFace"
-            className="relative mx-auto mb-5 mt-10 w-1/3"
-            width={240}
-            height={240}
-          />
+      <div className="flex flex-col items-center gap-y-10">
+        <img src={error} alt="error" width={128} height={128} />
+
+        <div className="flex flex-col items-center gap-y-6">
+          <p className="text-center text-lg font-bold">
+            음성 분석에 실패하였습니다.
+          </p>
+          <div className="flex w-full flex-col gap-y-4">
+            <Button
+              theme="outline"
+              text="다시 녹음하기"
+              className="border-none bg-orange-200 text-neutral-700"
+              onClick={() => moveStep(CreateScheduleStepEnum.UploadMedia)}
+            />
+            <Button
+              theme="solid"
+              text="다른 방법 선택하기"
+              className="border-none bg-primary-coral text-neutral-700"
+              onClick={openModal}
+            />
+          </div>
+        </div>
+        {/* <div className="-mt-10 flex flex-col items-center justify-center pb-5">
           <p className="-mt-2 mb-3 text-xl">음성 분석에 실패하였습니다.</p>
           <div className="flex h-52 w-full flex-col items-center justify-between pt-5">
             <div>
@@ -48,7 +59,7 @@ const FailAudio = ({ moveStep }: FailProps) => {
         </div>
         <Link
           to={path.schedules}
-          className="mx-auto mb-8 mt-auto w-1/2 rounded bg-gray-300 p-2 font-semibold"
+          className="mx-auto mb-8 mt-auto w-1/2 rounded bg-neutral-300 p-2 font-semibold"
         >
           <IconButton
             direction="horizontal"
@@ -56,7 +67,7 @@ const FailAudio = ({ moveStep }: FailProps) => {
             text="처음으로"
             className="mx-auto gap-x-1"
           />
-        </Link>
+        </Link> */}
       </div>
       {isModalOpen && <SelectMethodModal onClose={closeModal} />}
     </>

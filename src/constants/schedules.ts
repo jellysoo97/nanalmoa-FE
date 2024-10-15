@@ -37,3 +37,14 @@ export const createPhotoScheduleSteps: TStep[] = [
     value: CreateScheduleStepEnum.RegisterResult,
   },
 ]
+
+export const createManualScheduleSteps: TStep[] = [
+  {
+    label: '일정입력',
+    value: CreateScheduleStepEnum.Info,
+  },
+  {
+    label: '등록완료',
+    value: CreateScheduleStepEnum.UploadMedia,
+  },
+]

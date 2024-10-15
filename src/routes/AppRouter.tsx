@@ -3,12 +3,21 @@ import {
   CreateAudioSchdulePage,
   CreateManualSchedulePage,
   CreatePhotoSchedulePage,
+  ErrorBoundary,
   HomePage,
   LandingPage,
   LoginPage,
   LoginRedirectPage,
+  MyPage,
   ScheduleDetailPage,
+  SettingActivityPage,
+  SettingAlarmPage,
+  SettingGroupPage,
+  SettingGroupDetailPage,
+  SettingManagerPage,
   SettingsPage,
+  SignupPage,
+  SignupResultPage,
 } from '@/pages'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
 import { path } from './path'
@@ -17,6 +26,25 @@ const AppRouter = createBrowserRouter([
   {
     path: '/',
     element: <LandingPage isLanding />,
+    errorElement: <ErrorBoundary />,
+  },
+  {
+    path: path.signup,
+    element: (
+      <DesktopLayout>
+        <Outlet />
+      </DesktopLayout>
+    ),
+    children: [
+      {
+        path: '',
+        element: <SignupPage />,
+      },
+      {
+        path: 'result',
+        element: <SignupResultPage />,
+      },
+    ],
   },
   {
     path: path.login,
@@ -74,7 +102,7 @@ const AppRouter = createBrowserRouter([
     ],
   },
   {
-    path: path.settings,
+    path: path.settings.base,
     element: (
       <DesktopLayout>
         <Layout>
@@ -86,6 +114,30 @@ const AppRouter = createBrowserRouter([
       {
         path: '',
         element: <SettingsPage />,
+      },
+      {
+        path: path.settings.mypage,
+        element: <MyPage />,
+      },
+      {
+        path: path.settings.alarmPermission,
+        element: <SettingAlarmPage />,
+      },
+      {
+        path: path.settings.activityTime,
+        element: <SettingActivityPage />,
+      },
+      {
+        path: path.settings.group,
+        element: <SettingGroupPage />,
+      },
+      {
+        path: path.settings.manager,
+        element: <SettingManagerPage />,
+      },
+      {
+        path: `${path.settings.base}/${path.settings.group}/${path.groupDetail}`,
+        element: <SettingGroupDetailPage />,
       },
     ],
   },

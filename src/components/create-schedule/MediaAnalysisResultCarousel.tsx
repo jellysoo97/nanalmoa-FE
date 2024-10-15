@@ -7,7 +7,7 @@ import { cn } from '@/utils/cn'
 
 type Props = {
   results: Array<IMediaAnalysisResult>
-  selectedResult: IMediaAnalysisResult
+  selectedResult: IMediaAnalysisResult | null
   handleSelectedResultChange: (result: IMediaAnalysisResult) => void
 }
 
@@ -16,6 +16,10 @@ const MediaAnaysisResultCarousel = ({
   selectedResult,
   handleSelectedResultChange,
 }: Props) => {
+  if (!selectedResult) {
+    return null
+  }
+
   const currentIndex = results.indexOf(selectedResult)
 
   return (
@@ -37,7 +41,7 @@ const MediaAnaysisResultCarousel = ({
               className={cn(
                 'hidden',
                 index === currentIndex &&
-                  'flex h-32 w-full flex-col items-center justify-center rounded-md border-2 border-neutral-400 p-6'
+                  'flex h-32 w-full flex-col items-center justify-center rounded-md border-2 border-neutral-400 p-2'
               )}
               data-carousel-item
             >
@@ -48,6 +52,7 @@ const MediaAnaysisResultCarousel = ({
                 )}
               </p>
               <div className="flex items-center gap-x-1">
+                {/* TODO: 카테고리 임시 조치 */}
                 <CategoryTag label={'가족'} />
                 <p>{result.title}</p>
               </div>

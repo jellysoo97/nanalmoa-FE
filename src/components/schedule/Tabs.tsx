@@ -1,3 +1,5 @@
+import { TabEnum } from '@/types/common'
+
 interface TabsProps<T extends string> {
   activeTab: T
   setActiveTab: (tab: T) => void
@@ -10,28 +12,26 @@ const Tabs = <T extends string>({
   tabs,
 }: TabsProps<T>) => {
   return (
-    <div className="flex flex-col items-center">
-      <div className="rounded-lg bg-white p-1 shadow-md">
-        <div className="relative flex">
-          {tabs.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`relative z-10 px-4 py-2 text-sm font-medium transition-colors duration-300 ${
-                activeTab === tab
-                  ? 'text-white'
-                  : 'text-gray-500 hover:text-gray-700'
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
-          <div
-            className={`absolute left-0 top-0 h-full w-1/2 rounded bg-primary-500 transition-transform duration-300 ease-in-out ${
-              activeTab === '월간' ? 'translate-x-full transform' : ''
+    <div className="rounded-lg bg-white p-1 shadow-md">
+      <div className="relative grid grid-cols-2">
+        {tabs.map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setActiveTab(tab)}
+            className={`z-10 py-2 text-sm font-medium transition-colors duration-300 sm:py-3 ${
+              activeTab === tab
+                ? 'text-white'
+                : 'text-neutral-500 hover:text-neutral-700'
             }`}
-          />
-        </div>
+          >
+            {tab}
+          </button>
+        ))}
+        <div
+          className={`absolute left-0 top-0 h-full w-1/2 rounded-lg bg-primary-500 transition-transform duration-300 ease-in-out ${
+            activeTab === TabEnum.Monthly ? 'translate-x-full transform' : ''
+          }`}
+        />
       </div>
     </div>
   )

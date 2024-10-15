@@ -3,11 +3,15 @@ export enum DateFormatTypeEnum {
   DateWithSlash = 'yyyy/MM/dd',
   DateWithHypen = 'yyyy-MM-dd',
   YearAndMonth = 'yyyy.MM',
+  YearAndMonthKo = 'yyyy년 MM월',
   MonthAndDay = 'MM.dd',
+  MonthAndDayKo = 'MM월 dd일',
   DateWithKorean = 'yyyy년 MM월 dd일',
+  MonthKo = 'MM월',
   Time24 = 'HH:mm',
   FullDateTimeKR = 'yyyy년 MM월 dd일 HH:mm',
   CurrentDateTime = "yyyy-MM-dd'T'HH:mm:ss'Z'",
+  DayOfTheWeek = 'EEEE',
 }
 
 export enum CreateScheduleStepEnum {
@@ -15,6 +19,11 @@ export enum CreateScheduleStepEnum {
   UploadMedia,
   AnalysisResult,
   RegisterResult,
+}
+
+export enum TabEnum {
+  Daily = '일간',
+  Monthly = '월간',
 }
 
 export type TModal = {

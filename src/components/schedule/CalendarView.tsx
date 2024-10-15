@@ -3,7 +3,6 @@ import {
   addMonths,
   subMonths,
   isWithinInterval,
-  subDays,
   startOfDay,
   endOfDay,
   startOfMonth,
@@ -17,6 +16,7 @@ import { useState } from 'react'
 import { formatDate } from '@/utils/format-date'
 import { DateFormatTypeEnum } from '@/types/common'
 import { useRangeSchedule } from '@/hooks/use-range-schedule'
+import Divider from '../common/Divider'
 
 const CalendarView = () => {
   const [currentDate, setCurrentDate] = useState<Date | undefined>(undefined)
@@ -25,29 +25,28 @@ const CalendarView = () => {
   const monthStart = startOfMonth(currentMonth)
   const monthEnd = endOfMonth(currentMonth)
 
-  const { data: schedules } = useRangeSchedule(
-    123,
+  const { data: schedules, isSchedule } = useRangeSchedule(
     formatDate(DateFormatTypeEnum.DateWithHypen, monthStart),
     formatDate(DateFormatTypeEnum.DateWithHypen, monthEnd)
   )
 
-  const { rows } = useCalendar({ setCurrentDate, currentMonth })
+  const { rows } = useCalendar({ setCurrentDate, currentMonth, isSchedule })
 
   const filteredSchedules = schedules
     ? currentDate
       ? schedules.filter((schedule) => {
           return isWithinInterval(currentDate, {
-            start: endOfDay(subDays(schedule.startDate, 1)),
-            end: startOfDay(subDays(schedule.endDate, 1)),
+            start: startOfDay(schedule.startDate),
+            end: endOfDay(schedule.endDate),
           })
         })
       : schedules
     : []
 
   return (
-    <>
-      <div className="mx-auto mt-2 max-w-md text-black">
-        <div className="mb-5 flex items-center justify-between">
+    <div className="flex flex-1 flex-col gap-y-5">
+      <div className="mx-auto mt-3 w-full text-black">
+        <div className="mb-5 flex items-center justify-between px-8">
           <button
             onClick={() => {
               setCurrentMonth(subMonths(currentMonth, 1))
@@ -68,19 +67,35 @@ const CalendarView = () => {
             <NextIcon />
           </button>
         </div>
-        {/* <div className="text-gray-400 font-medium pb-2">날짜를 선택해주세요</div> */}
-        <div className="mb-2 grid grid-cols-7 gap-2">
-          {['월', '화', '수', '목', '금', '토', '일'].map((day) => (
-            <div key={day} className="text-center font-bold">
-              {day}
-            </div>
-          ))}
+        <div>
+          <div className="mb-2 flex justify-between px-6 text-base sm:text-lg">
+            {['일', '월', '화', '수', '목', '금', '토'].map((day) => (
+              <div key={day} className="w-10 text-center font-bold sm:w-12">
+                {day}
+              </div>
+            ))}
+          </div>
+          <div className="py-2">{rows}</div>
         </div>
-        {rows}
       </div>
 
-      <EventContainer schedules={filteredSchedules} />
-    </>
+      <Divider />
+
+      <div className="flex h-full flex-col gap-y-5">
+        <h1 className="text-lg font-bold sm:text-xl">
+          {currentDate ? (
+            <div>
+              {formatDate(DateFormatTypeEnum.MonthAndDayKo, currentDate)} 일정
+            </div>
+          ) : (
+            <div>
+              {formatDate(DateFormatTypeEnum.MonthKo, currentMonth)} 전체 일정
+            </div>
+          )}
+        </h1>
+        <EventContainer schedules={filteredSchedules} />
+      </div>
+    </div>
   )
 }
 

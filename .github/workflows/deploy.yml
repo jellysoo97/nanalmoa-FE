@@ -17,7 +17,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node_version: '21.5.0'
+          node-version: '21.5.0'
 
       # node_modules 캐시
       - name: Cache node modules
@@ -36,7 +36,13 @@ jobs:
       - name: Create env file
         run: |
           touch .env
-          echo "${{ secrets.ENV }}" > .env
+          BRANCH=${GITHUB_REF#refs/heads/}
+
+          if [ "$BRANCH" = "main" ]; then
+            echo "${{ secrets.PROD_ENV }}" > .env
+          elif [ "$BRANCH" = "release" ]; then
+            echo "${{ secrets.DEV_ENV }}" > .env
+          fi
 
       # 레포 빌드
       - name: Build

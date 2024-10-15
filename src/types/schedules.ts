@@ -1,7 +1,7 @@
 import { Categories } from './category'
 
 export interface ISchedule {
-  userId: number
+  userUuid: string
   category: {
     categoryId: number
     categoryName: Categories
@@ -10,20 +10,22 @@ export interface ISchedule {
   endDate: Date
   title: string
   place: string
-  memo?: string
+  memo: string
   isGroupSchedule: boolean
   isAllDay: boolean
   scheduleId: number
 }
 
 export interface IMediaAnalysisResult {
-  userId: number
+  userUuid: string
+  categoryId: number
   startDate: Date
   endDate: Date
   title: string
   place: string
+  memo: string
   isAllDay: boolean
-  categoryId: number
+  isGroupSchedule: boolean
 }
 
 export interface GetScheduleByIdRes extends ISchedule {}
@@ -49,7 +51,7 @@ export interface IScheduleForm {
 }
 
 export interface PostSchedulesReq {
-  userId: number
+  userUuid: string
   categoryId?: number
   startDate: Date
   endDate: Date
@@ -67,3 +69,23 @@ export interface PostSchedulesRes extends PostSchedulesReq {
     categoryName: string
   }
 }
+
+export interface UpdateScheduleReq {
+  categoryId?: number
+  startDate?: Date
+  endDate?: Date
+  title?: string
+  place?: string
+  memo?: string
+  isGroupSchedule?: boolean
+  isAllDay?: boolean
+}
+
+export interface UpdateScheduleRes extends ISchedule {}
+
+export interface PostAnalyzeImageReq {
+  image: File
+  currentDateTime: Date
+}
+
+export interface PostAnalyzeImageRes extends Array<IMediaAnalysisResult> {}

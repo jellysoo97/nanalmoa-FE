@@ -1,0 +1,95 @@
+.custom-datepicker {
+  @apply flex w-full flex-row;
+}
+
+.react-datepicker__month-container {
+  @apply w-full border-r;
+  scrollbar-width: none;
+}
+
+.react-datepicker__time-container {
+  @apply w-2/5 border-l-0;
+}
+
+.react-datepicker__time-container .react-datepicker__time {
+  @apply h-full;
+}
+
+.react-datepicker__time-container
+  .react-datepicker__time
+  .react-datepicker__time-box {
+  @apply h-full w-full;
+}
+
+.react-datepicker__header {
+  @apply border-none bg-neutral-100;
+}
+
+.react-datepicker__day-names,
+.react-datepicker__week {
+  @apply flex justify-between;
+}
+
+.react-datepicker__day-name,
+.react-datepicker__day {
+  @apply m-0 flex h-6 w-6 items-center justify-center text-xs;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected,
+.react-datepicker__time-list-item--selected {
+  @apply bg-primary-700 text-white !important;
+}
+
+.react-datepicker__day--selected:hover,
+.react-datepicker__day--keyboard-selected:hover,
+.react-datepicker__time-list-item--selected:hover {
+  @apply bg-primary-700 !important;
+}
+
+.react-datepicker__day:hover,
+.react-datepicker__time-list-item:hover {
+  @apply bg-primary-500 !important;
+}
+
+/* TODO: scrollbar 스타일 수정 */
+.react-datepicker__time-list {
+  @apply !p-0;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.react-datepicker__time-list::-webkit-scrollbar {
+  display: none;
+}
+
+.react-datepicker__time-list-item {
+  @apply py-1 text-xs;
+}
+
+.react-datepicker__navigation-icon::before {
+  @apply border-primary-700;
+}
+
+.react-datepicker__navigation:hover *::before {
+  @apply border-primary-900;
+}
+
+.react-datepicker__time-container {
+  @apply h-36 w-28 border-l border-neutral-200;
+}
+
+@media (max-width: 640px) {
+  /* .custom-datepicker {
+    @apply flex-col;
+  } */
+
+  .react-datepicker__month-container,
+  .react-datepicker__time-container {
+    @apply w-full border-l-0;
+  }
+
+  .react-datepicker__time-container {
+    @apply h-36 border-l border-neutral-200;
+  }
+}

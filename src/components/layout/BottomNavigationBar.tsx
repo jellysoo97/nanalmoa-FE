@@ -30,7 +30,7 @@ const BottomNavigationBar = () => {
           </div>
           <span className="mt-2 text-sm">일정등록</span>
         </button>
-        <Link to={path.settings}>
+        <Link to={path.settings.base}>
           <IconButton
             direction="vertical"
             icon={<SettingIcon />}
