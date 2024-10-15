@@ -6,7 +6,7 @@ import Divider from '../../Divider'
 import 'react-datepicker/dist/react-datepicker.css'
 import './react-datepicker.css'
 import DatePicker from 'react-datepicker'
-import React from 'react'
+import React, { useState } from 'react'
 
 type Props = {
   repeatType: RecurringOptionValue
@@ -53,10 +53,10 @@ const RepititionBottomComponent = ({
   const recurringInterval = watch('recurringInterval')
 
   return (
-    <div>
+    <div className="pt-3">
       <div className="flex pb-3">
         <input
-          className="h-10 w-20 rounded border bg-neutral-300 py-2 pl-4 pr-3 outline-none sm:w-24"
+          className="h-7 w-14 rounded border bg-neutral-300 py-2 pl-4 pr-3 outline-none sm:h-10 sm:w-20 sm:w-24"
           type="number"
           min="1"
           step="1"
@@ -69,7 +69,7 @@ const RepititionBottomComponent = ({
               Number.isInteger(Number(value)) || '정수만 입력 가능합니다.',
           })}
         />
-        <div className="pl-3 pt-3">
+        <div className="pl-2 pt-2 text-sm sm:pl-3 sm:pt-3 sm:text-base">
           <span>{dateString(repeatType)}</span>
           <span> 간격으로 반복</span>
         </div>
@@ -119,6 +119,16 @@ const RepititionBottomComponent = ({
 }
 
 const RepititionSetModal = ({ repeatType, onClose, setSelected }: Props) => {
+  const [recurringSelected, setRecurringSelected] = useState<number[]>([])
+
+  const toggleWeekday = (idx: number) => {
+    if (setRecurringSelected) {
+      setRecurringSelected((prev) =>
+        prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
+      )
+    }
+  }
+
   if (repeatType === 'none') {
     setSelected('없음')
     return null
@@ -144,6 +154,29 @@ const RepititionSetModal = ({ repeatType, onClose, setSelected }: Props) => {
       <>
         <Modal onClose={onClose} title="주간 반복 설정">
           <div className="p-4">
+            <div className="flex flex-col">
+              <div className="mx-auto text-sm sm:text-base">
+                🍀 일정을 반복할 요일을 선택하세요
+              </div>
+              <div className="mx-auto my-3 flex gap-2">
+                {['일', '월', '화', '수', '목', '금', '토'].map(
+                  (weekday, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => toggleWeekday(idx)}
+                      className={`w-5 rounded py-1 text-center text-sm sm:w-7 sm:text-base ${
+                        recurringSelected.includes(idx)
+                          ? 'bg-primary-500 text-white'
+                          : 'bg-neutral-300'
+                      }`}
+                    >
+                      {weekday}
+                    </button>
+                  )
+                )}
+              </div>
+            </div>
+
             <RepititionBottomComponent
               repeatType={repeatType}
               setSelected={setSelected}
