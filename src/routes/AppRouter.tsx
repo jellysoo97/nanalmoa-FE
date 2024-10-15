@@ -13,6 +13,7 @@ import {
   SettingActivityPage,
   SettingAlarmPage,
   SettingGroupPage,
+  SettingGroupDetailPage,
   SettingManagerPage,
   SettingsPage,
   SignupPage,
@@ -133,6 +134,10 @@ const AppRouter = createBrowserRouter([
       {
         path: path.settings.manager,
         element: <SettingManagerPage />,
+      },
+      {
+        path: `${path.settings.base}/${path.settings.group}/${path.groupDetail}`,
+        element: <SettingGroupDetailPage />,
       },
     ],
   },

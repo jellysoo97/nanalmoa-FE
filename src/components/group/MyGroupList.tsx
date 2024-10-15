@@ -1,8 +1,10 @@
 import { getGroupUser } from '@/api/group/get-group-user'
 import { QUERY_KEYS } from '@/constants/api'
+import { path } from '@/routes/path'
 import { GetGroupUserRes } from '@/types/group'
 import { useQuery } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
+import { Link } from 'react-router-dom'
 
 const MyGroupList = () => {
   //내 그룹 리스트 조회
@@ -33,14 +35,15 @@ const MyGroupList = () => {
         {userGroupList && userGroupList.length > 0 ? (
           <>
             {userGroupList.map((group) => (
-              <div
+              <Link
+                to={`${path.settings.base}/${path.settings.group}/${group.groupId}`}
                 key={group.groupId}
                 className="flex flex-row justify-between"
               >
                 <p>{group.groupName}</p>
                 <p>{group.isAdmin ? '관리자' : ''}</p>
                 <p>{group.memberCount}</p>
-              </div>
+              </Link>
             ))}
           </>
         ) : (

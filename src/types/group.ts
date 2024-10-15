@@ -6,10 +6,32 @@ export interface GetGroupUserRes {
   isAdmin: boolean
 }
 
-export interface getGroupInvitationRes {
+export interface GetGroupInvitationRes {
   groupId: number
   inviteeUuid: string
   invitationId: number
   status: string
   inviterUuid: string
+}
+
+export interface PostGroupReq {
+  groupName: string
+}
+
+export interface PostGroupRes extends GetGroupUserRes {}
+
+export interface PostInviteReq {
+  groupId: number
+  inviteeUuids: [string]
+}
+
+export interface GetGroupDetail extends GetGroupUserRes {
+  members: [
+    {
+      userUuid: string
+      name: string
+      isAdmin: boolean
+      joinedAt: Date
+    },
+  ]
 }

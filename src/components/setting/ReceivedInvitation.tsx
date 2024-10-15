@@ -1,8 +1,8 @@
 import { IManagerInvitation } from '@/types/manager'
-import { getGroupInvitationRes } from '@/types/group'
+import { GetGroupInvitationRes } from '@/types/group'
 
 type Props = {
-  item: IManagerInvitation | getGroupInvitationRes
+  item: IManagerInvitation | GetGroupInvitationRes
   onClickReject: (id: number) => void
   onClickAccept?: (id: number) => void
 }
@@ -10,7 +10,7 @@ type Props = {
 const ReceivedInvitation = ({ item, onClickReject, onClickAccept }: Props) => {
   /* IManagerInvitation 타입이면 true, getGroupInvitationRes 타입이면 false를 반환합니다 */
   const isManagerInvitation = (
-    item: IManagerInvitation | getGroupInvitationRes
+    item: IManagerInvitation | GetGroupInvitationRes
   ): item is IManagerInvitation => {
     return 'managerInvitationId' in item
   }
