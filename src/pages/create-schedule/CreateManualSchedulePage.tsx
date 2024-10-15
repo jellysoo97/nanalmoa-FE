@@ -41,6 +41,8 @@ const CreateManualSchedulePage = () => {
       userUuid: user.info?.userUuid,
     } as PostSchedulesReq
 
+    console.log('payload', payload)
+
     mutation.mutate(payload, {
       onSuccess: (response) => {
         console.log('일정 생성 성공:', response)

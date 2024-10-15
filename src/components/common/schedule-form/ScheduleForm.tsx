@@ -21,9 +21,19 @@ const ScheduleForm = ({
   buttonMessage = '등록하기',
 }: Props) => {
   const getDefaultValues = useCallback(() => {
-    if (!defaultValue) return { isAllDay: false }
+    if (!defaultValue) return { isAllDay: false, isRecurring: false }
 
-    const { title, isAllDay, startDate, endDate, category, memo } = defaultValue
+    const {
+      title,
+      isAllDay,
+      startDate,
+      endDate,
+      category,
+      memo,
+      isRecurring,
+      repeatType,
+      recurringInterval,
+    } = defaultValue
     return {
       title,
       categoryId: category?.categoryId,
@@ -31,6 +41,9 @@ const ScheduleForm = ({
       startDate: new Date(startDate!),
       endDate: new Date(endDate!),
       memo,
+      isRecurring,
+      repeatType,
+      recurringInterval,
     }
   }, [defaultValue])
 

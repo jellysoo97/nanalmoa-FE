@@ -1,5 +1,12 @@
 import { Categories } from './category'
 
+export type RecurringOptionValue =
+  | 'none'
+  | 'daily'
+  | 'weekly'
+  | 'monthly'
+  | 'yearly'
+
 export interface ISchedule {
   userUuid: string
   category: {
@@ -14,6 +21,10 @@ export interface ISchedule {
   isGroupSchedule: boolean
   isAllDay: boolean
   scheduleId: number
+  isRecurring: boolean
+  repeatType: RecurringOptionValue
+  recurringInterval: number
+  repeatEndDate: Date
 }
 
 export interface IMediaAnalysisResult {
@@ -40,14 +51,18 @@ export interface PostUploadAudioFileReq {
 export interface PostUploadAudioFileRes extends Array<IMediaAnalysisResult> {}
 
 export interface IScheduleForm {
-  categoryId: number
+  categoryId?: number
   startDate: Date
   endDate: Date
-  title: string
-  place: string
+  title?: string
+  place?: string
   memo?: string
   isGroupSchedule?: boolean
   isAllDay: boolean
+  isRecurring: boolean
+  repeatType?: RecurringOptionValue
+  recurringInterval?: number
+  repeatEndDate?: Date
 }
 
 export interface PostSchedulesReq {
