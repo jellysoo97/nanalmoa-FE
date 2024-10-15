@@ -9,6 +9,7 @@ import { AxiosError } from 'axios'
 import { ChangeEvent, useState } from 'react'
 import Divider from './Divider'
 import { CloseIcon } from '../icons'
+import UserMiniProfile from './UserMiniProfile'
 
 type Props = {
   onClick?: (user: UserWithPhoneNumber) => void
@@ -35,7 +36,7 @@ const UserSelector = ({ onClick }: Props) => {
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const term = e.target.value
     setSearchTerm(term)
-    if (term.length > 0) {
+    if (term?.length > 0) {
       mutation.mutate({ keyword: term })
     } else {
       setSearchResults([])
@@ -62,53 +63,35 @@ const UserSelector = ({ onClick }: Props) => {
           <CloseIcon />
         </button>
       </div>
-      {searchResults && searchResults.length > 0 && (
+      {searchResults && searchResults?.length > 0 && (
         <ul className="rounded-bl-md rounded-br-md border-b border-l border-r border-neutral-300 bg-white px-4 py-1 shadow-sm">
           <div className="py-2 text-xs text-neutral-500">
-            💡 검색된 사용자 {searchResults.length} 명
+            💡 검색된 사용자 {searchResults?.length} 명
           </div>
           <Divider />
           <div>
-            {searchResults.map((user) => (
-              <li
-                key={user.userId}
-                className="flex cursor-pointer justify-between gap-2 py-3"
-              >
-                <div className="flex gap-2">
-                  {!user.profileImage.length ? (
-                    <img
-                      src={user.profileImage}
-                      className="size-8 rounded-full object-cover sm:size-9"
-                    />
-                  ) : (
-                    <div className="flex size-8 items-center justify-center rounded-full border sm:size-9">
-                      {user.name[0]}
-                    </div>
+            {searchResults?.length &&
+              searchResults.map((user) => (
+                <li
+                  key={user.userId}
+                  className="flex cursor-pointer justify-between gap-2 py-3"
+                >
+                  <UserMiniProfile user={user} />
+                  {onClick && (
+                    <button
+                      className="rounded bg-primary-500 px-2 py-1 text-xs text-white sm:text-base"
+                      onClick={() => onClick(user)}
+                    >
+                      <span>초대</span>
+                      <span className="hidden sm:inline">하기</span>
+                    </button>
                   )}
-                  <div className="flex items-center gap-1">
-                    <div className="text-base font-semibold sm:text-lg">
-                      {user.name}
-                    </div>
-                    <div className="text-[12px] text-neutral-500 sm:text-xs">
-                      {user.phoneNumber ? user.phoneNumber : user.email}
-                    </div>
-                  </div>
-                </div>
-                {onClick && (
-                  <button
-                    className="rounded bg-primary-500 px-2 py-1 text-xs text-white sm:text-base"
-                    onClick={() => onClick(user)}
-                  >
-                    <span>추가</span>
-                    <span className="hidden sm:inline">하기</span>
-                  </button>
-                )}
-              </li>
-            ))}
+                </li>
+              ))}
           </div>
         </ul>
       )}
-      {!mutation.isIdle && !searchResults.length && (
+      {!mutation.isIdle && !searchResults?.length && (
         <div className="px-2 py-1 text-sm text-red-400">
           해당 사용자가 없습니다!
         </div>

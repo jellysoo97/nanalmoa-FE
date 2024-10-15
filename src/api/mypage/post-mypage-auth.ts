@@ -1,11 +1,7 @@
 import { API_DOMAINS } from '@/constants/api'
 import { baseAPI } from '../axios-instance'
 import { AxiosResponse } from 'axios'
-import { PostLoginReq } from '@/types/auth'
-
-export interface PostSMSVerify extends PostLoginReq {
-  code: string
-}
+import { authAPI } from '../axios-instance'
 
 export interface PostEmailSend {
   email: string
@@ -16,6 +12,7 @@ export interface PostEmailVerify extends PostEmailSend {
 
 export const postSMSSend = async (payload: PostLoginReq) => {
   const { data } = await baseAPI.post<PostLoginReq, AxiosResponse>(
+
     `${API_DOMAINS.AUTH}/sms/send`,
     payload
   )

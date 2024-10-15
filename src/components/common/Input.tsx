@@ -9,7 +9,14 @@ type Props = {
 
 const Input = forwardRef<HTMLInputElement, Props>(
   (
-    { label, direction = 'vertical', errorMessage, className, ...props },
+    {
+      label,
+      direction = 'vertical',
+      errorMessage,
+      required,
+      className,
+      ...props
+    },
     ref
   ) => {
     return (
@@ -22,10 +29,10 @@ const Input = forwardRef<HTMLInputElement, Props>(
       >
         {label && (
           <label className="inline-block min-w-40 text-left text-neutral-600">
-            {label}
+            {label} {required && <span className="text-red-500">*</span>}
           </label>
         )}
-        <div className="flex flex-col gap-y-2">
+        <div className="relative">
           <input
             ref={ref}
             className={cn(
@@ -35,7 +42,9 @@ const Input = forwardRef<HTMLInputElement, Props>(
             {...props}
           />
           {!!errorMessage && (
-            <p className="text-xs text-red-500">{errorMessage}</p>
+            <p className="absolute -bottom-5 text-xs text-red-500">
+              {errorMessage}
+            </p>
           )}
         </div>
       </div>
