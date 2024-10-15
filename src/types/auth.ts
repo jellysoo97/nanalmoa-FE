@@ -28,15 +28,16 @@ export interface PostSmsCodeReq {
   phoneNumber: string
 }
 
-export interface PostSmsCodeRes {
-  message: string
-}
-
 export interface PostSmsVerifyReq extends PostSmsCodeReq {
   code: string
 }
 
-export interface PostSmsVerifyRes extends PostSmsCodeRes {}
+export interface PostEmailSend {
+  email: string
+}
+export interface PostEmailVerify extends PostEmailSend {
+  code: string
+}
 
 export interface PostLoginReq {
   phoneNumber: string

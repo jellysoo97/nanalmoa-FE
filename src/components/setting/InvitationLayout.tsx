@@ -1,7 +1,7 @@
-import { getGroupInvitationRes } from '@/types/group'
+import { GetGroupInvitationRes } from '@/types/group'
 import { IGetManagerInvitationRes } from '@/types/manager'
 
-type ItemType = getGroupInvitationRes[] | IGetManagerInvitationRes
+type ItemType = GetGroupInvitationRes[] | IGetManagerInvitationRes
 
 type ComponentProps<T extends ItemType> = {
   item: T[number]

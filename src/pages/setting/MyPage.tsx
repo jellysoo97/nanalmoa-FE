@@ -4,7 +4,7 @@ import {
   postSMSSend,
   postSMSVerify,
 } from '@/api/mypage/post-mypage-auth'
-import { putMypage } from '@/api/mypage/put-mypage'
+import { deleteUser, putMypage } from '@/api/mypage/put-mypage'
 import SuccessFace from '@/assets/imgs/success.png'
 import { Button } from '@/components/common'
 import { QUERY_KEYS } from '@/constants/api'
@@ -17,10 +17,15 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Toast from '@/components/common/Toast'
+import Modal from '@/components/common/Modal'
+import { useModal } from '@/hooks/use-modal'
+import Divider from '@/components/common/Divider'
+import TrashCanIcon from '@/components/icons/TrashCanIcon'
 
 const MyPage = () => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+  const { isModalOpen, openModal, closeModal } = useModal()
   const [isEdit, setIsEdit] = useState<boolean>(false)
   const [isSMSSent, setIsSMSSent] = useState<boolean>(false)
   const [isEmailSent, setIsEmailSent] = useState<boolean>(false)
@@ -36,6 +41,7 @@ const MyPage = () => {
   const { user } = useUser()
   const userInfo = user.info
   const userProfile = userInfo?.profileImage || SuccessFace
+  const phoneRegex = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/
 
   useEffect(() => {
     if (isEdit) {
@@ -57,25 +63,36 @@ const MyPage = () => {
     },
     onError: (err) => {
       console.log(err)
+      toast.error(err.message)
     },
   })
 
   const handlePutMy = () => {
     const payload: PutMypage = {}
 
-    // 변경된 필드만 추가
+    // 전화번호 형식 검사
+    if (!phoneRegex.test(phoneNumber)) {
+      toast.error('전화번호 형식이 틀렸습니다. 올바른 형식으로 입력해 주세요.')
+      return
+    }
+
+    if (!payload.phoneVerificationCode || !payload.emailVerificationCode) {
+      toast.error('인증 후 수정할 수 있습니다')
+      return
+    }
+
+    // 변경된 필드만
     if (name) payload.name = name
     if (phoneNumber) {
       payload.phoneNumber = phoneNumber
-      payload.phoneVerificationCode = smsVerify // 인증번호 추가
+      payload.phoneVerificationCode = smsVerify
     }
     if (email) {
       payload.email = email
-      payload.emailVerificationCode = emailVerify // 인증번호 추가
+      payload.emailVerificationCode = emailVerify
     }
     if (address) payload.address = address
 
-    // PUT 요청
     if (Object.keys(payload).length > 0) {
       mutation.mutate(payload)
     } else {
@@ -113,6 +130,13 @@ const MyPage = () => {
       toast.error('전화번호를 입력해 주세요.')
       return
     }
+
+    // 전화번호 형식 검사
+    if (!phoneRegex.test(phoneNumber)) {
+      toast.error('전화번호 형식이 틀렸습니다. 올바른 형식으로 입력해 주세요.')
+      return
+    }
+
     const payload = { phoneNumber: phoneNumber }
     smsSendMutation.mutate(payload)
   }
@@ -169,6 +193,23 @@ const MyPage = () => {
     emailVerifyMutation.mutate(payload)
   }
 
+  //회원탈퇴
+  const userDeleteMutation = useMutation({
+    mutationKey: [QUERY_KEYS.DELETE_USER],
+    mutationFn: deleteUser,
+    onSuccess: () => {
+      console.log('삭제 성공')
+      navigate(`${path.login}`)
+      localStorage.clear()
+    },
+    onError: () => {
+      toast.error('유저 삭제에 실패했습니다.')
+    },
+  })
+
+  const handleDeleteUser = () => {
+    userDeleteMutation.mutate()
+  }
   return (
     <div className="h-full w-full p-4">
       <div className="flex justify-between">
@@ -203,16 +244,17 @@ const MyPage = () => {
           <img
             src={userProfile}
             alt="Profile"
-            className="h-full w-full rounded-full object-cover"
+            className="rounded-full object-cover"
+            style={{ width: '200px', height: '200px' }}
           />
         </div>
         <div className="w-full">
           <div className="mb-4">
-            <label className="block font-medium text-gray-700">이름</label>
+            <label className="block font-medium text-neutral-700">이름</label>
             {isEdit ? (
               <input
                 type="text"
-                className="mt-1 block w-[70%] rounded-md border border-gray-300 p-2 shadow-sm"
+                className="mt-1 block w-[70%] rounded-md border border-neutral-300 p-2 shadow-sm"
                 defaultValue={userInfo?.name}
                 onChange={(e) => setName(e.target.value)}
               />
@@ -228,11 +270,11 @@ const MyPage = () => {
             )}
           </div>
           <div className="mb-4">
-            <label className="block font-medium text-gray-700">
+            <label className="block font-medium text-neutral-700">
               전화번호
               {isEdit && (
                 <span className="ml-2 text-sm text-neutral-400">
-                  (010-0000-0000 형식)
+                  (010-XXXX-XXXX 형식)
                 </span>
               )}
             </label>
@@ -241,7 +283,7 @@ const MyPage = () => {
                 <div className="flex justify-between">
                   <input
                     type="tel"
-                    className="mt-1 block w-[70%] rounded-md border border-gray-300 p-2 shadow-sm"
+                    className="mt-1 block w-[70%] rounded-md border border-neutral-300 p-2 shadow-sm"
                     defaultValue={userInfo?.phoneNumber || ''}
                     placeholder="정보 없음"
                     onChange={(e) => setPhoneNumber(e.target.value)}
@@ -252,7 +294,7 @@ const MyPage = () => {
                 {isSMSSent && (
                   <>
                     <input
-                      className="mt-1 block w-[70%] rounded-md border border-gray-300 p-2 shadow-sm"
+                      className="mt-1 block w-[70%] rounded-md border border-neutral-300 p-2 shadow-sm"
                       placeholder="000000"
                       type="text"
                       autoComplete="one-time-code"
@@ -272,13 +314,13 @@ const MyPage = () => {
             )}
           </div>
           <div className="mb-4">
-            <label className="block font-medium text-gray-700">이메일</label>
+            <label className="block font-medium text-neutral-700">이메일</label>
             {isEdit ? (
               <>
                 <div className="flex justify-between">
                   <input
                     type="email"
-                    className="mt-1 block w-[70%] rounded-md border border-gray-300 p-2 shadow-sm"
+                    className="mt-1 block w-[70%] rounded-md border border-neutral-300 p-2 shadow-sm"
                     defaultValue={userInfo?.email || ''}
                     placeholder="정보 없음"
                     onChange={(e) => setEmail(e.target.value)}
@@ -295,7 +337,7 @@ const MyPage = () => {
                       inputMode="numeric"
                       maxLength={6}
                       pattern="\d{6}"
-                      className="mt-1 block w-[70%] rounded-md border border-gray-300 p-2 shadow-sm"
+                      className="mt-1 block w-[70%] rounded-md border border-neutral-300 p-2 shadow-sm"
                       placeholder="000000"
                       onChange={(e) => {
                         const value = e.target.value
@@ -313,11 +355,11 @@ const MyPage = () => {
             )}
           </div>
           <div className="mb-4">
-            <label className="block font-medium text-gray-700">주소</label>
+            <label className="block font-medium text-neutral-700">주소</label>
             {isEdit ? (
               <input
                 type="text"
-                className="mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm"
+                className="mt-1 block w-full rounded-md border border-neutral-300 p-2 shadow-sm"
                 defaultValue={userInfo?.address || ''}
                 placeholder="정보 없음"
                 onChange={(e) => setAddress(e.target.value)}
@@ -330,10 +372,36 @@ const MyPage = () => {
       </div>
       <Button
         text="회원 탈퇴"
-        onClick={() => {
-          alert('탈퇴하시겠습니까?')
-        }}
+        className="bg-primary-coral"
+        onClick={openModal}
       />
+      {isModalOpen && (
+        <Modal onClose={closeModal}>
+          <div className="px-6">
+            <div className="mx-auto py-3">
+              <p>
+                기존 일정, 복약,
+                <br />
+                관리자, 그룹이 모두 삭제됩니다.
+              </p>
+            </div>
+            <Divider />
+            <div className="py-4 text-center text-lg">
+              정말 탈퇴하시겠습니까?
+            </div>
+            <div className="mx-auto flex w-2/3 flex-col">
+              <Button text="취소" onClick={closeModal} />
+              <button
+                onClick={handleDeleteUser}
+                className="mx-auto mt-2 flex w-full items-center justify-center rounded bg-primary-coral"
+              >
+                <TrashCanIcon className="w-6" />
+                <div className="text-center font-medium">탈퇴하기</div>
+              </button>
+            </div>
+          </div>
+        </Modal>
+      )}
       <Toast />
     </div>
   )

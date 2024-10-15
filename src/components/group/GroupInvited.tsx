@@ -1,5 +1,6 @@
 import { getGroupInvitation } from '@/api/group/get-group-invitation'
-import { getGroupInvitationRes } from '@/types/group'
+import { QUERY_KEYS } from '@/constants/api'
+import { GetGroupInvitationRes } from '@/types/group'
 import { useQuery } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 
@@ -8,8 +9,8 @@ const GroupInvited = () => {
     data: GroupInvitation,
     error: isInvitationError,
     isLoading: isInvitationLoading,
-  } = useQuery<getGroupInvitationRes[], AxiosError>({
-    queryKey: [],
+  } = useQuery<GetGroupInvitationRes[], AxiosError>({
+    queryKey: [QUERY_KEYS.GET_GROUP_INVITATION],
     queryFn: getGroupInvitation,
   })
 

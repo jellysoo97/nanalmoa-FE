@@ -19,4 +19,5 @@ export const path = {
     group: 'group',
     manager: 'manager',
   },
+  groupDetail: ':id',
 }
