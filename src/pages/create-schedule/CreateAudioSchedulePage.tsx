@@ -123,7 +123,8 @@ const CreateAudioSchdulePage = () => {
             onRightButtonClick={handleCancel}
           />
         )}
-        {currentStep !== CreateScheduleStepEnum.AnalysisResult &&
+
+        {currentStep === CreateScheduleStepEnum.AnalysisResult &&
           mutation.isSuccess &&
           results && (
             <SuccessAudio
