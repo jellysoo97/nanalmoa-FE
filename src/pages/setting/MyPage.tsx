@@ -1,9 +1,4 @@
-import {
-  postEmailSend,
-  postEmailVerify,
-  postSMSSend,
-  postSMSVerify,
-} from '@/api/mypage/post-mypage-auth'
+import { postEmailSend, postEmailVerify } from '@/api/mypage/post-mypage-auth'
 import { deleteUser, putMypage } from '@/api/mypage/put-mypage'
 import SuccessFace from '@/assets/imgs/success.png'
 import { Button } from '@/components/common'
@@ -21,6 +16,8 @@ import Modal from '@/components/common/Modal'
 import { useModal } from '@/hooks/use-modal'
 import Divider from '@/components/common/Divider'
 import TrashCanIcon from '@/components/icons/TrashCanIcon'
+import { postSmsCode } from '@/api/auth/post-sms-code'
+import { postSmsVerify } from '@/api/auth/post-sms-verify'
 
 const MyPage = () => {
   const navigate = useNavigate()
@@ -103,7 +100,7 @@ const MyPage = () => {
   //전화번호 인증
   const smsSendMutation = useMutation({
     mutationKey: [QUERY_KEYS.POST_SMS_SEND],
-    mutationFn: postSMSSend,
+    mutationFn: postSmsCode,
     onSuccess: () => {
       toast.success('인증번호가 발송되었습니다. 5분 이내에 인증해주세요')
       setIsSMSSent(true)
@@ -115,7 +112,7 @@ const MyPage = () => {
 
   const smsVerifyMutation = useMutation({
     mutationKey: [QUERY_KEYS.POST_SMS_VERIFY],
-    mutationFn: postSMSVerify,
+    mutationFn: postSmsVerify,
     onSuccess: () => {
       toast.success('인증 완료되었습니다')
       setIsSMSSent(false)
@@ -272,11 +269,6 @@ const MyPage = () => {
           <div className="mb-4">
             <label className="block font-medium text-neutral-700">
               전화번호
-              {isEdit && (
-                <span className="ml-2 text-sm text-neutral-400">
-                  (010-XXXX-XXXX 형식)
-                </span>
-              )}
             </label>
             {isEdit ? (
               <>
