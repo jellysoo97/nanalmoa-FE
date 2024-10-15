@@ -7,3 +7,4 @@ export { default as CreateAudioSchdulePage } from './create-schedule/CreateAudio
 export { default as CreatePhotoSchedulePage } from './create-schedule/CreatePhotoSchedulePage'
 export { default as ScheduleDetailPage } from './ScheduleDetailPage'
 export { default as SettingsPage } from './setting/SettingsPage'
+export { default as SettingsGroupDetailPage } from './setting/SettingGroupDetailPage'
