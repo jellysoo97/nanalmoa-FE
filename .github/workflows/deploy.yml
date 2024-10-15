@@ -72,15 +72,15 @@ jobs:
             whoami
 
       # EC2에 압축된 빌드 파일 복사
-      # - name: Copy to EC2
-      #   uses: appleboy/scp-action@master
-      #   with:
-      #     host: ${{ secrets.SSH_HOST }}
-      #     username: ${{ secrets.SSH_USERNAME }}
-      #     key: ${{ secrets.SSH_KEY }}
-      #     port: ${{ secrets.SSH_PORT }}
-      #     source: dist.zip
-      #     target: /home/${{ secrets.SSH_USERNAME }}/nanalmoa-fe/
+      - name: Copy to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          source: dist.zip
+          target: /home/${{ secrets.SSH_USERNAME }}/nanalmoa-fe/
 
       # EC2에서 배포 스크립트 실행
       - name: Execute deploy script
