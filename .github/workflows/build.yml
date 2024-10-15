@@ -2,7 +2,7 @@ name: 'nanalmoa-fe-build'
 
 on:
   pull_request:
-    branches: ['main', 'release']
+    branches: ['main']
 
 jobs:
   build:
@@ -36,13 +36,7 @@ jobs:
       - name: Create env file
         run: |
           touch .env
-          BRANCH=${GITHUB_REF#refs/heads/}
-
-          if [ "$BRANCH" = "main" ]; then
-            echo "${{ secrets.PROD_ENV }}" > .env
-          elif [ "$BRANCH" = "release" ]; then
-            echo "${{ secrets.DEV_ENV }}" > .env
-          fi
+          echo "${{ secrets.DEV_ENV }}" > .env
 
       # 레포 빌드
       - name: Build
