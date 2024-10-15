@@ -40,13 +40,14 @@ const SuccessAudio = ({ results, createSchedules, moveStep }: Props) => {
   const handleCreate = () => {
     if (selectedResult) {
       createSchedules({
-        userUuid: selectedResult.userUuid,
+        // userUuid: selectedResult.userUuid,
         categoryId: selectedResult.categoryId,
         startDate: selectedResult.startDate,
         endDate: selectedResult.endDate,
         title: selectedResult.title,
         place: selectedResult.place,
         isAllDay: selectedResult.isAllDay,
+        isRecurring: false,
       })
       moveStep(CreateScheduleStepEnum.RegisterResult)
     }
@@ -68,7 +69,7 @@ const SuccessAudio = ({ results, createSchedules, moveStep }: Props) => {
     if (!userUuid) return
     const payload = {
       ...data,
-      userUuid,
+      // userUuid,
     } as PostSchedulesReq
 
     mutation.mutate(payload, {

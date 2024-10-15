@@ -62,6 +62,7 @@ export interface IScheduleForm {
 }
 
 export interface PostSchedulesReq {
+  userUuid?: string
   categoryId?: number
   startDate: Date
   endDate: Date
@@ -70,7 +71,7 @@ export interface PostSchedulesReq {
   memo?: string
   isAllDay: boolean
   isRecurring: boolean
-  repeatType: RecurringOptionValue
+  repeatType?: RecurringOptionValue
   recurringInterval?: number
   repeatEndDate?: Date
   recurringDaysOfWeek?: number[]
