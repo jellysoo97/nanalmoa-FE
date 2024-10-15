@@ -8,6 +8,11 @@ export const putMypage = async (payload: PutMypage) => {
     `${API_DOMAINS.USERS}/update`,
     payload
   )
+  return data
+}
+
+export const deleteUser = async () => {
+  const { data } = await baseAPI.delete(`${API_DOMAINS.USERS}/delete`)
 
   return data
 }
