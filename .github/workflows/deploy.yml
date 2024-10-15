@@ -1,7 +1,7 @@
 name: 'nanalmoa-fe-deploy'
 
 on:
-  push:
+  pull_request:
     branches: ['release']
 
 jobs:
