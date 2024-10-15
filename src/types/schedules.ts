@@ -18,7 +18,6 @@ export interface ISchedule {
   title: string
   place: string
   memo: string
-  isGroupSchedule: boolean
   isAllDay: boolean
   scheduleId: number
   isRecurring: boolean
@@ -57,27 +56,30 @@ export interface IScheduleForm {
   title?: string
   place?: string
   memo?: string
-  isGroupSchedule?: boolean
   isAllDay: boolean
   isRecurring: boolean
   repeatType?: RecurringOptionValue
-  recurringInterval?: number
-  repeatEndDate?: Date
 }
 
 export interface PostSchedulesReq {
-  userUuid: string
   categoryId?: number
   startDate: Date
   endDate: Date
   title?: string
   place?: string
   memo?: string
-  isGroupSchedule?: boolean
-  isAllDay?: boolean
+  isAllDay: boolean
+  isRecurring: boolean
+  repeatType: RecurringOptionValue
+  recurringInterval?: number
+  repeatEndDate?: Date
+  recurringDaysOfWeek?: number[]
+  recurringDaysOfMonth?: number[]
+  recurringDayOfYear?: number[]
 }
 
 export interface PostSchedulesRes extends PostSchedulesReq {
+  userUuid: string
   scheduleId: number
   category: {
     categoryId: number
@@ -92,8 +94,8 @@ export interface UpdateScheduleReq {
   title?: string
   place?: string
   memo?: string
-  isGroupSchedule?: boolean
   isAllDay?: boolean
+  isRecurring?: boolean
 }
 
 export interface UpdateScheduleRes extends ISchedule {}

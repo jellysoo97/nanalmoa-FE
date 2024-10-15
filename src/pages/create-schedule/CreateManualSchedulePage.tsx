@@ -38,10 +38,7 @@ const CreateManualSchedulePage = () => {
 
     const payload = {
       ...data,
-      userUuid: user.info?.userUuid,
     } as PostSchedulesReq
-
-    console.log('payload', payload)
 
     mutation.mutate(payload, {
       onSuccess: (response) => {

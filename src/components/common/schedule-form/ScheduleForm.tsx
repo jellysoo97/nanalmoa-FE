@@ -23,17 +23,8 @@ const ScheduleForm = ({
   const getDefaultValues = useCallback(() => {
     if (!defaultValue) return { isAllDay: false, isRecurring: false }
 
-    const {
-      title,
-      isAllDay,
-      startDate,
-      endDate,
-      category,
-      memo,
-      isRecurring,
-      repeatType,
-      recurringInterval,
-    } = defaultValue
+    const { title, isAllDay, startDate, endDate, category, memo, isRecurring } =
+      defaultValue
     return {
       title,
       categoryId: category?.categoryId,
@@ -42,8 +33,6 @@ const ScheduleForm = ({
       endDate: new Date(endDate!),
       memo,
       isRecurring,
-      repeatType,
-      recurringInterval,
     }
   }, [defaultValue])
 
