@@ -106,7 +106,9 @@ const RepititionBottomComponent = ({
       <div className="mt-4 flex justify-center">
         <button
           onClick={() => {
-            setSelected(`${recurringInterval}${dateString(repeatType)}간 반복`)
+            setSelected(
+              `${recurringInterval}${dateString(repeatType)} 간격 반복`
+            )
             onClose()
           }}
           className="rounded bg-primary-500 px-3 py-1 text-neutral-100"
@@ -119,11 +121,13 @@ const RepititionBottomComponent = ({
 }
 
 const RepititionSetModal = ({ repeatType, onClose, setSelected }: Props) => {
-  const [recurringSelected, setRecurringSelected] = useState<number[]>([])
+  const [weekDaySelected, setWeekDaySelected] = useState<string[]>([])
+  const [daysSelected, setDaysSelected] = useState<number>(0)
+  const [monthSelected, setMonthSelected] = useState<number>(0)
 
-  const toggleWeekday = (idx: number) => {
-    if (setRecurringSelected) {
-      setRecurringSelected((prev) =>
+  const toggleWeekday = (idx: string) => {
+    if (setWeekDaySelected) {
+      setWeekDaySelected((prev) =>
         prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
       )
     }
@@ -138,7 +142,8 @@ const RepititionSetModal = ({ repeatType, onClose, setSelected }: Props) => {
     return (
       <>
         <Modal onClose={onClose} title="일간 반복 설정">
-          <div className="px-10 py-12">
+          <div className="px-6 py-10">
+            <div className="text-sm sm:text-base">🍀 매일 일정 반복 선택</div>
             <RepititionBottomComponent
               repeatType={repeatType}
               setSelected={setSelected}
@@ -156,16 +161,16 @@ const RepititionSetModal = ({ repeatType, onClose, setSelected }: Props) => {
           <div className="p-4">
             <div className="flex flex-col">
               <div className="mx-auto text-sm sm:text-base">
-                🍀 일정을 반복할 요일을 선택하세요
+                🍀 매주 일정 반복 요일 선택
               </div>
               <div className="mx-auto my-3 flex gap-2">
                 {['일', '월', '화', '수', '목', '금', '토'].map(
                   (weekday, idx) => (
                     <button
                       key={idx}
-                      onClick={() => toggleWeekday(idx)}
-                      className={`w-5 rounded py-1 text-center text-sm sm:w-7 sm:text-base ${
-                        recurringSelected.includes(idx)
+                      onClick={() => toggleWeekday(idx.toString())}
+                      className={`w-6 rounded py-1 text-center text-sm sm:w-7 sm:text-base ${
+                        weekDaySelected.includes(idx.toString())
                           ? 'bg-primary-500 text-white'
                           : 'bg-neutral-300'
                       }`}
@@ -192,6 +197,24 @@ const RepititionSetModal = ({ repeatType, onClose, setSelected }: Props) => {
       <>
         <Modal onClose={onClose} title="월간 반복 설정">
           <div className="p-4">
+            <div className="px-6 text-base text-sm">
+              🍀 매월 일정 반복 날짜 선택
+            </div>
+            <div className="mb-4 mt-4 grid grid-cols-7 gap-1 px-6">
+              {Array.from({ length: 31 }, (_, i) => i + 1).map((date) => (
+                <button
+                  key={date}
+                  onClick={() => setDaysSelected(date)}
+                  className={`w-8 rounded p-2 text-center text-sm sm:w-10 sm:text-base ${
+                    daysSelected === date
+                      ? 'bg-primary-500 text-white'
+                      : 'bg-neutral-200 hover:bg-neutral-300'
+                  }`}
+                >
+                  {date}
+                </button>
+              ))}
+            </div>
             <RepititionBottomComponent
               repeatType={repeatType}
               setSelected={setSelected}
@@ -207,6 +230,24 @@ const RepititionSetModal = ({ repeatType, onClose, setSelected }: Props) => {
       <>
         <Modal onClose={onClose} title="연간 반복 설정">
           <div className="p-4">
+            <div className="px-6 text-base text-sm">
+              🍀 매년 일정 반복 날짜 선택
+            </div>
+            <div className="mb-4 mt-4 grid grid-cols-7 gap-1 px-6">
+              {Array.from({ length: 12 }, (_, i) => i + 1).map((date) => (
+                <button
+                  key={date}
+                  onClick={() => setMonthSelected(date)}
+                  className={`w-8 rounded p-2 text-center text-sm sm:w-10 sm:text-base ${
+                    monthSelected === date
+                      ? 'bg-primary-500 text-white'
+                      : 'bg-neutral-200 hover:bg-neutral-300'
+                  }`}
+                >
+                  {date}
+                </button>
+              ))}
+            </div>
             <RepititionBottomComponent
               repeatType={repeatType}
               setSelected={setSelected}
