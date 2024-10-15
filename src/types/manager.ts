@@ -16,3 +16,7 @@ export interface IManagerInvitation {
 export interface IPostManagerInvitationRes extends IManagerInvitation {}
 
 export interface IGetManagerInvitationRes extends Array<IManagerInvitation> {}
+
+export interface IRejectManagerInvitationRes extends IManagerInvitation {}
+
+export interface IPatchManagerInvitationRes extends IManagerInvitation {}
