@@ -3,26 +3,48 @@ import {
   CreateAudioSchdulePage,
   CreateManualSchedulePage,
   CreatePhotoSchedulePage,
+  ErrorBoundary,
   HomePage,
   LandingPage,
   LoginPage,
   LoginRedirectPage,
+  MyPage,
   ScheduleDetailPage,
+  SettingActivityPage,
+  SettingAlarmPage,
+  SettingGroupPage,
+  SettingGroupDetailPage,
+  SettingManagerPage,
   SettingsPage,
+  SignupPage,
+  SignupResultPage,
 } from '@/pages'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
 import { path } from './path'
-import MyPage from '@/pages/setting/MyPage'
-import SettingAlarmPage from '@/pages/setting/SettingAlarmPage'
-import SettingGroupPage from '@/pages/setting/SettingGroupPage'
-import SettingManagerPage from '@/pages/setting/SettingManagerPage'
-import SettingActivityPage from '@/pages/setting/SettingActivityPage'
-import SettingGroupDetailPage from '@/pages/setting/SettingGroupDetailPage'
 
 const AppRouter = createBrowserRouter([
   {
     path: '/',
     element: <LandingPage isLanding />,
+    errorElement: <ErrorBoundary />,
+  },
+  {
+    path: path.signup,
+    element: (
+      <DesktopLayout>
+        <Outlet />
+      </DesktopLayout>
+    ),
+    children: [
+      {
+        path: '',
+        element: <SignupPage />,
+      },
+      {
+        path: 'result',
+        element: <SignupResultPage />,
+      },
+    ],
   },
   {
     path: path.login,

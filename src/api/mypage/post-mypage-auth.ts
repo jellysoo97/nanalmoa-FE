@@ -1,21 +1,15 @@
 import { API_DOMAINS } from '@/constants/api'
 import { baseAPI } from '../axios-instance'
 import { AxiosResponse } from 'axios'
-import { PostLoginReq } from '@/types/auth'
+import {
+  PostEmailSend,
+  PostEmailVerify,
+  PostSmsCodeReq,
+  PostSmsVerifyReq,
+} from '@/types/auth'
 
-export interface PostSMSVerify extends PostLoginReq {
-  code: string
-}
-
-export interface PostEmailSend {
-  email: string
-}
-export interface PostEmailVerify extends PostEmailSend {
-  code: string
-}
-
-export const postSMSSend = async (payload: PostLoginReq) => {
-  const { data } = await baseAPI.post<PostLoginReq, AxiosResponse>(
+export const postSMSSend = async (payload: PostSmsCodeReq) => {
+  const { data } = await baseAPI.post<PostSmsCodeReq, AxiosResponse>(
     `${API_DOMAINS.AUTH}/sms/send`,
     payload
   )
@@ -23,8 +17,8 @@ export const postSMSSend = async (payload: PostLoginReq) => {
   return data
 }
 
-export const postSMSVerify = async (payload: PostSMSVerify) => {
-  const { data } = await baseAPI.post<PostSMSVerify, AxiosResponse>(
+export const postSMSVerify = async (payload: PostSmsVerifyReq) => {
+  const { data } = await baseAPI.post<PostSmsVerifyReq, AxiosResponse>(
     `${API_DOMAINS.AUTH}/sms/verify`,
     payload
   )

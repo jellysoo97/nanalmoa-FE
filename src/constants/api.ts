@@ -14,6 +14,7 @@ export const API_DOMAINS = {
   SCHEDULES: '/schedules',
   GROUP: '/groups',
   ROUTINE: '/users-routine',
+  MANAGER: '/manager',
 }
 
 export const QUERY_KEYS = {
@@ -41,4 +42,6 @@ export const QUERY_KEYS = {
   POST_EMAIL_SEND: 'emailSend',
   POST_EMAIL_VERIFY: 'emailVerify',
   GET_ROUTINE: 'routine',
+  GET_MANAGER_INVITATION_SEND: 'managerInvitationSend',
+  GET_MANAGER_INVITATION_RECEIVED: 'managerInvitationReceived',
 }
