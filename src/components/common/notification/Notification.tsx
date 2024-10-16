@@ -1,25 +1,26 @@
-import { cn } from '@/utils/cn'
-import { IconButton } from '..'
-import { NotificationIcon } from '../../icons'
-import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { getInvitationsUser } from '@/api/invitations/get-invitations-user'
+import { QUERY_KEYS } from '@/constants/api'
 import {
   GetInvitationsUserRes,
   IInvitation,
-  InvitationGroupEnum,
   InvitationRoleEnum,
   InvitationStatusEnum,
+  InvitationTypeEnum,
 } from '@/types/invitations'
-import { AxiosError } from 'axios'
-import { QUERY_KEYS } from '@/constants/api'
+import { cn } from '@/utils/cn'
 import { getAccessToken } from '@/utils/handle-token'
-import { getInvitationsUser } from '@/api/invitations/get-invitations-user'
+import { useQuery } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
+import { useState } from 'react'
+import { IconButton } from '..'
+import { NotificationIcon } from '../../icons'
 import NotificationItem from './NotificationItem'
+import Toast from '../Toast'
 
 const DUMMY: Array<IInvitation> = [
   {
     id: 1,
-    type: InvitationGroupEnum.Group,
+    type: InvitationTypeEnum.Group,
     role: InvitationRoleEnum.GROUP_MEMBER,
     status: InvitationStatusEnum.PENDING,
     createdAt: new Date(),
@@ -33,7 +34,7 @@ const DUMMY: Array<IInvitation> = [
   },
   {
     id: 2,
-    type: InvitationGroupEnum.Manager,
+    type: InvitationTypeEnum.Manager,
     role: InvitationRoleEnum.SUBORDINATE,
     status: InvitationStatusEnum.PENDING,
     createdAt: new Date(),
@@ -47,7 +48,7 @@ const DUMMY: Array<IInvitation> = [
   },
   {
     id: 3,
-    type: InvitationGroupEnum.Manager,
+    type: InvitationTypeEnum.Manager,
     role: InvitationRoleEnum.MANAGER,
     status: InvitationStatusEnum.ACCEPTED,
     createdAt: new Date(),
@@ -61,7 +62,7 @@ const DUMMY: Array<IInvitation> = [
   },
   {
     id: 4,
-    type: InvitationGroupEnum.Manager,
+    type: InvitationTypeEnum.Manager,
     role: InvitationRoleEnum.MANAGER,
     status: InvitationStatusEnum.REJECTED,
     createdAt: new Date(),
@@ -75,7 +76,7 @@ const DUMMY: Array<IInvitation> = [
   },
   {
     id: 5,
-    type: InvitationGroupEnum.Group,
+    type: InvitationTypeEnum.Group,
     role: InvitationRoleEnum.GROUP_ADMIN,
     status: InvitationStatusEnum.REJECTED,
     createdAt: new Date(),
@@ -89,7 +90,7 @@ const DUMMY: Array<IInvitation> = [
   },
   {
     id: 6,
-    type: InvitationGroupEnum.Group,
+    type: InvitationTypeEnum.Group,
     role: InvitationRoleEnum.GROUP_ADMIN,
     status: InvitationStatusEnum.ACCEPTED,
     createdAt: new Date(),
@@ -103,7 +104,7 @@ const DUMMY: Array<IInvitation> = [
   },
   {
     id: 7,
-    type: InvitationGroupEnum.Group,
+    type: InvitationTypeEnum.Group,
     role: InvitationRoleEnum.GROUP_MEMBER,
     status: InvitationStatusEnum.ACCEPTED,
     createdAt: new Date(),
@@ -117,7 +118,7 @@ const DUMMY: Array<IInvitation> = [
   },
   {
     id: 8,
-    type: InvitationGroupEnum.Manager,
+    type: InvitationTypeEnum.Manager,
     role: InvitationRoleEnum.SUBORDINATE,
     status: InvitationStatusEnum.REJECTED,
     createdAt: new Date(),
@@ -143,36 +144,40 @@ const Notification = () => {
   }
 
   return (
-    <div className="relative">
-      <IconButton
-        direction="vertical"
-        icon={<NotificationIcon />}
-        text="알림"
-        onClick={handleToggle}
-      />
+    <>
+      <div className="relative">
+        <IconButton
+          direction="vertical"
+          icon={<NotificationIcon />}
+          text="알림"
+          onClick={handleToggle}
+        />
 
-      {isOpen && invitations && (
-        <div
-          className={cn(
-            'absolute right-0 top-12 z-50',
-            'flex max-h-80 min-h-24 w-60 flex-col overflow-hidden overflow-y-auto rounded-md border border-neutral-300 bg-neutral-100'
-          )}
-        >
-          {DUMMY.length === 0 ? (
-            <p className="mt-10 text-center text-sm">알림이 없습니다.</p>
-          ) : (
-            <>
-              {DUMMY?.map((invitation) => (
-                <NotificationItem
-                  key={invitation.id}
-                  notification={invitation}
-                />
-              ))}
-            </>
-          )}
-        </div>
-      )}
-    </div>
+        {isOpen && invitations && (
+          <div
+            className={cn(
+              'absolute right-0 top-12 z-50',
+              'flex max-h-80 min-h-24 w-60 flex-col overflow-hidden overflow-y-auto rounded-md border border-neutral-300 bg-neutral-100'
+            )}
+          >
+            {DUMMY.length === 0 ? (
+              <p className="mt-10 text-center text-sm">알림이 없습니다.</p>
+            ) : (
+              <>
+                {DUMMY?.map((invitation) => (
+                  <NotificationItem
+                    key={invitation.id}
+                    notification={invitation}
+                  />
+                ))}
+              </>
+            )}
+          </div>
+        )}
+      </div>
+
+      <Toast />
+    </>
   )
 }
 
