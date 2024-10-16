@@ -16,6 +16,7 @@ const Toast = () => {
         // limit={1} // 알람 개수 제한
         style={{ bottom: '6rem' }}
         progressStyle={{ background: '#A2C083' }}
+        bodyStyle={{ whiteSpace: 'pre-wrap', textAlign: 'center' }}
       />
     </>
   )

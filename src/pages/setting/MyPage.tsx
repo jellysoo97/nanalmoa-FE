@@ -128,7 +128,9 @@ const MyPage = () => {
 
     // 전화번호 형식 검사
     if (!phoneRegex.test(phoneNumber)) {
-      toast.error('전화번호 형식이 틀렸습니다. 올바른 형식으로 입력해 주세요.')
+      toast.error(
+        '전화번호 형식이 틀렸습니다.\n 올바른 형식으로 입력해 주세요.'
+      )
       return
     }
 
@@ -150,7 +152,7 @@ const MyPage = () => {
     mutationKey: [QUERY_KEYS.POST_EMAIL_SEND],
     mutationFn: postEmailSend,
     onSuccess: () => {
-      toast.success('인증번호가 발송되었습니다. 5분 이내에 인증해주세요')
+      toast.success('인증번호가 발송되었습니다.\n 5분 이내에 인증해주세요')
       setIsEmailSent(true)
     },
     onError: (err) => {
