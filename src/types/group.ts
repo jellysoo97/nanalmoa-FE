@@ -56,3 +56,7 @@ export interface PatchGroupAcceptRes {}
 export interface PatchGroupRejectReq extends PatchGroupAcceptReq {}
 
 export interface PatchGroupRejectRes extends PatchGroupAcceptRes {}
+
+export interface PatchGroupCancelReq extends PatchGroupAcceptReq {}
+
+export interface PatchGroupCancelRes extends PatchGroupAcceptRes {}

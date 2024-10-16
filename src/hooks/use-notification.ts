@@ -1,5 +1,7 @@
-import { patchGroupAccept } from '@/api/group/patch-group-accept'
-import { patchGroupReject } from '@/api/group/patch-group-reject'
+import {
+  patchGroupAccept,
+  patchGroupReject,
+} from '@/api/group/patch-group-invitation'
 import { patchManagerAccept } from '@/api/manager/patch-manager-accept'
 import { patchManagerReject } from '@/api/manager/patch-manager-reject'
 import { QUERY_KEYS } from '@/constants/api'
