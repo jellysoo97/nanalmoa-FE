@@ -21,9 +21,18 @@ export interface ISchedule {
   isAllDay: boolean
   scheduleId: number
   isRecurring: boolean
-  repeatType: RecurringOptionValue
-  recurringInterval: number
-  repeatEndDate: Date
+  repeatType?: RecurringOptionValue
+  recurringInterval?: number
+  repeatEndDate?: Date
+  recurringDaysOfWeek: number[]
+  recurringDayOfMonth: number
+  recurringMonthOfYear: number
+  groupInfo?: [
+    {
+      groupId: number
+      userUuids: string[]
+    },
+  ]
 }
 
 export interface IMediaAnalysisResult {
@@ -77,6 +86,12 @@ export interface PostSchedulesReq {
   recurringDaysOfWeek?: number[]
   recurringDaysOfMonth?: number[]
   recurringDayOfYear?: number[]
+  groupInfo?: [
+    {
+      groupId: number
+      userUuids: string[]
+    },
+  ]
 }
 
 export interface PostSchedulesRes extends PostSchedulesReq {
