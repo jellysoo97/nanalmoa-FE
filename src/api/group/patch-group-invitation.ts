@@ -8,7 +8,7 @@ import {
 
 export const patchGroupReject = async (id: number) => {
   const { data } = await baseAPI.patch<PatchGroupRejectRes>(
-    `${API_DOMAINS.GROUP}/${id}/reject`,
+    `${API_DOMAINS.GROUP}/invitation/${id}/reject`,
     { params: { id } }
   )
 
@@ -17,7 +17,7 @@ export const patchGroupReject = async (id: number) => {
 
 export const patchGroupAccept = async (id: number) => {
   const { data } = await baseAPI.patch<PatchGroupAcceptRes>(
-    `${API_DOMAINS.GROUP}/${id}/accept`,
+    `${API_DOMAINS.GROUP}/invitation/${id}/accept`,
     { params: { id } }
   )
 
@@ -26,7 +26,7 @@ export const patchGroupAccept = async (id: number) => {
 
 export const patchGroupCancel = async (id: number) => {
   const { data } = await baseAPI.patch<PatchGroupCancelRes>(
-    `${API_DOMAINS.GROUP}/${id}/cancel`,
+    `${API_DOMAINS.GROUP}/invitation/${id}/cancel`,
     { params: { id } }
   )
 
