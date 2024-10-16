@@ -10,7 +10,7 @@ const SettingTitle = ({ title, button }: Props) => {
     <>
       <div className="flex">
         <h1 className="pb-3 text-xl font-medium">{title}</h1>
-        {button}
+        {button && button}
       </div>
       <Divider />
     </>

@@ -60,7 +60,7 @@ export const useCalendar = ({
           >
             <button
               onClick={() => setCurrentDate(currentDay)}
-              className={`z-50 flex h-9 w-9 items-center justify-center text-base hover:font-bold sm:h-10 sm:w-10 sm:text-lg ${!isCurrentMonth && 'text-neutral-400'} ${scheduleClass} `}
+              className={`z-20 flex h-9 w-9 items-center justify-center text-base hover:font-bold sm:h-10 sm:w-10 sm:text-lg ${!isCurrentMonth && 'text-neutral-400'} ${scheduleClass} `}
             >
               {format(day, dateFormat)}
             </button>

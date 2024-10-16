@@ -34,21 +34,21 @@ const Header = () => {
             direction="vertical"
             icon={<InfoIcon />}
             text="도움말"
-            className="mr-4 text-nowrap text-sm"
+            className="mr-2 text-nowrap text-sm"
           />
           <Notification />
           {hasSubordinates && (
-            <button
+            <div
               onClick={handleSideBar}
-              className="ml-[16px] flex items-center"
+              className="ml-[10px] flex items-center"
             >
               <IconButton
                 direction="vertical"
                 icon={<ManagerIcon className="w-6 sm:w-11" />}
                 text="관리자"
-                className="mr-4 mt-[3px] text-nowrap text-sm"
+                className="mt-[3px] text-nowrap text-sm"
               />
-            </button>
+            </div>
           )}
         </div>
       </header>
