@@ -10,7 +10,9 @@ type Props = {
 const UserMiniProfile = ({ user, className }: Props) => {
   return (
     <div className={cn('flex gap-2', className)}>
-      {user.profileImage ? (
+
+      {user.profileImage && user.profileImage.length > 0 ? (
+
         <img
           src={user.profileImage}
           className="size-8 rounded-full object-cover sm:size-9"

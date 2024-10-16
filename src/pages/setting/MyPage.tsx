@@ -1,11 +1,5 @@
-import {
-  postEmailSend,
-  postEmailVerify,
-  postSMSSend,
-  postSMSVerify,
-} from '@/api/mypage/post-mypage-auth'
+import { postEmailSend, postEmailVerify } from '@/api/mypage/post-mypage-auth'
 import { deleteUser, putMypage } from '@/api/mypage/put-mypage'
-import SuccessFace from '@/assets/imgs/success.png'
 import { Button } from '@/components/common'
 import { QUERY_KEYS } from '@/constants/api'
 import { useUser } from '@/hooks/use-user'
@@ -21,6 +15,8 @@ import Modal from '@/components/common/Modal'
 import { useModal } from '@/hooks/use-modal'
 import Divider from '@/components/common/Divider'
 import TrashCanIcon from '@/components/icons/TrashCanIcon'
+import { postSmsCode } from '@/api/auth/post-sms-code'
+import { postSmsVerify } from '@/api/auth/post-sms-verify'
 
 const MyPage = () => {
   const navigate = useNavigate()
@@ -40,7 +36,6 @@ const MyPage = () => {
 
   const { user } = useUser()
   const userInfo = user.info
-  const userProfile = userInfo?.profileImage || SuccessFace
   const phoneRegex = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/
 
   useEffect(() => {
@@ -103,7 +98,7 @@ const MyPage = () => {
   //전화번호 인증
   const smsSendMutation = useMutation({
     mutationKey: [QUERY_KEYS.POST_SMS_SEND],
-    mutationFn: postSMSSend,
+    mutationFn: postSmsCode,
     onSuccess: () => {
       toast.success('인증번호가 발송되었습니다. 5분 이내에 인증해주세요')
       setIsSMSSent(true)
@@ -115,7 +110,7 @@ const MyPage = () => {
 
   const smsVerifyMutation = useMutation({
     mutationKey: [QUERY_KEYS.POST_SMS_VERIFY],
-    mutationFn: postSMSVerify,
+    mutationFn: postSmsVerify,
     onSuccess: () => {
       toast.success('인증 완료되었습니다')
       setIsSMSSent(false)
@@ -241,12 +236,18 @@ const MyPage = () => {
       </div>
       <div className="my-10 flex flex-col items-center justify-center">
         <div className="w-30 h-30 mb-4 flex items-center justify-center rounded-full">
-          <img
-            src={userProfile}
-            alt="Profile"
-            className="rounded-full object-cover"
-            style={{ width: '200px', height: '200px' }}
-          />
+          {userInfo?.profileImage && userInfo?.profileImage.length > 0 ? (
+            <img
+              src={userInfo.profileImage}
+              alt="Profile"
+              className="rounded-full object-cover"
+              style={{ width: '200px', height: '200px' }}
+            />
+          ) : (
+            <div className="flex size-28 items-center justify-center rounded-full border">
+              {userInfo?.name[0]}
+            </div>
+          )}
         </div>
         <div className="w-full">
           <div className="mb-4">
@@ -272,11 +273,6 @@ const MyPage = () => {
           <div className="mb-4">
             <label className="block font-medium text-neutral-700">
               전화번호
-              {isEdit && (
-                <span className="ml-2 text-sm text-neutral-400">
-                  (010-XXXX-XXXX 형식)
-                </span>
-              )}
             </label>
             {isEdit ? (
               <>

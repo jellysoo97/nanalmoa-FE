@@ -3,6 +3,8 @@ import { getGroupDetail } from '@/api/group/get-group-detail'
 import { Button } from '@/components/common'
 import Divider from '@/components/common/Divider'
 import Modal from '@/components/common/Modal'
+import Toast from '@/components/common/Toast'
+import GroupMemberList from '@/components/group/GroupMemberList'
 import TrashCanIcon from '@/components/icons/TrashCanIcon'
 import { QUERY_KEYS } from '@/constants/api'
 import { useModal } from '@/hooks/use-modal'
@@ -22,7 +24,6 @@ const SettingGroupDetailPage = () => {
     queryFn: () => getGroupDetail(Number(id)),
     enabled: !!id,
   })
-  console.log(data)
 
   //그룹 삭제
   const deleteMutation = useMutation({
@@ -49,29 +50,18 @@ const SettingGroupDetailPage = () => {
   return (
     <div className="w-full p-4">
       <div className="flex justify-between">
-        <Button text="이전으로" onClick={() => navigate(path.settings.group)} />
+        <Button
+          text="이전으로"
+          onClick={() =>
+            navigate(`${path.settings.base}/${path.settings.group}`)
+          }
+        />
       </div>
       <div className="my-5 flex h-full flex-col justify-around">
         <p>그룹명: {data.groupName}</p>
         <p>생성일자: {new Date(data.createdAt).toLocaleDateString()}</p>
         <p>관리자 유무: {data.isAdmin ? 'Yes' : 'No'}</p>
-        <div className="mb-0 flex flex-col">
-          <p>친구 리스트</p>
-          <ul className="list-disc pl-5">
-            {data.members.length > 0 ? (
-              data.members.map((member) => (
-                <li key={member.userUuid} className="flex justify-between">
-                  <span>{member.name}</span>
-                  <span>{member.isAdmin ? '관리자' : '일반'}</span>
-                  <span>삭제</span>
-                </li>
-              ))
-            ) : (
-              <p>가입된 친구가 없습니다.</p>
-            )}
-          </ul>
-          <Button text="친구 초대하기" />
-        </div>
+        <GroupMemberList members={data.members} groupId={id} />
       </div>
       <Button
         text="그룹 삭제하기"
@@ -88,6 +78,8 @@ const SettingGroupDetailPage = () => {
             </div>
             <Divider />
             <div className="py-4 text-center text-lg">
+              친구, 일정 정보가 모두 삭제됩니다.
+              <br />
               그룹을 정말 삭제하시겠습니까?
             </div>
             <button
@@ -100,6 +92,7 @@ const SettingGroupDetailPage = () => {
           </div>
         </Modal>
       )}
+      <Toast />
     </div>
   )
 }
