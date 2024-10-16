@@ -19,6 +19,22 @@ const ReceivedInvitation = ({ item, onClickReject, onClickAccept }: Props) => {
     ? item.managerInvitationId
     : item.invitationId
 
+  // 3분이 지나면 화면에 표시하지 않음
+  // let updatedAt: Date | undefined
+  // if (typeof item.updatedAt === 'string') {
+  //   updatedAt = new Date(item.updatedAt)
+  // } else {
+  //   updatedAt = item.updatedAt
+  // }
+  // const now = new Date()
+  // const threeMinutes = 3 * 60 * 1000
+  // const isExpired = updatedAt
+  //   ? now.getTime() - updatedAt.getTime() > threeMinutes
+  //   : false
+  // if (item.status === 'CANCELED' && isExpired) {
+  //   return null
+  // }
+
   /* 그룹 dto에 맞게 수정해서 사용해주세요 */
   return (
     <div className="mb-1 flex items-center justify-between rounded bg-neutral-200 px-3 py-[7px]">

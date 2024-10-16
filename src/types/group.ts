@@ -36,6 +36,8 @@ export interface GetGroupInvitationRes {
   invitationId: number
   status: string
   inviterUuid: string
+  createdAt?: Date
+  updatedAt?: Date
 }
 
 export interface PatchGroupRejectRes extends GetGroupInvitationRes {}
