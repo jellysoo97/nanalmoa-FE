@@ -58,14 +58,14 @@ const LoginPage = () => {
   return (
     <>
       <div className="container flex flex-col justify-center gap-y-4 px-6 py-2 sm:gap-y-8 sm:px-12">
-        <div className="flex flex-col items-center gap-y-10">
+        <div className="flex flex-col items-center gap-y-5 sm:gap-y-10">
           <h2 className="text-xl font-bold">환영합니다!🍀</h2>
           <FormProvider {...methods}>
             <form
               className="flex w-full flex-col gap-2 sm:flex-nowrap sm:gap-5"
               onSubmit={handleSubmit((data) => handleLogin(data))}
             >
-              <div className="flex flex-col gap-y-4">
+              <div className="flex flex-col gap-y-6">
                 <PhoneNumberInput
                   isRetry={!isIdle && isError}
                   handleVerification={handleVerification}
@@ -74,7 +74,7 @@ const LoginPage = () => {
                   <Button
                     type="submit"
                     text="로그인"
-                    className="w-full py-3"
+                    className="w-full py-2 sm:py-3"
                     disabled={!isVerificationSuccess}
                   />
                   <div className="flex items-center gap-x-4 text-sm">
@@ -92,7 +92,7 @@ const LoginPage = () => {
           </FormProvider>
         </div>
         <Divider />
-        <div className="flex flex-col items-center gap-y-4">
+        <div className="flex flex-col items-center gap-y-2">
           <h3>편리한 로그인</h3>
           <Link to={kakaoUrl}>
             <img src={kakaoLogin} />

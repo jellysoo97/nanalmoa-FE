@@ -34,7 +34,7 @@ const Button = ({
       disabled={disabled}
       {...props}
     >
-      {isLoading ? <LoadingSpinner className="h-6 w-6" /> : text}
+      {isLoading ? <LoadingSpinner className="h-4 w-4 sm:h-6 sm:w-6" /> : text}
     </button>
   )
 }

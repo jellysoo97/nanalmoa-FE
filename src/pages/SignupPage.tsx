@@ -37,10 +37,14 @@ const SignupPage = () => {
         profileImage: null,
       }),
     onSuccess: () => {
-      navigate(`${path.signupResult}?q=true`)
+      navigate(`${path.signupResult}?q=true`, {
+        replace: true,
+      })
     },
     onError: () => {
-      navigate(`${path.signupResult}?q=false`)
+      navigate(`${path.signupResult}?q=false`, {
+        replace: true,
+      })
     },
   })
 
@@ -50,8 +54,8 @@ const SignupPage = () => {
 
   return (
     <>
-      <div className="container flex flex-col justify-center gap-y-10 px-6 py-2 sm:px-12">
-        <div className="flex flex-col items-center gap-y-10">
+      <div className="container flex flex-col justify-center gap-y-4 px-6 py-2 sm:gap-y-10 sm:px-12">
+        <div className="flex flex-col items-center gap-y-4 sm:gap-y-10">
           <h2 className="text-xl font-bold">회원가입</h2>
           <FormProvider {...methods}>
             <form
