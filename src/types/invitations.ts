@@ -1,4 +1,4 @@
-export enum InvitationGroupEnum {
+export enum InvitationTypeEnum {
   Group = 'group',
   Manager = 'manager',
 }
@@ -20,7 +20,7 @@ export enum InvitationStatusEnum {
 
 export interface IInvitation {
   id: number
-  type: InvitationGroupEnum
+  type: InvitationTypeEnum
   role: InvitationRoleEnum
   status: InvitationStatusEnum
   createdAt: Date

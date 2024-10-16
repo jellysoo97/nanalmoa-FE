@@ -17,8 +17,13 @@ const Header = () => {
       <Link to={path.schedules}>
         <img src={logo} alt="Logo" className="sm:h-15 h-8 w-40 sm:w-[200px]" />
       </Link>
-      <div className="flex items-center gap-x-4">
-        <IconButton direction="vertical" icon={<InfoIcon />} text="도움말" />
+      <div className="flex items-center">
+        <IconButton
+          direction="vertical"
+          icon={<InfoIcon />}
+          text="도움말"
+          className="mr-4 text-nowrap text-sm"
+        />
         <Notification />
       </div>
     </header>
