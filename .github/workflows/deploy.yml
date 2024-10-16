@@ -3,8 +3,6 @@ name: 'nanalmoa-fe-deploy'
 on:
   push:
     branches: ['release']
-  pull_request:
-    branches: ['release']
 
 jobs:
   deploy:
@@ -60,16 +58,6 @@ jobs:
             echo "dist.zip not found."
             exit 1
           fi
-
-      - name: Authentication test
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            whoami
 
       # EC2에 압축된 빌드 파일 복사
       - name: Copy to EC2
