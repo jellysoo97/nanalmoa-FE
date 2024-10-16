@@ -19,12 +19,15 @@ export const useTimer = ({ timeLimit, isStart, isDone }: Props) => {
       }, INTERVAL)
 
       if (leftTime <= 0 || isDone) {
+        setLeftTime(timeLimit)
         clearInterval(intervalId)
       }
 
       return () => clearInterval(intervalId)
     }
   }, [leftTime, isStart])
+
+  console.log(leftTime)
 
   return {
     minutes: String(
