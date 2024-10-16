@@ -11,6 +11,7 @@ import { postManagerInvitation } from '@/api/manager/post-manager-invitation'
 import { Button } from '@/components/common'
 import Toast from '@/components/common/Toast'
 import UserSelector from '@/components/common/UserSelector'
+import RefreshIcon from '@/components/icons/RefreshIcon'
 import InvitationLayout from '@/components/setting/InvitationLayout'
 import InvitationsSection from '@/components/setting/InvitationsSection'
 import InviteModal from '@/components/setting/InviteModal'
@@ -156,6 +157,55 @@ const SettingManagerPage = () => {
     }
   }
 
+  // 피관리자 제거
+  const mutateDeleteSubordinate = useMutation<void, AxiosError, string>({
+    mutationFn: (subordinateId: string) => deleteSubordinate(subordinateId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_SEND],
+      })
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_MANAGER_SUBORDINATES],
+      })
+    },
+  })
+
+  const handleDeleteSubordinate = (uuid: string) => {
+    mutateDeleteSubordinate.mutate(uuid)
+  }
+
+  // 관리자 제거
+  const mutateDeleteManager = useMutation<void, AxiosError, string>({
+    mutationFn: (subordinateId: string) => deleteManager(subordinateId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_RECEIVED],
+      })
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_MANAGER_MANAGERS],
+      })
+    },
+  })
+
+  const handleDeleteManager = (uuid: string) => {
+    mutateDeleteManager.mutate(uuid)
+  }
+
+  const handleAllRefresh = () => {
+    queryClient.invalidateQueries({
+      queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_SEND],
+    })
+    queryClient.invalidateQueries({
+      queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_RECEIVED],
+    })
+    queryClient.invalidateQueries({
+      queryKey: [QUERY_KEYS.GET_MANAGER_SUBORDINATES],
+    })
+    queryClient.invalidateQueries({
+      queryKey: [QUERY_KEYS.GET_MANAGER_MANAGERS],
+    })
+  }
+
   return (
     <div className="px-5">
       <Button
@@ -165,7 +215,14 @@ const SettingManagerPage = () => {
         }}
         className="mb-3"
       />
-      <SettingTitle title="관리자 관리" />
+      <SettingTitle
+        title="관리자 관리"
+        button={
+          <button onClick={handleAllRefresh}>
+            <RefreshIcon className="mb-2 ml-3" />
+          </button>
+        }
+      />
 
       <SettingSection title="💌 관리자 초대하기">
         <div className="mt-3">
@@ -227,7 +284,7 @@ const SettingManagerPage = () => {
               Component={ManagerItem}
               message="관리하는 사용자가 없습니다"
               // 피관리자 제거
-              onClickDelete={deleteSubordinate}
+              onClickDelete={handleDeleteSubordinate}
             />
           </InvitationsSection>
         </div>
@@ -240,7 +297,7 @@ const SettingManagerPage = () => {
             Component={ManagerItem}
             message="관리자가 없습니다"
             // 관리자 제거
-            onClickDelete={deleteManager}
+            onClickDelete={handleDeleteManager}
           />
         </InvitationsSection>
       </SettingSection>

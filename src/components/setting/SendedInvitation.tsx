@@ -53,6 +53,11 @@ const SendedInvitation = ({ item, onClickReject }: Props) => {
             취소된 요청
           </div>
         )}
+        {item.status === 'REMOVED' && (
+          <div className="rounded border border-neutral-500 px-2 py-1 text-sm text-neutral-500">
+            제거된 요청
+          </div>
+        )}
       </div>
     </div>
   )
