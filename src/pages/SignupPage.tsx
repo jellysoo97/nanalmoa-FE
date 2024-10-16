@@ -11,7 +11,9 @@ import { useNavigate } from 'react-router-dom'
 
 const SignupPage = () => {
   const navigate = useNavigate()
-  const methods = useForm<PostSignupReq>()
+  const methods = useForm<PostSignupReq>({
+    mode: 'onBlur',
+  })
   const {
     register,
     getValues,
@@ -24,7 +26,7 @@ const SignupPage = () => {
       !errors.name?.type &&
       !errors.phoneNumber?.type &&
       !errors.verificationCode?.type,
-    [errors]
+    [errors.name, errors.phoneNumber, errors.verificationCode]
   )
 
   const signupMutation = useMutation({
