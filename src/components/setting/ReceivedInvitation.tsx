@@ -38,8 +38,11 @@ const ReceivedInvitation = ({ item, onClickReject, onClickAccept }: Props) => {
   /* 그룹 dto에 맞게 수정해서 사용해주세요 */
   return (
     <div className="mb-1 flex items-center justify-between rounded bg-neutral-200 px-3 py-[7px]">
+      {!isManagerInvitation(item) && (
+        <div className="font-bold">{item.groupName}</div>
+      )}
       <div className="font-bold">
-        {isManagerInvitation(item) ? item.subordinateName : '그룹원 이름'}
+        {isManagerInvitation(item) ? item.subordinateName : item.inviterName}
       </div>
       <div className="flex gap-1">
         {item.status === 'PENDING' && (

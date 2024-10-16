@@ -21,6 +21,8 @@ import {
   patchGroupCancel,
 } from '@/api/group/patch-group-invitation'
 import SendedInvitation from '../setting/SendedInvitation'
+import { toast } from 'react-toastify'
+import Toast from '../common/Toast'
 
 const GroupInvited = () => {
   const queryClient = useQueryClient()
@@ -46,8 +48,10 @@ const GroupInvited = () => {
   //받은 초대 거절
   const mutationReject = useMutation<PatchGroupRejectRes, Error, number>({
     mutationFn: (id: number) => patchGroupReject({ id }),
-    onSuccess: (data) => {
-      console.log('요청 거절 성공:', data)
+    onSuccess: () => {
+      toast.success('초대 요청 거절하였습니다.')
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_GROUP_INVITATION_RECEIVED],
       })
@@ -57,8 +61,10 @@ const GroupInvited = () => {
   //받은 초대 수락
   const mutationAccept = useMutation<PatchGroupAcceptRes, Error, number>({
     mutationFn: (id: number) => patchGroupAccept({ id }),
-    onSuccess: (data) => {
-      console.log('요청 수락 성공:', data)
+    onSuccess: () => {
+      toast.success('초대 요청 수락하였습니다.')
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_GROUP_INVITATION_RECEIVED],
       })
@@ -68,15 +74,15 @@ const GroupInvited = () => {
   //초대 철회
   const mutationCancel = useMutation<PatchGroupCancelRes, Error, number>({
     mutationFn: (id: number) => patchGroupCancel({ id }),
-    onSuccess: (data) => {
-      console.log('요청 수락 성공:', data)
+    onSuccess: () => {
+      toast.success('초대 요청 취소하였습니다.')
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_GROUP_INVITATION_SEND],
       })
     },
   })
-
-  console.log(GroupInvitationReceived)
 
   const handleGroupReject = (id: number) => {
     mutationReject.mutate(id)
@@ -122,6 +128,7 @@ const GroupInvited = () => {
           </InvitationsSection>
         </div>
       </SettingSection>
+      <Toast />
     </div>
   )
 }

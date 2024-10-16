@@ -38,7 +38,7 @@ const SendedInvitation = ({ item, onClickReject }: Props) => {
   return (
     <div className="mb-1 flex justify-between rounded bg-neutral-200 px-3 py-[7px]">
       <div className="font-bold">
-        {isManagerInvitation(item) ? item.subordinateName : '그룹원 이름'}
+        {isManagerInvitation(item) ? item.subordinateName : item.inviteeName}
       </div>
       <div className="flex gap-1">
         {item.status === 'PENDING' && (
