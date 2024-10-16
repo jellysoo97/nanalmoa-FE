@@ -84,7 +84,7 @@ jobs:
 
       # EC2에서 배포 스크립트 실행
       - name: Execute deploy script
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
