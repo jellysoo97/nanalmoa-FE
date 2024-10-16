@@ -8,9 +8,10 @@ import { toast } from 'react-toastify'
 import { useState } from 'react'
 import UserSelector from '../common/UserSelector'
 import { UserWithPhoneNumber } from '@/types/auth'
-import { AxiosError } from 'axios'
 import { useParams } from 'react-router-dom'
-import { GetGroupDetail } from '@/types/group'
+import { GetGroupDetail, PostGroupReq, PostGroupRes } from '@/types/group'
+import Toast from '../common/Toast'
+import { AxiosError } from 'axios'
 
 type Props = TModal & {
   isCreateGroup: boolean
@@ -26,7 +27,7 @@ const CreateGroupModal = ({ onClose, isCreateGroup, members }: Props) => {
   const { id } = useParams<{ id: string }>() // URL 파라미터 타입 지정
 
   // 그룹명 생성
-  const groupMutation = useMutation({
+  const groupMutation = useMutation<PostGroupRes, AxiosError, PostGroupReq>({
     mutationKey: [QUERY_KEYS.POST_GROUP],
     mutationFn: postGroup,
     onSuccess: (data) => {
@@ -34,13 +35,8 @@ const CreateGroupModal = ({ onClose, isCreateGroup, members }: Props) => {
       setIsCreateGroup(true)
       setGroupId(data.groupId)
     },
-    onError: (error: AxiosError) => {
-      console.log(error)
-      if (error.response && error.response.status === 400) {
-        toast.error('동일 그룹명을 가진 그룹에 소속되어 있습니다.')
-      } else {
-        toast.error('그룹 생성에 실패했습니다.')
-      }
+    onError: () => {
+      toast.error('동일 그룹명을 가진 그룹에 소속되어 있습니다.')
     },
   })
 
@@ -176,6 +172,7 @@ const CreateGroupModal = ({ onClose, isCreateGroup, members }: Props) => {
           </div>
         )}
       </div>
+      <Toast />
     </Modal>
   )
 }

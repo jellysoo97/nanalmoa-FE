@@ -1,11 +1,7 @@
-import { postEmailSend, postEmailVerify } from '@/api/mypage/post-mypage-auth'
-import { deleteUser, putMypage } from '@/api/mypage/put-mypage'
 import { Button } from '@/components/common'
-import { QUERY_KEYS } from '@/constants/api'
 import { useUser } from '@/hooks/use-user'
 import { path } from '@/routes/path'
 import { PutMypage } from '@/types/auth'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -15,12 +11,11 @@ import Modal from '@/components/common/Modal'
 import { useModal } from '@/hooks/use-modal'
 import Divider from '@/components/common/Divider'
 import TrashCanIcon from '@/components/icons/TrashCanIcon'
-import { postSmsCode } from '@/api/auth/post-sms-code'
-import { postSmsVerify } from '@/api/auth/post-sms-verify'
+import { formatPhoneNumber } from '@/utils/format-phone-number'
+import { useMypageMutations } from '@/hooks/use-mypage'
 
 const MyPage = () => {
   const navigate = useNavigate()
-  const queryClient = useQueryClient()
   const { isModalOpen, openModal, closeModal } = useModal()
   const [isEdit, setIsEdit] = useState<boolean>(false)
   const [isSMSSent, setIsSMSSent] = useState<boolean>(false)
@@ -38,6 +33,15 @@ const MyPage = () => {
   const userInfo = user.info
   const phoneRegex = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/
 
+  const {
+    mutationPutMypage,
+    mutationSmsSend,
+    mutationSmsVerify,
+    mutationEmailSend,
+    mutationEmailVerify,
+    mutationDeleteUser,
+  } = useMypageMutations()
+
   useEffect(() => {
     if (isEdit) {
       setName('')
@@ -47,78 +51,42 @@ const MyPage = () => {
     }
   }, [isEdit])
 
-  //정보 수정
-  const mutation = useMutation({
-    mutationKey: [QUERY_KEYS.PUT_MYPAGE],
-    mutationFn: putMypage,
-    onSuccess: () => {
-      setIsEdit(false)
-      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.PUT_MYPAGE] })
-      window.location.reload()
-    },
-    onError: (err) => {
-      console.log(err)
-      toast.error(err.message)
-    },
-  })
-
   const handlePutMy = () => {
     const payload: PutMypage = {}
-
-    // 전화번호 형식 검사
-    if (!phoneRegex.test(phoneNumber)) {
-      toast.error('전화번호 형식이 틀렸습니다. 올바른 형식으로 입력해 주세요.')
-      return
-    }
-
-    if (!payload.phoneVerificationCode || !payload.emailVerificationCode) {
-      toast.error('인증 후 수정할 수 있습니다')
-      return
-    }
 
     // 변경된 필드만
     if (name) payload.name = name
     if (phoneNumber) {
+      // 전화번호 형식 검사
+      if (!phoneRegex.test(phoneNumber)) {
+        toast.error(
+          '전화번호 형식이 틀렸습니다. 올바른 형식으로 입력해 주세요.'
+        )
+        return
+      }
+      if (!payload.phoneVerificationCode) {
+        toast.error('인증 후 수정할 수 있습니다')
+        return
+      }
       payload.phoneNumber = phoneNumber
       payload.phoneVerificationCode = smsVerify
     }
     if (email) {
+      if (!payload.emailVerificationCode) {
+        toast.error('인증 후 수정할 수 있습니다')
+        return
+      }
       payload.email = email
       payload.emailVerificationCode = emailVerify
     }
     if (address) payload.address = address
 
     if (Object.keys(payload).length > 0) {
-      mutation.mutate(payload)
+      mutationPutMypage.mutate(payload)
     } else {
       toast.error('변경된 값이 없습니다.')
     }
   }
-
-  //전화번호 인증
-  const smsSendMutation = useMutation({
-    mutationKey: [QUERY_KEYS.POST_SMS_SEND],
-    mutationFn: postSmsCode,
-    onSuccess: () => {
-      toast.success('인증번호가 발송되었습니다. 5분 이내에 인증해주세요')
-      setIsSMSSent(true)
-    },
-    onError: (err) => {
-      console.log(err)
-    },
-  })
-
-  const smsVerifyMutation = useMutation({
-    mutationKey: [QUERY_KEYS.POST_SMS_VERIFY],
-    mutationFn: postSmsVerify,
-    onSuccess: () => {
-      toast.success('인증 완료되었습니다')
-      setIsSMSSent(false)
-    },
-    onError: (err) => {
-      console.log(err)
-    },
-  })
 
   const handleSMSSend = () => {
     if (!phoneNumber) {
@@ -131,11 +99,14 @@ const MyPage = () => {
       toast.error(
         '전화번호 형식이 틀렸습니다.\n 올바른 형식으로 입력해 주세요.'
       )
+      console.log(phoneNumber)
+
       return
     }
 
     const payload = { phoneNumber: phoneNumber }
-    smsSendMutation.mutate(payload)
+    mutationSmsSend.mutate(payload)
+    setIsSMSSent(true)
   }
 
   const handleSMSVerify = () => {
@@ -144,33 +115,8 @@ const MyPage = () => {
       return
     }
     const payload = { phoneNumber: phoneNumber, code: smsVerify }
-    smsVerifyMutation.mutate(payload)
+    mutationSmsVerify.mutate(payload)
   }
-
-  //이메일 인증
-  const emailSendMutation = useMutation({
-    mutationKey: [QUERY_KEYS.POST_EMAIL_SEND],
-    mutationFn: postEmailSend,
-    onSuccess: () => {
-      toast.success('인증번호가 발송되었습니다.\n 5분 이내에 인증해주세요')
-      setIsEmailSent(true)
-    },
-    onError: (err) => {
-      console.log(err)
-    },
-  })
-
-  const emailVerifyMutation = useMutation({
-    mutationKey: [QUERY_KEYS.POST_EMAIL_VERIFY],
-    mutationFn: postEmailVerify,
-    onSuccess: () => {
-      toast.success('인증 완료되었습니다')
-      setIsEmailSent(false)
-    },
-    onError: (err) => {
-      console.log(err)
-    },
-  })
 
   const handleEmailSend = () => {
     if (!email) {
@@ -178,7 +124,8 @@ const MyPage = () => {
       return
     }
     const payload = { email: email }
-    emailSendMutation.mutate(payload)
+    mutationEmailSend.mutate(payload)
+    setIsEmailSent(true)
   }
 
   const handleEmailVerify = () => {
@@ -187,25 +134,11 @@ const MyPage = () => {
       return
     }
     const payload = { email: phoneNumber, code: emailVerify }
-    emailVerifyMutation.mutate(payload)
+    mutationEmailVerify.mutate(payload)
   }
 
-  //회원탈퇴
-  const userDeleteMutation = useMutation({
-    mutationKey: [QUERY_KEYS.DELETE_USER],
-    mutationFn: deleteUser,
-    onSuccess: () => {
-      console.log('삭제 성공')
-      navigate(`${path.login}`)
-      localStorage.clear()
-    },
-    onError: () => {
-      toast.error('유저 삭제에 실패했습니다.')
-    },
-  })
-
   const handleDeleteUser = () => {
-    userDeleteMutation.mutate()
+    mutationDeleteUser.mutate()
   }
   return (
     <div className="h-full w-full p-4">
@@ -307,7 +240,9 @@ const MyPage = () => {
               </>
             ) : (
               <p className="mt-2 text-xl">
-                {userInfo?.phoneNumber || '정보 없음'}
+                {userInfo?.phoneNumber
+                  ? formatPhoneNumber(userInfo.phoneNumber)
+                  : '정보 없음'}
               </p>
             )}
           </div>
@@ -349,7 +284,7 @@ const MyPage = () => {
                 )}
               </>
             ) : (
-              <p className="mt-2 text-xl">{userInfo?.email}</p>
+              <p className="mt-2 text-xl">{userInfo?.email || '정보 없음'}</p>
             )}
           </div>
           <div className="mb-4">

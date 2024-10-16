@@ -74,8 +74,10 @@ const SettingManagerPage = () => {
     number
   >({
     mutationFn: (id: number) => patchManagerReject(id),
-    onSuccess: (data) => {
-      console.log('요청 거절 성공:', data)
+    onSuccess: () => {
+      toast.success('초대 요청 거절하였습니다.')
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_RECEIVED],
       })
@@ -90,8 +92,10 @@ const SettingManagerPage = () => {
   const mutationAccept = useMutation<IPatchManagerInvitationRes, Error, number>(
     {
       mutationFn: (id: number) => patchManagerAccept(id),
-      onSuccess: (data) => {
-        console.log('요청 수락 성공:', data)
+      onSuccess: () => {
+        toast.success('초대 요청 수락하였습니다.')
+      },
+      onSettled: () => {
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_RECEIVED],
         })
@@ -110,8 +114,10 @@ const SettingManagerPage = () => {
   const mutationCancel = useMutation<IPatchManagerInvitationRes, Error, number>(
     {
       mutationFn: (id: number) => patchManagerCancel(id),
-      onSuccess: (data) => {
-        console.log('요청 철회 성공:', data)
+      onSuccess: () => {
+        toast.success('초대 요청 취소하였습니다.')
+      },
+      onSettled: () => {
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_SEND],
         })
@@ -135,6 +141,11 @@ const SettingManagerPage = () => {
     onError: () => {
       closeModal()
       toast.error('초대할 수 없는 사용자입니다.')
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_SEND],
+      })
     },
   })
 
