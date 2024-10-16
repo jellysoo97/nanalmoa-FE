@@ -1,6 +1,5 @@
 import { postEmailSend, postEmailVerify } from '@/api/mypage/post-mypage-auth'
 import { deleteUser, putMypage } from '@/api/mypage/put-mypage'
-import SuccessFace from '@/assets/imgs/success.png'
 import { Button } from '@/components/common'
 import { QUERY_KEYS } from '@/constants/api'
 import { useUser } from '@/hooks/use-user'
@@ -37,7 +36,6 @@ const MyPage = () => {
 
   const { user } = useUser()
   const userInfo = user.info
-  const userProfile = userInfo?.profileImage || SuccessFace
   const phoneRegex = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/
 
   useEffect(() => {
@@ -238,12 +236,18 @@ const MyPage = () => {
       </div>
       <div className="my-10 flex flex-col items-center justify-center">
         <div className="w-30 h-30 mb-4 flex items-center justify-center rounded-full">
-          <img
-            src={userProfile}
-            alt="Profile"
-            className="rounded-full object-cover"
-            style={{ width: '200px', height: '200px' }}
-          />
+          {userInfo?.profileImage && userInfo?.profileImage.length > 0 ? (
+            <img
+              src={userInfo.profileImage}
+              alt="Profile"
+              className="rounded-full object-cover"
+              style={{ width: '200px', height: '200px' }}
+            />
+          ) : (
+            <div className="flex size-28 items-center justify-center rounded-full border">
+              {userInfo?.name[0]}
+            </div>
+          )}
         </div>
         <div className="w-full">
           <div className="mb-4">
