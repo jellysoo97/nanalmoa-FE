@@ -19,6 +19,7 @@ import { AxiosError, HttpStatusCode } from 'axios'
 import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const LoginPage = () => {
   const naverRandomState = generateRandomState()
@@ -28,12 +29,12 @@ const LoginPage = () => {
   const [isVerificationSuccess, setIsVerificationSuccess] =
     useState<boolean>(false)
   const methods = useForm<PostLoginReq>()
-  const { handleSubmit, setError } = methods
-  const { mutate: handleLogin } = useMutation<
-    PostLoginRes,
-    AxiosError,
-    PostLoginReq
-  >({
+  const { handleSubmit, resetField } = methods
+  const {
+    mutate: handleLogin,
+    isIdle,
+    isError,
+  } = useMutation<PostLoginRes, AxiosError, PostLoginReq>({
     mutationKey: [QUERY_KEYS.POST_LOGIN],
     mutationFn: postLogin,
     onSuccess: ({ accessToken, refreshToken }) => {
@@ -44,11 +45,9 @@ const LoginPage = () => {
     },
     onError: (error) => {
       if (error.status === HttpStatusCode.Unauthorized) {
-        setError(
-          'phoneNumber',
-          { message: errorMessages.phoneNumber },
-          { shouldFocus: true }
-        )
+        resetField('phoneNumber')
+        resetField('verificationCode')
+        toast.error(errorMessages.login)
       }
     },
   })
@@ -67,7 +66,10 @@ const LoginPage = () => {
               onSubmit={handleSubmit((data) => handleLogin(data))}
             >
               <div className="flex flex-col gap-y-10">
-                <PhoneNumberInput handleVerification={handleVerification} />
+                <PhoneNumberInput
+                  isRetry={!isIdle && isError}
+                  handleVerification={handleVerification}
+                />
                 <div className="flex flex-col items-center gap-y-4">
                   <Button
                     type="submit"
