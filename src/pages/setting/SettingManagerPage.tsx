@@ -1,3 +1,5 @@
+import { deleteManager } from '@/api/manager/delete-manager'
+import { deleteSubordinate } from '@/api/manager/delete-subordinate'
 import { getManagerInvitationReceived } from '@/api/manager/get-manager-invitation-received'
 import { getManagerInvitationSend } from '@/api/manager/get-manager-invitation-send'
 import { getMyManagers } from '@/api/manager/get-my-managers'
@@ -151,10 +153,6 @@ const SettingManagerPage = () => {
     }
   }
 
-  // 피관리자 제거
-
-  // 관리자 제거
-
   return (
     <div className="px-5">
       <Button
@@ -226,20 +224,22 @@ const SettingManagerPage = () => {
               Component={ManagerItem}
               message="관리하는 사용자가 없습니다"
               // 피관리자 제거
-            />
-          </InvitationsSection>
-          <InvitationsSection
-            title="나의 관리자들"
-            itemsLength={MyManagers?.length || 0}
-          >
-            <InvitationLayout
-              items={MyManagers}
-              Component={ManagerItem}
-              message="관리자가 없습니다"
-              // 관리자 제거
+              onClickDelete={deleteSubordinate}
             />
           </InvitationsSection>
         </div>
+        <InvitationsSection
+          title="나의 관리자들"
+          itemsLength={MyManagers?.length || 0}
+        >
+          <InvitationLayout
+            items={MyManagers}
+            Component={ManagerItem}
+            message="관리자가 없습니다"
+            // 관리자 제거
+            onClickDelete={deleteManager}
+          />
+        </InvitationsSection>
       </SettingSection>
       <Toast />
     </div>
