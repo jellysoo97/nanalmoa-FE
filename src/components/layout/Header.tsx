@@ -1,9 +1,10 @@
 import logo from '@/assets/logo/logo.svg'
 import { path } from '@/routes/path'
-import { Link } from 'react-router-dom'
 import { cn } from '@/utils/cn'
+import { Link } from 'react-router-dom'
 import { IconButton } from '../common'
-import { InfoIcon, NotificationIcon } from '../icons'
+import Notification from '../common/notification/Notification'
+import { InfoIcon } from '../icons'
 
 const Header = () => {
   return (
@@ -18,17 +19,10 @@ const Header = () => {
       </Link>
       <div className="flex items-center gap-x-4">
         <IconButton direction="vertical" icon={<InfoIcon />} text="도움말" />
-        <IconButton
-          direction="vertical"
-          icon={<NotificationIcon />}
-          text="알림"
-        />
+        <Notification />
       </div>
     </header>
   )
 }
 
 export default Header
-
-//200:60=160:
-// 10:3=8:
