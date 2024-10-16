@@ -15,6 +15,7 @@ export const API_DOMAINS = {
   GROUP: '/groups',
   ROUTINE: '/users-routine',
   MANAGER: '/manager',
+  INVITATIONS: '/invitations',
 }
 
 export const QUERY_KEYS = {
@@ -44,4 +45,5 @@ export const QUERY_KEYS = {
   GET_ROUTINE: 'routine',
   GET_MANAGER_INVITATION_SEND: 'managerInvitationSend',
   GET_MANAGER_INVITATION_RECEIVED: 'managerInvitationReceived',
+  GET_INVITATIONS_USER: 'invitationsUser',
 }
