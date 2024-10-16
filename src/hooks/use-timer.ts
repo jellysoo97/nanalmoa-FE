@@ -26,6 +26,12 @@ export const useTimer = ({ timeLimit, isStart, isDone }: Props) => {
     }
   }, [leftTime, isStart])
 
+  useEffect(() => {
+    if (isDone) {
+      setLeftTime(timeLimit)
+    }
+  }, [isDone])
+
   return {
     minutes: String(
       Math.floor((leftTime / (INTERVAL * SEC_IN_MIN)) % SEC_IN_MIN)

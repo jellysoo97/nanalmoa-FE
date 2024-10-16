@@ -4,8 +4,11 @@ export const validationSchema = {
 }
 
 export const errorMessages = {
+  default: '에러가 발생했습니다. 다시 시도해주세요.',
   name: '이름은 필수 정보입니다. 이름을 입력해주세요.',
   phoneNumber: '잘못된 전화번호입니다. 다시 입력해주세요.',
+  login:
+    '등록되지 않은 회원이거나 인증코드 유효시간이 지났습니다. 다시 시도해주세요.',
   smsVerify: '잘못된 인증코드입니다. 다시 입력해주세요.',
   email: '잘못된 이메일 형식입니다. 다시 입력해주세요.',
 }
