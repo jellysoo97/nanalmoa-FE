@@ -6,7 +6,7 @@ import CategoryField from './field-components/CategoryField'
 import DownArrowIcon from '@/components/icons/DownArrowIcon'
 import { ISchedule, IScheduleForm } from '@/types/schedules'
 import TextAreaField from './field-components/TextAreaField'
-import GroupField from './field-components/GroupField'
+// import GroupField from './field-components/GroupField'
 import RepetitionField from './field-components/RepetitionField'
 
 type Props = {
@@ -94,7 +94,7 @@ const ScheduleForm = ({
                 placeholder="장소를 입력해주세요"
               />
 
-              <GroupField />
+              {/* <GroupField /> */}
               <RepetitionField />
 
               <TextAreaField

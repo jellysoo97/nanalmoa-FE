@@ -1,63 +1,63 @@
-import Select, { components } from 'react-select'
-import BaseField from './BaseField'
-import { useState } from 'react'
-import { useModal } from '@/hooks/use-modal'
+// import Select, { components } from 'react-select'
+// import BaseField from './BaseField'
+// import { useState } from 'react'
+// import { useModal } from '@/hooks/use-modal'
 import { useFormContext } from 'react-hook-form'
-import RepititionSetModal from './RepititionSetModal'
-import { RecurringOptionValue } from '@/types/schedules'
+// import RepititionSetModal from './RepititionSetModal'
+// import { RecurringOptionValue } from '@/types/schedules'
 
-type RecurringOption = {
-  value: RecurringOptionValue
-  label: string
-}
+// type RecurringOption = {
+//   value: RecurringOptionValue
+//   label: string
+// }
 
-const options: RecurringOption[] = [
-  {
-    value: 'none',
-    label: '없음',
-  },
-  {
-    value: 'daily',
-    label: '일간 반복',
-  },
-  {
-    value: 'weekly',
-    label: '주간 반복',
-  },
-  {
-    value: 'monthly',
-    label: '월간 반복',
-  },
-  {
-    value: 'yearly',
-    label: '연간 반복',
-  },
-]
+// const options: RecurringOption[] = [
+//   {
+//     value: 'none',
+//     label: '없음',
+//   },
+//   {
+//     value: 'daily',
+//     label: '일간 반복',
+//   },
+//   {
+//     value: 'weekly',
+//     label: '주간 반복',
+//   },
+//   {
+//     value: 'monthly',
+//     label: '월간 반복',
+//   },
+//   {
+//     value: 'yearly',
+//     label: '연간 반복',
+//   },
+// ]
 
-const CustomPlaceholder = () => (
-  <div>
-    <span className="hidden sm:inline">반복</span>
-    <span> 선택</span>
-  </div>
-)
+// const CustomPlaceholder = () => (
+//   <div>
+//     <span className="hidden sm:inline">반복</span>
+//     <span> 선택</span>
+//   </div>
+// )
 
 const RepetitionField = () => {
-  const { isModalOpen, openModal, closeModal } = useModal()
-  const { setValue, watch } = useFormContext()
-  const [selected, setSelected] = useState<string>('')
-  const [repeatType, setRepeatType] = useState<RecurringOptionValue>('none')
+  // const { isModalOpen, openModal, closeModal } = useModal()
+  const { watch } = useFormContext()
+  // const [selected, setSelected] = useState<string>('')
+  // const [repeatType, setRepeatType] = useState<RecurringOptionValue>('none')
 
   // useEffect(() => {
   //   setValue('isRecurring', true);
   // }, [setValue])
 
   const isRecurring = watch('isRecurring')
-  const settedRepeatType = watch('repeatType')
+  // const settedRepeatType = watch('repeatType')
 
   return (
     <>
       <div className="hidden">{isRecurring}</div>
-      <div className="hidden">{settedRepeatType}</div>
+      {/* <div className="hidden">{settedRepeatType}</div>
       <BaseField
         id="repitition"
         label="반복"
@@ -158,7 +158,7 @@ const RepetitionField = () => {
           repeatType={repeatType}
           setSelected={setSelected}
         />
-      )}
+      )} */}
     </>
   )
 }
