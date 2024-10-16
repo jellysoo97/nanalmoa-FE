@@ -42,14 +42,13 @@ const SettingManagerPage = () => {
   const { data: sendedInvitations } = useQuery<IGetManagerInvitationRes>({
     queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_SEND],
     queryFn: () => getManagerInvitationSend(),
-    enabled: !selectedUser,
+    // enabled: !selectedUser,
   })
 
   // 받은 초대 현황
   const { data: receivedInvitations } = useQuery<IGetManagerInvitationRes>({
     queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_RECEIVED],
     queryFn: () => getManagerInvitationReceived(),
-    enabled: !selectedUser,
   })
 
   // 받은 요청 거절
@@ -106,15 +105,13 @@ const SettingManagerPage = () => {
   }
 
   // 새로운 관리자 초대 생성
-  // TODO: 현재 invalidateQueries 사용하여도 '보낸 초대 현황' 다시 요청되지 않음
   const mutation = useMutation<IPostManagerInvitationRes, AxiosError, string>({
     mutationFn: postManagerInvitation,
     onSuccess: () => {
-      closeModal()
+      toast.success('초대에 성공했습니다!')
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_SEND],
       })
-      toast.success('초대에 성공했습니다!')
     },
     onError: () => {
       closeModal()
@@ -127,9 +124,13 @@ const SettingManagerPage = () => {
     openModal()
   }
 
-  const handleInviteManager = () => {
+  const handleInviteManager = async () => {
     if (selectedUser?.userUuid) {
-      mutation.mutate(selectedUser?.userUuid)
+      try {
+        await mutation.mutateAsync(selectedUser.userUuid)
+      } finally {
+        closeModal()
+      }
     }
   }
 
