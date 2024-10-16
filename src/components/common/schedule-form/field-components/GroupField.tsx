@@ -1,5 +1,5 @@
 import BaseField from './BaseField'
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import Select, { components, MenuProps, MultiValue } from 'react-select'
 
 // TODO: backend group DTO에 맞추어 추후 재작성
@@ -109,6 +109,36 @@ const GroupField = () => {
   const [menuIsOpen, setMenuIsOpen] = useState(false)
   const [selectedUsers, setSelectedUsers] = useState<MultiValue<User>>([])
 
+  const prevSelectedUsersRef = useRef<User[]>([])
+
+  const handleChange = useCallback((newValue: MultiValue<User>) => {
+    const newSelectedUsers = newValue as User[]
+    const prevSelectedUsers = prevSelectedUsersRef.current
+
+    // 추가된 사용자 찾기
+    const addedUsers = newSelectedUsers.filter(
+      (user) => !prevSelectedUsers.some((prevUser) => prevUser.id === user.id)
+    )
+
+    // 삭제된 사용자 찾기
+    const removedUsers = prevSelectedUsers.filter(
+      (user) => !newSelectedUsers.some((newUser) => newUser.id === user.id)
+    )
+
+    // 추가된 사용자 처리
+    addedUsers.forEach((user) => {
+      console.log('추가된 사용자:', user)
+    })
+
+    // 삭제된 사용자 처리
+    removedUsers.forEach((user) => {
+      console.log('삭제된 사용자:', user)
+    })
+
+    // 상태 업데이트
+    setSelectedUsers(newSelectedUsers)
+    prevSelectedUsersRef.current = newSelectedUsers
+  }, [])
   const handleMenuOpen = () => setMenuIsOpen(true)
   const handleMenuClose = () => setMenuIsOpen(false)
 
@@ -122,7 +152,7 @@ const GroupField = () => {
             isMulti
             options={users}
             value={selectedUsers}
-            onChange={(newValue) => setSelectedUsers(newValue)}
+            onChange={handleChange}
             getOptionLabel={(option) => option.name}
             getOptionValue={(option) => option.id}
             placeholder="공유할 그룹원을 선택해주세요"
