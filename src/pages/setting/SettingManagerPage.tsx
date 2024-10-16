@@ -1,5 +1,7 @@
 import { getManagerInvitationReceived } from '@/api/manager/get-manager-invitation-received'
 import { getManagerInvitationSend } from '@/api/manager/get-manager-invitation-send'
+import { getMyManagers } from '@/api/manager/get-my-managers'
+import { getMySubordinates } from '@/api/manager/get-my-subordinates'
 import { patchManagerAccept } from '@/api/manager/patch-manager-accept'
 import { patchManagerCancel } from '@/api/manager/patch-manager-cancel'
 import { patchManagerReject } from '@/api/manager/patch-manager-reject'
@@ -10,6 +12,7 @@ import UserSelector from '@/components/common/UserSelector'
 import InvitationLayout from '@/components/setting/InvitationLayout'
 import InvitationsSection from '@/components/setting/InvitationsSection'
 import InviteModal from '@/components/setting/InviteModal'
+import ManagerItem from '@/components/setting/ManagerItem'
 import ReceivedInvitation from '@/components/setting/ReceivedInvitation'
 import SendedInvitation from '@/components/setting/SendedInvitation'
 import SettingSection from '@/components/setting/SettingSection'
@@ -20,6 +23,8 @@ import { path } from '@/routes/path'
 import { UserWithPhoneNumber } from '@/types/auth'
 import {
   IGetManagerInvitationRes,
+  IGetMyManagersRes,
+  IGetMySubordinatesRes,
   IPatchManagerInvitationRes,
   IPostManagerInvitationRes,
   IRejectManagerInvitationRes,
@@ -49,6 +54,18 @@ const SettingManagerPage = () => {
   const { data: receivedInvitations } = useQuery<IGetManagerInvitationRes>({
     queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_RECEIVED],
     queryFn: () => getManagerInvitationReceived(),
+  })
+
+  // 자신의 피관리자 목록 조회
+  const { data: MySubordinates } = useQuery<IGetMySubordinatesRes>({
+    queryKey: [QUERY_KEYS.GET_MANAGER_SUBORDINATES],
+    queryFn: () => getMySubordinates(),
+  })
+
+  // 자신의 관리자 목록 조회
+  const { data: MyManagers } = useQuery<IGetMyManagersRes>({
+    queryKey: [QUERY_KEYS.GET_MANAGER_MANAGERS],
+    queryFn: () => getMyManagers(),
   })
 
   // 받은 요청 거절
@@ -134,6 +151,10 @@ const SettingManagerPage = () => {
     }
   }
 
+  // 피관리자 제거
+
+  // 관리자 제거
+
   return (
     <div className="px-5">
       <Button
@@ -193,6 +214,33 @@ const SettingManagerPage = () => {
           onClick={handleInviteManager}
         />
       )}
+
+      <SettingSection title="💌 관리자 목록">
+        <div className="py-3">
+          <InvitationsSection
+            title="내가 관리하는 사람들"
+            itemsLength={MySubordinates?.length || 0}
+          >
+            <InvitationLayout
+              items={MySubordinates}
+              Component={ManagerItem}
+              message="관리하는 사용자가 없습니다"
+              // 피관리자 제거
+            />
+          </InvitationsSection>
+          <InvitationsSection
+            title="나의 관리자들"
+            itemsLength={MyManagers?.length || 0}
+          >
+            <InvitationLayout
+              items={MyManagers}
+              Component={ManagerItem}
+              message="관리자가 없습니다"
+              // 관리자 제거
+            />
+          </InvitationsSection>
+        </div>
+      </SettingSection>
       <Toast />
     </div>
   )

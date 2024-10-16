@@ -3,7 +3,7 @@ import { GetGroupInvitationRes } from '@/types/group'
 
 type Props = {
   item: IManagerInvitation | GetGroupInvitationRes
-  onClickReject: (id: number) => void
+  onClickReject?: (id: number) => void
   onClickAccept?: (id: number) => void
 }
 
@@ -38,7 +38,7 @@ const ReceivedInvitation = ({ item, onClickReject, onClickAccept }: Props) => {
             )}
             <button
               className="rounded border bg-red-200 px-2 py-1 text-sm text-red-500"
-              onClick={() => onClickReject(inviteId)}
+              onClick={() => onClickReject && onClickReject(inviteId)}
             >
               초대 거절
             </button>
