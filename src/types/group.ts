@@ -31,11 +31,16 @@ export enum GroupInvitationEnum {
 }
 
 export interface GetGroupInvitationRes {
-  groupId: number
-  inviteeUuid: string
   invitationId: number
-  status: string
+  groupId: number
+  groupName: string
   inviterUuid: string
+  inviterName: string
+  inviteeUuid: string
+  inviteeName: string
+  createdAt?: Date
+  updatedAt?: Date
+  status: string
 }
 
 export interface PatchGroupRejectRes extends GetGroupInvitationRes {}
