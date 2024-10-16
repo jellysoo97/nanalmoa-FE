@@ -4,6 +4,7 @@ import { patchManagerAccept } from '@/api/manager/patch-manager-accept'
 import { patchManagerCancel } from '@/api/manager/patch-manager-cancel'
 import { patchManagerReject } from '@/api/manager/patch-manager-reject'
 import { postManagerInvitation } from '@/api/manager/post-manager-invitation'
+import { Button } from '@/components/common'
 import Toast from '@/components/common/Toast'
 import UserSelector from '@/components/common/UserSelector'
 import InvitationLayout from '@/components/setting/InvitationLayout'
@@ -15,6 +16,7 @@ import SettingSection from '@/components/setting/SettingSection'
 import SettingTitle from '@/components/setting/SettingTitle'
 import { QUERY_KEYS } from '@/constants/api'
 import { useModal } from '@/hooks/use-modal'
+import { path } from '@/routes/path'
 import { UserWithPhoneNumber } from '@/types/auth'
 import {
   IGetManagerInvitationRes,
@@ -25,10 +27,12 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 const SettingManagerPage = () => {
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
   const { isModalOpen, openModal, closeModal } = useModal()
   const [selectedUser, setSelectedUser] = useState<UserWithPhoneNumber | null>(
     null
@@ -130,7 +134,14 @@ const SettingManagerPage = () => {
   }
 
   return (
-    <div className="p-5">
+    <div className="px-5">
+      <Button
+        text="이전으로"
+        onClick={() => {
+          navigate(path.settings.base)
+        }}
+        className="mb-3"
+      />
       <SettingTitle title="관리자 관리" />
 
       <SettingSection title="💌 관리자 초대하기">
