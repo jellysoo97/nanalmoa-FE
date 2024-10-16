@@ -29,7 +29,7 @@ const MyGroupList = () => {
                 >
                   <p className="flex-1 truncate">{group.groupName}</p>
                   <p className="w-20 flex-none text-center">
-                    {group.isAdmin ? '관리자' : ''}
+                    {group.isAdmin ? '생성자' : ''}
                   </p>
                   <p className="w-20 flex-none text-center">
                     {group.memberCount}
