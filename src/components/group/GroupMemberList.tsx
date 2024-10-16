@@ -12,11 +12,14 @@ import TrashCanIcon from '../icons/TrashCanIcon'
 import Modal from '../common/Modal'
 
 type Props = {
+  userUuid: string | undefined
+  admin: boolean
+  cnt: number
   members: GetGroupDetail['members']
   groupId: string | undefined
 }
 
-const GroupMemberList = ({ members, groupId }: Props) => {
+const GroupMemberList = ({ userUuid, admin, cnt, members, groupId }: Props) => {
   const { isModalOpen, openModal, closeModal } = useModal()
   const [isDelModalOpen, setIsDelModalOpen] = useState(false)
   const [clickMember, setClickMember] = useState<
@@ -43,7 +46,7 @@ const GroupMemberList = ({ members, groupId }: Props) => {
 
   return (
     <div className="mb-0 flex flex-col">
-      <p>친구 목록</p>
+      <p> 친구 목록 ( {cnt} 명 )</p>
       <Divider />
       <ul className="mb-5 list-disc pl-5 pt-3">
         {members.length > 0 ? (
@@ -52,17 +55,19 @@ const GroupMemberList = ({ members, groupId }: Props) => {
               <li className="mb-2 flex items-center justify-between">
                 <span className="flex-1 truncate">{member.name}</span>
                 <span className="w-20 flex-none text-center">
-                  {member.isAdmin ? '관리자' : '일반'}
+                  {member.isAdmin ? '생성자' : '일반'}
                 </span>
-                <span
-                  className="w-16 flex-none rounded-md bg-red-500 p-2 text-center text-sm text-white"
-                  onClick={() => {
-                    setIsDelModalOpen(true)
-                    setClickMember(member)
-                  }}
-                >
-                  삭제
-                </span>
+                {admin && userUuid && member.userUuid !== userUuid && (
+                  <span
+                    className="w-16 flex-none rounded-md bg-red-500 p-2 text-center text-sm text-white"
+                    onClick={() => {
+                      setIsDelModalOpen(true)
+                      setClickMember(member)
+                    }}
+                  >
+                    삭제
+                  </span>
+                )}
               </li>
               <Divider />
             </div>

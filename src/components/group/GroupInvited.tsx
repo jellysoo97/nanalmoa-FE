@@ -89,7 +89,7 @@ const GroupInvited = () => {
   }
 
   return (
-    <div className="-mt-3 mb-10 h-[30%]">
+    <div className="-mt-3">
       <SettingSection title="💌 초대 목록">
         <div className="py-3">
           <InvitationsSection

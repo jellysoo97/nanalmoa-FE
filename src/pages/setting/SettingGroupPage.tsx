@@ -12,7 +12,7 @@ const SettingGroupPage = () => {
   const navigate = useNavigate()
 
   return (
-    <div className="w-full px-5">
+    <div className="mb-10 w-full px-5">
       <div className="mb-2 flex justify-between">
         <Button text="이전으로" onClick={() => navigate(path.settings.base)} />
       </div>
@@ -22,7 +22,7 @@ const SettingGroupPage = () => {
       {/* 내 그룹 리스트, 클릭하면 그룹상세 */}
       <MyGroupList />
       {/* 그룹 생성 버튼 */}
-      <Button text="그룹 만들기" onClick={openModal} />
+      <Button text="그룹 만들기" onClick={openModal} className="w-full" />
       {isModalOpen && (
         <CreateGroupModal onClose={closeModal} isCreateGroup={false} />
       )}
