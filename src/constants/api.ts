@@ -48,5 +48,7 @@ export const QUERY_KEYS = {
   PUT_ROUTINE: 'putRoutine',
   GET_MANAGER_INVITATION_SEND: 'managerInvitationSend',
   GET_MANAGER_INVITATION_RECEIVED: 'managerInvitationReceived',
+  GET_MANAGER_MANAGERS: 'myManagers',
+  GET_MANAGER_SUBORDINATES: 'mySubordinates',
   GET_INVITATIONS_USER: 'invitationsUser',
 }

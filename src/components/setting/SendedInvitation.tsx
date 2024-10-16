@@ -3,7 +3,7 @@ import { GetGroupInvitationRes } from '@/types/group'
 
 type Props = {
   item: IManagerInvitation | GetGroupInvitationRes
-  onClickReject: (id: number) => void
+  onClickReject?: (id: number) => void
 }
 
 const SendedInvitation = ({ item, onClickReject }: Props) => {
@@ -47,7 +47,7 @@ const SendedInvitation = ({ item, onClickReject }: Props) => {
               요청중
             </div>
             <button
-              onClick={() => onClickReject(inviteId)}
+              onClick={() => onClickReject && onClickReject(inviteId)}
               className="rounded bg-red-200 px-2 py-1 text-sm text-red-500"
             >
               요청 철회
@@ -67,6 +67,11 @@ const SendedInvitation = ({ item, onClickReject }: Props) => {
         {item.status === 'CANCELED' && (
           <div className="rounded border border-neutral-500 px-2 py-1 text-sm text-neutral-500">
             취소된 요청
+          </div>
+        )}
+        {item.status === 'REMOVED' && (
+          <div className="rounded border border-neutral-500 px-2 py-1 text-sm text-neutral-500">
+            제거된 요청
           </div>
         )}
       </div>

@@ -1,25 +1,31 @@
+import { deleteManager } from '@/api/manager/delete-manager'
+import { deleteSubordinate } from '@/api/manager/delete-subordinate'
 import { getManagerInvitationReceived } from '@/api/manager/get-manager-invitation-received'
 import { getManagerInvitationSend } from '@/api/manager/get-manager-invitation-send'
+import { getMyManagers } from '@/api/manager/get-my-managers'
+import { getMySubordinates } from '@/api/manager/get-my-subordinates'
 import { patchManagerAccept } from '@/api/manager/patch-manager-accept'
 import { patchManagerCancel } from '@/api/manager/patch-manager-cancel'
 import { patchManagerReject } from '@/api/manager/patch-manager-reject'
 import { postManagerInvitation } from '@/api/manager/post-manager-invitation'
-import { Button } from '@/components/common'
 import Toast from '@/components/common/Toast'
 import UserSelector from '@/components/common/UserSelector'
+import RefreshIcon from '@/components/icons/RefreshIcon'
 import InvitationLayout from '@/components/setting/InvitationLayout'
 import InvitationsSection from '@/components/setting/InvitationsSection'
 import InviteModal from '@/components/setting/InviteModal'
+import ManagerItem from '@/components/setting/ManagerItem'
 import ReceivedInvitation from '@/components/setting/ReceivedInvitation'
 import SendedInvitation from '@/components/setting/SendedInvitation'
 import SettingSection from '@/components/setting/SettingSection'
 import SettingTitle from '@/components/setting/SettingTitle'
 import { QUERY_KEYS } from '@/constants/api'
 import { useModal } from '@/hooks/use-modal'
-import { path } from '@/routes/path'
 import { UserWithPhoneNumber } from '@/types/auth'
 import {
   IGetManagerInvitationRes,
+  IGetMyManagersRes,
+  IGetMySubordinatesRes,
   IPatchManagerInvitationRes,
   IPostManagerInvitationRes,
   IRejectManagerInvitationRes,
@@ -27,12 +33,10 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 const SettingManagerPage = () => {
   const queryClient = useQueryClient()
-  const navigate = useNavigate()
   const { isModalOpen, openModal, closeModal } = useModal()
   const [selectedUser, setSelectedUser] = useState<UserWithPhoneNumber | null>(
     null
@@ -42,14 +46,25 @@ const SettingManagerPage = () => {
   const { data: sendedInvitations } = useQuery<IGetManagerInvitationRes>({
     queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_SEND],
     queryFn: () => getManagerInvitationSend(),
-    enabled: !selectedUser,
+    // enabled: !selectedUser,
   })
 
   // 받은 초대 현황
   const { data: receivedInvitations } = useQuery<IGetManagerInvitationRes>({
     queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_RECEIVED],
     queryFn: () => getManagerInvitationReceived(),
-    enabled: !selectedUser,
+  })
+
+  // 자신의 피관리자 목록 조회
+  const { data: MySubordinates } = useQuery<IGetMySubordinatesRes>({
+    queryKey: [QUERY_KEYS.GET_MANAGER_SUBORDINATES],
+    queryFn: () => getMySubordinates(),
+  })
+
+  // 자신의 관리자 목록 조회
+  const { data: MyManagers } = useQuery<IGetMyManagersRes>({
+    queryKey: [QUERY_KEYS.GET_MANAGER_MANAGERS],
+    queryFn: () => getMyManagers(),
   })
 
   // 받은 요청 거절
@@ -84,6 +99,9 @@ const SettingManagerPage = () => {
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_RECEIVED],
         })
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.GET_MANAGER_MANAGERS],
+        })
       },
     }
   )
@@ -112,12 +130,13 @@ const SettingManagerPage = () => {
   }
 
   // 새로운 관리자 초대 생성
-  // TODO: 현재 invalidateQueries 사용하여도 '보낸 초대 현황' 다시 요청되지 않음
   const mutation = useMutation<IPostManagerInvitationRes, AxiosError, string>({
     mutationFn: postManagerInvitation,
     onSuccess: () => {
-      closeModal()
       toast.success('초대에 성공했습니다!')
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_SEND],
+      })
     },
     onError: () => {
       closeModal()
@@ -135,22 +154,78 @@ const SettingManagerPage = () => {
     openModal()
   }
 
-  const handleInviteManager = () => {
+  const handleInviteManager = async () => {
     if (selectedUser?.userUuid) {
-      mutation.mutate(selectedUser?.userUuid)
+      try {
+        await mutation.mutateAsync(selectedUser.userUuid)
+      } finally {
+        closeModal()
+      }
     }
+  }
+
+  // 피관리자 제거
+  const mutateDeleteSubordinate = useMutation<void, AxiosError, string>({
+    mutationFn: (subordinateId: string) => deleteSubordinate(subordinateId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_SEND],
+      })
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_MANAGER_SUBORDINATES],
+      })
+    },
+  })
+
+  const handleDeleteSubordinate = (uuid: string) => {
+    mutateDeleteSubordinate.mutate(uuid)
+  }
+
+  // 관리자 제거
+  const mutateDeleteManager = useMutation<void, AxiosError, string>({
+    mutationFn: (subordinateId: string) => deleteManager(subordinateId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_RECEIVED],
+      })
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_MANAGER_MANAGERS],
+      })
+    },
+  })
+
+  const handleDeleteManager = (uuid: string) => {
+    mutateDeleteManager.mutate(uuid)
+  }
+
+  const handleAllRefresh = () => {
+    queryClient.invalidateQueries({
+      queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_SEND],
+    })
+    queryClient.invalidateQueries({
+      queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_RECEIVED],
+    })
+    queryClient.invalidateQueries({
+      queryKey: [QUERY_KEYS.GET_MANAGER_SUBORDINATES],
+    })
+    queryClient.invalidateQueries({
+      queryKey: [QUERY_KEYS.GET_MANAGER_MANAGERS],
+    })
   }
 
   return (
     <div className="px-5">
-      <Button
-        text="이전으로"
-        onClick={() => {
-          navigate(path.settings.base)
-        }}
-        className="mb-3"
+      <button className="mb-3 rounded bg-primary-base px-3 py-2 text-sm text-white">
+        이전으로
+      </button>
+      <SettingTitle
+        title="관리자 관리"
+        button={
+          <div onClick={handleAllRefresh}>
+            <RefreshIcon className="mb-2 ml-3" />
+          </div>
+        }
       />
-      <SettingTitle title="관리자 관리" />
 
       <SettingSection title="💌 관리자 초대하기">
         <div className="mt-3">
@@ -200,6 +275,35 @@ const SettingManagerPage = () => {
           onClick={handleInviteManager}
         />
       )}
+
+      <SettingSection title="💌 관리자 목록">
+        <div className="py-3">
+          <InvitationsSection
+            title="내가 관리하는 사람들"
+            itemsLength={MySubordinates?.length || 0}
+          >
+            <InvitationLayout
+              items={MySubordinates}
+              Component={ManagerItem}
+              message="관리하는 사용자가 없습니다"
+              // 피관리자 제거
+              onClickDelete={handleDeleteSubordinate}
+            />
+          </InvitationsSection>
+        </div>
+        <InvitationsSection
+          title="나의 관리자들"
+          itemsLength={MyManagers?.length || 0}
+        >
+          <InvitationLayout
+            items={MyManagers}
+            Component={ManagerItem}
+            message="관리자가 없습니다"
+            // 관리자 제거
+            onClickDelete={handleDeleteManager}
+          />
+        </InvitationsSection>
+      </SettingSection>
       <Toast />
     </div>
   )
