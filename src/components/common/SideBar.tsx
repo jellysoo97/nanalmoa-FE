@@ -1,25 +1,19 @@
-import { ChangeEvent, useState } from 'react'
 import { PrevIcon } from '../icons'
+import { useManager } from '@/hooks/use-manager'
+import useManagerStore from '@/store/manager'
 
 type Props = {
   isSidebarOpen: boolean
   toggleSidebar: () => void
 }
 
-interface User {
-  id: string
-  label: string
-}
-
-const users: User[] = [
-  { id: '1', label: '사용자1' },
-  { id: '2', label: '사용자2' },
-  { id: '3', label: '사용자3' },
-  { id: '4', label: '사용자4' },
-]
-
 const SideBar = ({ isSidebarOpen, toggleSidebar }: Props) => {
-  const [selectedSubotdinate, setSelectedSubordinate] = useState<string>('')
+  const { selectedSubordinate, setSelectedSubordinate } = useManagerStore()
+  const { mySubordinates } = useManager()
+
+  const handleReset = () => {
+    setSelectedSubordinate(null)
+  }
 
   return (
     <>
@@ -38,34 +32,80 @@ const SideBar = ({ isSidebarOpen, toggleSidebar }: Props) => {
           <PrevIcon />
         </button>
         <div className="px-4 py-2">
-          <h2 className="mb-1 text-xl font-bold">관리인 일정</h2>
-          <button className="my-3 rounded border px-2 py-1 text-xs">
-            초기화
+          <h2 className="text-xl font-bold">관리인 일정 관리</h2>
+          <div className="text-[10px]">
+            💡피관리인들의 일정을 관리할 수 있습니다.
+          </div>
+          <button
+            onClick={handleReset}
+            className="my-3 w-full rounded border px-2 py-1 text-xs"
+          >
+            설정 초기화
           </button>
-          {users.map((task) => (
-            <label key={task.id} className="flex items-center space-x-2">
-              <input
-                type="radio"
-                name="task"
-                value={task.id}
-                checked={selectedSubotdinate === task.id}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setSelectedSubordinate(e.target.value)
-                }
-                className="form-radio text-green-500"
-              />
-              <span>{task.label}</span>
-            </label>
-          ))}
-          {selectedSubotdinate && (
+
+          <div className="pt-3 font-semibold">🍀 선택된 사용자</div>
+          {selectedSubordinate && (
             <>
-              <p className="mt-4">선택된 사용자: </p>
-              <p>
-                {' '}
-                {users.find((task) => task.id === selectedSubotdinate)?.label}
-              </p>
+              <div className="mx-2 mb-1 mt-3 flex">
+                {selectedSubordinate?.profileImage ? (
+                  <img
+                    src={selectedSubordinate.profileImage}
+                    className="size-6 rounded-full object-cover sm:size-9"
+                  />
+                ) : (
+                  <div className="flex size-6 items-center justify-center rounded-full border text-[13px] sm:size-6 sm:text-[15px]">
+                    {selectedSubordinate.name[0]}
+                  </div>
+                )}
+                <p className="px-2 pb-1">
+                  {
+                    mySubordinates.find(
+                      (task) => task.userUuid === selectedSubordinate.userUuid
+                    )?.name
+                  }
+                </p>
+              </div>
             </>
           )}
+          {!selectedSubordinate && (
+            <div className="my-2 flex h-10 items-center justify-center rounded border text-[13px] text-neutral-400">
+              선택된 사용자가 없습니다.
+            </div>
+          )}
+
+          <div>
+            <div className="flex gap-2">
+              <div className="pt-3 font-semibold">🍀 피관리인 목록</div>
+              <p className="pt-3 text-[11px] text-neutral-500">
+                총 {mySubordinates?.length}명
+              </p>
+            </div>
+            <div className="px-2 py-2">
+              {mySubordinates.map((user) => (
+                <label
+                  key={user.userUuid}
+                  className="flex items-center space-x-2"
+                >
+                  <input
+                    type="radio"
+                    name="task"
+                    value={user.userUuid}
+                    checked={selectedSubordinate?.userUuid === user.userUuid}
+                    onChange={(e) => {
+                      const selectedUser = mySubordinates.find(
+                        (sub) => sub.userUuid === e.target.value
+                      )
+                      if (selectedUser) {
+                        setSelectedSubordinate(selectedUser)
+                      }
+                    }}
+                    className="form-radio text-green-500"
+                  />
+                  <span>{user.name}</span>
+                </label>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </>

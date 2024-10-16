@@ -98,6 +98,9 @@ const SettingManagerPage = () => {
         queryClient.invalidateQueries({
           queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_RECEIVED],
         })
+        queryClient.invalidateQueries({
+          queryKey: [QUERY_KEYS.GET_MANAGER_MANAGERS],
+        })
       },
     }
   )

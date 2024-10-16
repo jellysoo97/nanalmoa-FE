@@ -14,7 +14,7 @@ const ManagerItem = ({ item, onClickDelete }: Props) => {
           className="rounded border bg-red-200 px-2 py-1 text-sm text-red-500"
           onClick={() => onClickDelete && onClickDelete(item.userUuid)}
         >
-          초대 거절
+          제거
         </button>
       </div>
     </div>
