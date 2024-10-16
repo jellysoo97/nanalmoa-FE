@@ -45,7 +45,7 @@ const GroupInvited = () => {
 
   //받은 초대 거절
   const mutationReject = useMutation<PatchGroupRejectRes, Error, number>({
-    mutationFn: (id: number) => patchGroupReject(id),
+    mutationFn: (id: number) => patchGroupReject({ id }),
     onSuccess: (data) => {
       console.log('요청 거절 성공:', data)
       queryClient.invalidateQueries({
@@ -56,7 +56,7 @@ const GroupInvited = () => {
 
   //받은 초대 수락
   const mutationAccept = useMutation<PatchGroupAcceptRes, Error, number>({
-    mutationFn: (id: number) => patchGroupAccept(id),
+    mutationFn: (id: number) => patchGroupAccept({ id }),
     onSuccess: (data) => {
       console.log('요청 수락 성공:', data)
       queryClient.invalidateQueries({
@@ -67,7 +67,7 @@ const GroupInvited = () => {
 
   //초대 철회
   const mutationCancel = useMutation<PatchGroupCancelRes, Error, number>({
-    mutationFn: (id: number) => patchGroupCancel(id),
+    mutationFn: (id: number) => patchGroupCancel({ id }),
     onSuccess: (data) => {
       console.log('요청 수락 성공:', data)
       queryClient.invalidateQueries({

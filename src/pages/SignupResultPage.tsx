@@ -5,7 +5,7 @@ import { path } from '@/routes/path'
 
 const SignupResultPage = () => {
   const params = new URLSearchParams(window.location.search)
-  const isSuccess = Boolean(params.get('q'))
+  const isSuccess = params.get('q') === 'true'
 
   return (
     <div className="container flex flex-col justify-center gap-y-10 px-6 py-2 sm:px-12">
