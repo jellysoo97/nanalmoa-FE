@@ -30,7 +30,7 @@ const GroupInvited = () => {
     GetGroupInvitationRes[],
     AxiosError
   >({
-    queryKey: [QUERY_KEYS.GET_GROUP_INVITATION],
+    queryKey: [QUERY_KEYS.GET_GROUP_INVITATION_RECEIVED],
     queryFn: getGroupInvitationReceived,
   })
 
@@ -39,7 +39,7 @@ const GroupInvited = () => {
     GetGroupInvitationRes[],
     AxiosError
   >({
-    queryKey: [QUERY_KEYS.GET_GROUP_INVITATION],
+    queryKey: [QUERY_KEYS.GET_GROUP_INVITATION_SEND],
     queryFn: getGroupInvitationSent,
   })
 
@@ -49,7 +49,7 @@ const GroupInvited = () => {
     onSuccess: (data) => {
       console.log('요청 거절 성공:', data)
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_RECEIVED],
+        queryKey: [QUERY_KEYS.GET_GROUP_INVITATION_RECEIVED],
       })
     },
   })
@@ -60,7 +60,7 @@ const GroupInvited = () => {
     onSuccess: (data) => {
       console.log('요청 수락 성공:', data)
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_RECEIVED],
+        queryKey: [QUERY_KEYS.GET_GROUP_INVITATION_RECEIVED],
       })
     },
   })
@@ -71,7 +71,7 @@ const GroupInvited = () => {
     onSuccess: (data) => {
       console.log('요청 수락 성공:', data)
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_RECEIVED],
+        queryKey: [QUERY_KEYS.GET_GROUP_INVITATION_SEND],
       })
     },
   })

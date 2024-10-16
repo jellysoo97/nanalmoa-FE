@@ -25,7 +25,7 @@ const GroupMemberList = ({ members, groupId }: Props) => {
 
   //친구 삭제
   const deleteUserMutation = useMutation({
-    mutationKey: [QUERY_KEYS.DELETE_GROUP],
+    mutationKey: [QUERY_KEYS.DELETE_GROUP_USER],
     mutationFn: deleteGroupUser,
     onSuccess: () => {
       console.log('삭제 성공')
