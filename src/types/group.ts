@@ -46,3 +46,13 @@ export interface DeleteGroupUserPa {
   groupId: number
   memberUuid: string
 }
+
+export interface PatchGroupAcceptReq {
+  id: number
+}
+
+export interface PatchGroupAcceptRes {}
+
+export interface PatchGroupRejectReq extends PatchGroupAcceptReq {}
+
+export interface PatchGroupRejectRes extends PatchGroupAcceptRes {}

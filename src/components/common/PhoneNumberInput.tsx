@@ -93,8 +93,8 @@ const PhoneNumberInput = ({
   }, [isRetry])
 
   return (
-    <div className="flex flex-col gap-y-6">
-      <div className="flex flex-wrap items-end justify-end gap-5 sm:flex-nowrap">
+    <div className="flex flex-col gap-y-5">
+      <div className="flex flex-wrap items-end justify-end gap-2 sm:flex-nowrap sm:gap-5">
         <Input
           label="전화번호"
           placeholder="'-' 없이 번호만 입력해주세요."
@@ -120,7 +120,7 @@ const PhoneNumberInput = ({
           onClick={handleVerify}
         />
       </div>
-      <div className="flex flex-wrap items-end justify-end gap-5 sm:flex-nowrap">
+      <div className="flex flex-wrap items-end justify-end gap-2 sm:flex-nowrap sm:gap-5">
         <Input
           placeholder="인증코드를 입력해주세요"
           {...register('verificationCode', { required: true })}

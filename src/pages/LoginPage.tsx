@@ -57,15 +57,15 @@ const LoginPage = () => {
 
   return (
     <>
-      <div className="container flex flex-col justify-center gap-y-8 px-6 py-2 sm:px-12">
+      <div className="container flex flex-col justify-center gap-y-4 px-6 py-2 sm:gap-y-8 sm:px-12">
         <div className="flex flex-col items-center gap-y-10">
           <h2 className="text-xl font-bold">환영합니다!🍀</h2>
           <FormProvider {...methods}>
             <form
-              className="flex w-full flex-col gap-y-10"
+              className="flex w-full flex-col gap-2 sm:flex-nowrap sm:gap-5"
               onSubmit={handleSubmit((data) => handleLogin(data))}
             >
-              <div className="flex flex-col gap-y-10">
+              <div className="flex flex-col gap-y-4">
                 <PhoneNumberInput
                   isRetry={!isIdle && isError}
                   handleVerification={handleVerification}
