@@ -10,7 +10,6 @@ export const postGroup = async (payload: PostGroupReq) => {
   >(`${API_DOMAINS.GROUP}`, payload, {
     params: { groupName: payload.groupName },
   })
-
   return data
 }
 
