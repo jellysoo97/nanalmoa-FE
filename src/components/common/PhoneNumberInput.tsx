@@ -9,8 +9,8 @@ import { Button, Input } from '.'
 import { useEffect, useState } from 'react'
 
 type Props = {
+  isRetry?: boolean
   isRequired?: boolean
-  isRetry: boolean
   handleVerification?: (isSuccess: boolean) => void
 }
 

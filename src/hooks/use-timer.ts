@@ -19,7 +19,6 @@ export const useTimer = ({ timeLimit, isStart, isDone }: Props) => {
       }, INTERVAL)
 
       if (leftTime <= 0 || isDone) {
-        setLeftTime(timeLimit)
         clearInterval(intervalId)
       }
 
@@ -27,7 +26,11 @@ export const useTimer = ({ timeLimit, isStart, isDone }: Props) => {
     }
   }, [leftTime, isStart])
 
-  console.log(leftTime)
+  useEffect(() => {
+    if (isDone) {
+      setLeftTime(timeLimit)
+    }
+  }, [isDone])
 
   return {
     minutes: String(
