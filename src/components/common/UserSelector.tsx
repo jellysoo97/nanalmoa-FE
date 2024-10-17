@@ -47,6 +47,7 @@ const UserSelector = ({ onClick }: Props) => {
     <div className="mx-auto">
       <div className="relative">
         <input
+          id="text"
           type="text"
           placeholder="이름, 전화번호, 이메일을 입력해주세요"
           className="w-full rounded-md border border-neutral-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"

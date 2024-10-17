@@ -8,6 +8,7 @@ import { patchManagerAccept } from '@/api/manager/patch-manager-accept'
 import { patchManagerCancel } from '@/api/manager/patch-manager-cancel'
 import { patchManagerReject } from '@/api/manager/patch-manager-reject'
 import { postManagerInvitation } from '@/api/manager/post-manager-invitation'
+import { Button } from '@/components/common'
 import Toast from '@/components/common/Toast'
 import UserSelector from '@/components/common/UserSelector'
 import RefreshIcon from '@/components/icons/RefreshIcon'
@@ -21,6 +22,7 @@ import SettingSection from '@/components/setting/SettingSection'
 import SettingTitle from '@/components/setting/SettingTitle'
 import { QUERY_KEYS } from '@/constants/api'
 import { useModal } from '@/hooks/use-modal'
+import { path } from '@/routes/path'
 import { UserWithPhoneNumber } from '@/types/auth'
 import {
   IGetManagerInvitationRes,
@@ -33,10 +35,12 @@ import {
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 const SettingManagerPage = () => {
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
   const { isModalOpen, openModal, closeModal } = useModal()
   const [selectedUser, setSelectedUser] = useState<UserWithPhoneNumber | null>(
     null
@@ -215,29 +219,32 @@ const SettingManagerPage = () => {
 
   return (
     <div className="px-5">
-      <button className="mb-3 rounded bg-primary-base px-3 py-2 text-sm text-white">
-        이전으로
-      </button>
+      <Button
+        className="mb-3"
+        text="이전으로"
+        onClick={() => navigate(path.settings.base)}
+      />
       <SettingTitle
         title="관리자 관리"
         button={
-          <div onClick={handleAllRefresh}>
+          <div className="pt-2" onClick={handleAllRefresh}>
             <RefreshIcon className="mb-2 ml-3" />
           </div>
         }
       />
 
-      <SettingSection title="💌 관리자 초대하기">
+      <SettingSection title="💌 피관리자에게 초대보내기">
         <div className="mt-3">
           <UserSelector onClick={handleInviteManagerModal} />
         </div>
       </SettingSection>
 
-      <SettingSection title="💌 초대 목록">
+      <SettingSection title="💌 초대 현황">
         <div className="py-3">
           <InvitationsSection
             title="받은 초대 현황"
             itemsLength={receivedInvitations?.length || 0}
+            description="💡 받은 초대를 수락하면 피관리자로 등록됩니다"
           >
             <InvitationLayout
               items={receivedInvitations}
@@ -254,6 +261,7 @@ const SettingManagerPage = () => {
           <InvitationsSection
             title="보낸 초대 현황"
             itemsLength={sendedInvitations?.length || 0}
+            description="💡 보낸 초대가 수락되면 관리자로 등록됩니다"
           >
             <InvitationLayout
               items={sendedInvitations}
