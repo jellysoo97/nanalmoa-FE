@@ -97,10 +97,10 @@ const SettingGroupDetailPage = () => {
       {isModalOpen && (
         <Modal onClose={closeModal}>
           <div className="px-6">
-            <div className="mx-auto flex py-3">
+            <div className="mx-auto flex justify-evenly py-3">
               <p className="mr-5 text-lg">{data.groupName}</p>
-              <p className="text-lg">{data.isAdmin ? '관리자' : ''}</p>
-              <p>{data.memberCount}</p>
+              <p className="text-lg">{data.isAdmin ? '생성자' : ''}</p>
+              <p>{data.memberCount}명 포함</p>
             </div>
             <Divider />
             <div className="py-4 text-center text-lg">
