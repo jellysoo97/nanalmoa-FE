@@ -4,12 +4,14 @@ import {
 } from '@/api/mypage/get-activity-routine'
 import { Button } from '@/components/common'
 import SelectTime from '@/components/common/SelectTime'
+import Toast from '@/components/common/Toast'
 import { QUERY_KEYS } from '@/constants/api'
 import { path } from '@/routes/path'
 import { cn } from '@/utils/cn'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 type Time = {
   label: string
@@ -57,10 +59,12 @@ const SettingActivityPage = () => {
   const mutation = useMutation({
     mutationKey: [QUERY_KEYS.PUT_ROUTINE],
     mutationFn: putActivityRoutine,
+    onError: () => {
+      toast.error('시간 형식이 올바르지 않습니다.')
+    },
   })
 
   useEffect(() => {
-    console.log(data)
     if (data) {
       const formattedTimes: Time[] = [
         {
@@ -166,7 +170,8 @@ const SettingActivityPage = () => {
           </div>
         ))}
       </div>
-      <Button text="저장하기" onClick={handleSubmit} />
+      <Button text="저장하기" onClick={handleSubmit} className="w-full" />
+      <Toast />
     </div>
   )
 }
