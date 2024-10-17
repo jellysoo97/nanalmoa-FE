@@ -7,44 +7,47 @@ export type RecurringOptionValue =
   | 'monthly'
   | 'yearly'
 
-export interface ISchedule {
-  userUuid: string
-  category: {
-    categoryId: number
-    categoryName: Categories
-  }
-  startDate: Date
-  endDate: Date
-  title: string
-  place: string
-  memo: string
-  isAllDay: boolean
-  scheduleId: number
-  isRecurring: boolean
-  repeatType?: RecurringOptionValue
-  recurringInterval?: number
-  repeatEndDate?: Date
-  recurringDaysOfWeek: number[]
-  recurringDayOfMonth: number
-  recurringMonthOfYear: number
-  groupInfo?: [
-    {
-      groupId: number
-      userUuids: string[]
-    },
-  ]
+export interface IGroup {
+  groupId: number
+  userUuids: string[]
 }
 
-export interface IMediaAnalysisResult {
-  userUuid: string
+export interface ICategory {
   categoryId: number
+  categoryName: Categories
+}
+
+export interface IRepeatInfo {
+  recurringInterval?: number
+  repeatEndDate?: Date
+  recurringDaysOfWeek?: number[] | null
+  recurringDayOfMonth?: number | null
+  recurringMonthOfYear?: number | null
+  groupInfo?: Array<IGroup>
+}
+
+export interface ISchedule extends IRepeatInfo {
+  scheduleId: number
+  userUuid: string
   startDate: Date
   endDate: Date
   title: string
   place: string
   memo: string
   isAllDay: boolean
-  isGroupSchedule: boolean
+  category: ICategory
+}
+
+export interface IMediaAnalysisResult extends IRepeatInfo {
+  title: string
+  place: string
+  startDate: Date
+  endDate: Date
+  memo?: string
+  isAllDay: boolean
+  categoryId: number
+  isRecurring: boolean
+  repeatType: RecurringOptionValue
 }
 
 export interface GetScheduleByIdRes extends ISchedule {}
@@ -58,49 +61,32 @@ export interface PostUploadAudioFileReq {
 
 export interface PostUploadAudioFileRes extends Array<IMediaAnalysisResult> {}
 
-export interface IScheduleForm {
-  categoryId?: number
+export interface IPartialScheduleForm {
   startDate: Date
   endDate: Date
-  title?: string
-  place?: string
+  title: string
+  place: string
   memo?: string
   isAllDay: boolean
+  categoryId: number
   isRecurring: boolean
-  repeatType?: RecurringOptionValue
+  repeatType: RecurringOptionValue
 }
 
-export interface PostSchedulesReq {
-  userUuid?: string
-  categoryId?: number
+export interface PostSchedulesReq extends IRepeatInfo {
   startDate: Date
   endDate: Date
-  title?: string
-  place?: string
+  title: string
+  place: string
   memo?: string
   isAllDay: boolean
+  categoryId: number
   isRecurring: boolean
-  repeatType?: RecurringOptionValue
-  recurringInterval?: number
-  repeatEndDate?: Date
-  recurringDaysOfWeek?: number[]
-  recurringDaysOfMonth?: number[]
-  recurringDayOfYear?: number[]
-  groupInfo?: [
-    {
-      groupId: number
-      userUuids: string[]
-    },
-  ]
+  repeatType: RecurringOptionValue
 }
 
-export interface PostSchedulesRes extends PostSchedulesReq {
-  userUuid: string
-  scheduleId: number
-  category: {
-    categoryId: number
-    categoryName: string
-  }
+export interface PostSchedulesRes extends ISchedule {
+  isGroupSchedule: boolean
 }
 
 export interface UpdateScheduleReq {

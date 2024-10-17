@@ -11,6 +11,7 @@ type TPhoto = {
 }
 
 export const usePhoto = ({ videoRef, photoRef }: Props) => {
+  const [isDeviceAllowed, setIsDeviceAllowed] = useState<boolean>(false)
   const [photo, setPhoto] = useState<TPhoto | null>(null)
 
   useEffect(() => {
@@ -22,6 +23,7 @@ export const usePhoto = ({ videoRef, photoRef }: Props) => {
           video: { facingMode: 'environment', width: 1280, height: 720 },
         })
 
+        setIsDeviceAllowed(true)
         if (videoRef.current) {
           videoRef.current.srcObject = stream
           videoRef.current.onloadedmetadata = () => {
@@ -60,5 +62,5 @@ export const usePhoto = ({ videoRef, photoRef }: Props) => {
     })
   }
 
-  return { photo, setPhoto, takePhoto }
+  return { photo, isDeviceAllowed, setPhoto, takePhoto }
 }

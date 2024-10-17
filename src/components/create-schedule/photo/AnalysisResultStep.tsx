@@ -1,17 +1,20 @@
+import error from '@/assets/imgs/error.png'
+import success from '@/assets/imgs/success.png'
+import { CategoryTag } from '@/components/common'
+import { repeatTypeLabels } from '@/constants/schedules'
+import { useModal } from '@/hooks/use-modal'
+import { CreateScheduleStepEnum, DateFormatTypeEnum } from '@/types/common'
 import {
   IMediaAnalysisResult,
   PostSchedulesReq,
   PostSchedulesRes,
 } from '@/types/schedules'
+import { calculateDaysBetween } from '@/utils/calculate-days-between'
+import { formatDate } from '@/utils/format-date'
 import { UseMutationResult } from '@tanstack/react-query'
-import success from '@/assets/imgs/success.png'
-import error from '@/assets/imgs/error.png'
+import { useMemo } from 'react'
 import { SelectOptions } from '.'
-import { useModal } from '@/hooks/use-modal'
 import SelectMethodModal from '../SelectMethodModal'
-import { CreateScheduleStepEnum } from '@/types/common'
-import MediaAnaysisResultCarousel from '../MediaAnalysisResultCarousel'
-import { useState } from 'react'
 import EditScheduleModal from './EditScheduleModal'
 
 type Props = {
@@ -25,16 +28,27 @@ type Props = {
   moveStep: (step: CreateScheduleStepEnum) => void
 }
 
+const DEFAULT_DURATION = 7
+const DEFAULT_COUNT = 3
+
 const AnalysisResultStep = ({
   analysisResult,
-  // createScheduleMutation,
+  createScheduleMutation,
   moveStep,
 }: Props) => {
   const isAnalysisSuccess = !!analysisResult
-  const [selectedResult, setSelectedResult] =
-    useState<IMediaAnalysisResult | null>(
-      analysisResult ? analysisResult[0] : null
-    )
+  const firstResult = isAnalysisSuccess ? analysisResult[0] : null
+  const duration = useMemo(() => {
+    if (firstResult && firstResult.isRecurring && firstResult.repeatEndDate) {
+      return calculateDaysBetween(
+        firstResult.startDate,
+        firstResult.repeatEndDate
+      )
+    }
+    return DEFAULT_DURATION
+  }, [firstResult])
+  const count = analysisResult?.length || DEFAULT_COUNT
+
   const {
     isModalOpen: isSelectMethodModalOpen,
     openModal: openSelectMethodModal,
@@ -46,12 +60,16 @@ const AnalysisResultStep = ({
     closeModal: closeEditModal,
   } = useModal()
 
-  const handleSelectedResultChange = (result: IMediaAnalysisResult) => {
-    setSelectedResult(result)
+  const handleCreateSchedule = (payload: PostSchedulesReq | null) => {
+    if (payload) {
+      createScheduleMutation.mutate(payload, {
+        onSettled: () => {
+          closeEditModal()
+        },
+      })
+    }
   }
-  const handleCreateSchedule = () => {
-    // createScheduleMutation.mutate({})
-  }
+  console.log(analysisResult)
 
   return (
     <>
@@ -64,24 +82,45 @@ const AnalysisResultStep = ({
         />
 
         {isAnalysisSuccess ? (
-          <div className="flex flex-col items-center gap-y-6">
-            <p className="text-center text-lg font-bold">음성 분석 결과</p>
-            <MediaAnaysisResultCarousel
-              results={analysisResult}
-              selectedResult={selectedResult}
-              handleSelectedResultChange={handleSelectedResultChange}
-            />
+          <div className="flex flex-col items-center gap-y-4">
+            <p className="text-center text-lg font-bold">사진 분석 결과</p>
+            <div className="flex flex-col items-center gap-y-2 rounded-md border-2 border-neutral-400 p-3">
+              <div className="flex items-center gap-x-2">
+                <CategoryTag label={'복약'} />
+                <p>
+                  <strong>{duration}</strong>일동안{' '}
+                  <strong>
+                    {repeatTypeLabels[analysisResult[0].repeatType]}
+                  </strong>
+                  에 <strong>{count}</strong>번 복용
+                </p>
+              </div>
+              <p>
+                <strong>시작일: </strong>
+                {formatDate(
+                  DateFormatTypeEnum.DateWithKorean,
+                  firstResult?.startDate
+                )}
+              </p>
+              <p>
+                <strong>종료일: </strong>
+                {formatDate(
+                  DateFormatTypeEnum.DateWithKorean,
+                  firstResult?.repeatEndDate
+                )}
+              </p>
+            </div>
             <SelectOptions
-              title="선택하신 분석 결과대로 일정을 등록할까요?"
+              title={`분석 결과대로 일정을 등록할까요?`}
               leftButtonText="등록하기"
               rightButtonText="내용 수정하기"
-              leftButtonCallback={handleCreateSchedule}
+              leftButtonCallback={() => handleCreateSchedule(firstResult)}
               rightButtonCallback={openEditModal}
             />
           </div>
         ) : (
           <SelectOptions
-            title="음성 분석에 실패했습니다."
+            title="사진 분석에 실패했습니다."
             leftButtonText="다시 시도하기"
             rightButtonText="다른 방법으로 일정 등록하기"
             leftButtonCallback={() => {
@@ -95,9 +134,9 @@ const AnalysisResultStep = ({
       {isSelectMethodModalOpen && (
         <SelectMethodModal onClose={closeSelectMethodModal} />
       )}
-      {isEditModalOpen && selectedResult && (
+      {isEditModalOpen && firstResult && (
         <EditScheduleModal
-          defaultValue={selectedResult}
+          defaultValue={firstResult}
           onClose={closeEditModal}
           handleCreateSchedule={handleCreateSchedule}
         />

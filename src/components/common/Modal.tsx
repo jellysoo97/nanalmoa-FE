@@ -14,8 +14,8 @@ type Props = {
 }
 
 const sizeClasses: Record<ModalSize, string> = {
-  small: 'min-h-20 min-w-20',
-  medium: 'min-h-80 min-w-72 sm:min-w-96',
+  small: 'min-h-20 max-h-[400px] min-w-20',
+  medium: 'min-h-80 min-w-72 max-h-[600px] sm:min-w-96',
 }
 
 const ModalPortal = ({ children }: { children: React.ReactNode }) => {
@@ -39,7 +39,10 @@ const Modal = ({
         )}
       >
         <div
-          className={cn('flex flex-col rounded-xl bg-white', sizeClasses[size])}
+          className={cn(
+            'flex flex-col overflow-hidden rounded-xl bg-white',
+            sizeClasses[size]
+          )}
         >
           <div className="flex items-center justify-between p-3">
             <h2 className="text-lg font-bold">{title}</h2>
@@ -54,7 +57,7 @@ const Modal = ({
               />
             </div>
           </div>
-          {children}
+          <div className="overflow-y-auto">{children}</div>
         </div>
       </div>
     </ModalPortal>
