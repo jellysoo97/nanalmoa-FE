@@ -62,7 +62,7 @@ jobs:
       # EC2에 압축된 빌드 파일 복사
       - name: Copy to EC2
         run: |
-          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          cat "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           scp -i ~/.ssh/id_rsa -P ${{ secrets.SSH_PORT }} dist.zip ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USERNAME }}/nanalmoa-fe/
           rm ~/.ssh/id_rsa
