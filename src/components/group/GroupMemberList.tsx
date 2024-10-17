@@ -3,7 +3,7 @@ import { GetGroupDetail } from '@/types/group'
 import Divider from '../common/Divider'
 import { useModal } from '@/hooks/use-modal'
 import CreateGroupModal from './CreateGroupModal'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { deleteGroupUser } from '@/api/group/delete-group'
 import { QUERY_KEYS } from '@/constants/api'
 import { toast } from 'react-toastify'
@@ -20,6 +20,8 @@ type Props = {
 }
 
 const GroupMemberList = ({ userUuid, admin, cnt, members, groupId }: Props) => {
+  const queryClient = useQueryClient()
+
   const { isModalOpen, openModal, closeModal } = useModal()
   const [isDelModalOpen, setIsDelModalOpen] = useState(false)
   const [clickMember, setClickMember] = useState<
@@ -31,7 +33,12 @@ const GroupMemberList = ({ userUuid, admin, cnt, members, groupId }: Props) => {
     mutationKey: [QUERY_KEYS.DELETE_GROUP_USER],
     mutationFn: deleteGroupUser,
     onSuccess: () => {
-      console.log('삭제 성공')
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_GROUP_DETAIL],
+      })
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_GROUP_USER],
+      })
       toast.success('친구가 삭제되었습니다.')
       setIsDelModalOpen(false)
     },

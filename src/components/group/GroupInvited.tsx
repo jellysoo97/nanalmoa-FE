@@ -68,6 +68,9 @@ const GroupInvited = () => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_GROUP_INVITATION_RECEIVED],
       })
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_GROUP_USER],
+      })
     },
   })
 
