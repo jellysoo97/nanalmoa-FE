@@ -52,9 +52,6 @@ const SuccessAudio = ({ results, createSchedules, moveStep }: Props) => {
   const mutation = useMutation<PostSchedulesRes, AxiosError, PostSchedulesReq>({
     mutationKey: [QUERY_KEYS.POST_SCHEDULES],
     mutationFn: postSchedules,
-    onSuccess: (res) => {
-      console.log(res)
-    },
     onError: (err) => {
       console.error('err', err)
     },
@@ -68,8 +65,7 @@ const SuccessAudio = ({ results, createSchedules, moveStep }: Props) => {
     } as PostSchedulesReq
 
     mutation.mutate(payload, {
-      onSuccess: (response) => {
-        console.log('일정 생성 성공:', response)
+      onSuccess: () => {
         moveStep(CreateScheduleStepEnum.RegisterResult)
       },
       onError: (error) => {
@@ -131,18 +127,18 @@ const SuccessAudio = ({ results, createSchedules, moveStep }: Props) => {
       )}
     </>
 
-    // <div className="flex h-full flex-col">
-    //   <div className="flex w-full flex-col items-center justify-center pb-5">
+    // <div className="flex flex-col h-full">
+    //   <div className="flex flex-col items-center justify-center w-full pb-5">
     //     {!isManualInput ? (
     //       <div>
     //         <img
     //           src={success}
     //           alt="success"
-    //           className="relative mx-auto mb-5 mt-10 w-1/3"
+    //           className="relative w-1/3 mx-auto mt-10 mb-5"
     //           width={240}
     //           height={240}
     //         />
-    //         <p className="-mt-2 mb-6 text-center text-xl">
+    //         <p className="mb-6 -mt-2 text-xl text-center">
     //           음성 분석에 성공했습니다.
     //         </p>
     //         <MediaAnaysisResultCarousel
@@ -150,9 +146,9 @@ const SuccessAudio = ({ results, createSchedules, moveStep }: Props) => {
     //           selectedResult={selectedResult}
     //           handleSelectedResultChange={handleSelectedResultChange}
     //         />
-    //         <div className="mt-6 flex w-full flex-col items-center justify-between">
+    //         <div className="flex flex-col items-center justify-between w-full mt-6">
     //           <p>이대로 등록할까요?</p>
-    //           <div className="mt-4 flex items-center gap-x-6">
+    //           <div className="flex items-center mt-4 gap-x-6">
     //             <Button theme="outline" text="수정하기" onClick={openModal} />
     //             <Button theme="solid" text="등록하기" onClick={handleCreate} />
     //           </div>

@@ -1,7 +1,7 @@
 import { TModal } from '@/types/common'
 import Modal from '../common/Modal'
 import { Button } from '../common'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { QUERY_KEYS } from '@/constants/api'
 import { postGroup, postInvite } from '@/api/group/post-group'
 import { toast } from 'react-toastify'
@@ -19,6 +19,8 @@ type Props = TModal & {
 }
 
 const CreateGroupModal = ({ onClose, isCreateGroup, members }: Props) => {
+  const queryClient = useQueryClient()
+
   const [isCreateGroupState, setIsCreateGroup] = useState<boolean>(false)
   const [selectedUsers, setSelectedUsers] = useState<UserWithPhoneNumber[]>([])
   const [groupName, setGroupName] = useState<string>('')
@@ -31,7 +33,6 @@ const CreateGroupModal = ({ onClose, isCreateGroup, members }: Props) => {
     mutationKey: [QUERY_KEYS.POST_GROUP],
     mutationFn: postGroup,
     onSuccess: (data) => {
-      console.log('성공')
       setIsCreateGroup(true)
       setGroupId(data.groupId)
     },
@@ -52,24 +53,17 @@ const CreateGroupModal = ({ onClose, isCreateGroup, members }: Props) => {
   const inviteMutation = useMutation({
     mutationKey: [QUERY_KEYS.POST_GROUP_INVITE],
     mutationFn: postInvite,
-    onSuccess: (response) => {
-      if (response.results && response.results.length > 0) {
-        const result = response.results[0]
-        // 이미 초대한 경우
-        if (result.message) {
-          toast.error(result.message)
-        } else {
-          // 처음 초대하는 경우
-          toast.success('친구를 초대했습니다')
-        }
-      } else {
-        toast.error('알 수 없는 오류가 발생했습니다.')
-      }
+    onSuccess: () => {
+      toast.success('친구를 초대했습니다')
       onClose()
     },
     onError: (err) => {
-      console.log(err)
       toast.error(err.message)
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_SEND],
+      })
     },
   })
 
@@ -109,7 +103,6 @@ const CreateGroupModal = ({ onClose, isCreateGroup, members }: Props) => {
     }
 
     setSelectedUsers((prev) => [...prev, user])
-    console.log(user)
     if (id) {
       setGroupId(Number(id)) // URL에서 그룹 ID 설정
     }

@@ -82,7 +82,11 @@ const MyPage = () => {
     if (address) payload.address = address
 
     if (Object.keys(payload).length > 0) {
-      mutationPutMypage.mutate(payload)
+      mutationPutMypage.mutate(payload, {
+        onSuccess: () => {
+          setIsEdit(false)
+        },
+      })
     } else {
       toast.error('변경된 값이 없습니다.')
     }
@@ -99,8 +103,6 @@ const MyPage = () => {
       toast.error(
         '전화번호 형식이 틀렸습니다.\n 올바른 형식으로 입력해 주세요.'
       )
-      console.log(phoneNumber)
-
       return
     }
 

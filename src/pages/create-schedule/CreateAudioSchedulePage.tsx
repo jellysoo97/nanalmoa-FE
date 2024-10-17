@@ -21,6 +21,8 @@ import { createAudioScheduleSteps } from '@/constants/schedules'
 import { CreateScheduleStepEnum } from '@/types/common'
 import MoveStepButtons from '@/components/create-schedule/MoveStepButtons'
 import AboutAudioStep from '@/components/create-schedule/audio/AboutAudioStep'
+import { toast } from 'react-toastify'
+import Toast from '@/components/common/Toast'
 
 const CreateAudioSchdulePage = () => {
   const { closeModal } = useModal()
@@ -56,15 +58,14 @@ const CreateAudioSchdulePage = () => {
     },
     onError: (err) => {
       if (err.message === 'canceled') {
-        console.log('요청이 취소되었습니다.')
+        toast.error('요청이 취소되었습니다.')
         moveStep(CreateScheduleStepEnum.Info)
         closeModal()
       } else {
         //서버 500 오류
-        console.error('err', err)
         setResults(undefined)
         moveStep(CreateScheduleStepEnum.Info)
-        alert('음성 전사 중 오류가 발생했습니다. 다시 시도해주세요.')
+        toast.error('음성 전사 중 오류가 발생했습니다. 다시 시도해주세요.')
       }
     },
   })
@@ -155,6 +156,7 @@ const CreateAudioSchdulePage = () => {
         disabled={isNextDisabled}
         moveStep={moveStep}
       />
+      <Toast />
     </div>
   )
 }

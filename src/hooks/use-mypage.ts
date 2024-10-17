@@ -16,11 +16,11 @@ export const useMypageMutations = () => {
       toast.success('수정되었습니다.')
     },
     onError: (err) => {
-      console.log(err)
       toast.error(err.message)
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.PUT_MYPAGE] })
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.GET_USER_ME] })
     },
   })
 
@@ -31,7 +31,7 @@ export const useMypageMutations = () => {
       toast.success('인증번호가 발송되었습니다. 5분 이내에 인증해주세요.')
     },
     onError: (err) => {
-      console.log(err)
+      toast.error(err.message)
     },
   })
 
@@ -42,7 +42,7 @@ export const useMypageMutations = () => {
       toast.success('인증 완료되었습니다.')
     },
     onError: (err) => {
-      console.log(err)
+      toast.error(err.message)
     },
   })
 
@@ -53,7 +53,7 @@ export const useMypageMutations = () => {
       toast.success('인증번호가 발송되었습니다.\n 5분 이내에 인증해주세요.')
     },
     onError: (err) => {
-      console.log(err)
+      toast.error(err.message)
     },
   })
 
@@ -64,7 +64,7 @@ export const useMypageMutations = () => {
       toast.success('인증 완료되었습니다.')
     },
     onError: (err) => {
-      console.log(err)
+      toast.error(err.message)
     },
   })
 

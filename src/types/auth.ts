@@ -79,8 +79,10 @@ export interface PutMypage {
   address?: string
 }
 
-export interface GetRoutineRes {
-  userUuid?: string
+export interface GetRoutineRes extends PostRoutineRes {
+  userUuid: string
+}
+export interface PostRoutineRes {
   wakeUpTime: string
   breakfastTime: string
   lunchTime: string
