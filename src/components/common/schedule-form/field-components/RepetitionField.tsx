@@ -56,7 +56,9 @@ const RepetitionField = () => {
 
   return (
     <>
-      <div className="hidden">{isRecurring}</div>
+      <div id="isRecurring" className="hidden">
+        {isRecurring}
+      </div>
       {/* <div className="hidden">{settedRepeatType}</div>
       <BaseField
         id="repitition"

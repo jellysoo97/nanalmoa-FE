@@ -21,12 +21,12 @@ const CategoryField = () => {
 
   return (
     <div className="mb-4 flex justify-between">
-      <label
-        htmlFor="categoryId"
+      <div
+        id="categoryId"
         className="w-36 py-5 text-base font-bold text-neutral-700"
       >
         카테고리
-      </label>
+      </div>
 
       <div>
         <Controller
@@ -39,6 +39,7 @@ const CategoryField = () => {
           }) => (
             <div className="flex-grow py-4">
               <Select
+                id="categoryId"
                 {...rest}
                 ref={ref}
                 aria-label="카테고리 선택"

@@ -103,10 +103,10 @@ const DateTimeField = () => {
 
             <div className="space-y-4">
               <div className="flex justify-between">
-                <label className="mb-1 block w-7 py-3 text-sm text-xs font-medium text-neutral-700 sm:w-20 sm:text-base">
+                <div className="mb-1 block w-7 py-3 text-sm text-xs font-medium text-neutral-700 sm:w-20 sm:text-base">
                   <span>시작</span>
                   <span className="hidden sm:inline"> 일자</span>
-                </label>
+                </div>
                 <Controller
                   name="startDate"
                   control={control}
@@ -147,10 +147,10 @@ const DateTimeField = () => {
               </div>
 
               <div className="flex justify-between">
-                <label className="mb-1 block w-7 py-3 text-xs font-medium text-neutral-700 sm:w-20 sm:text-base">
+                <div className="mb-1 block w-7 py-3 text-xs font-medium text-neutral-700 sm:w-20 sm:text-base">
                   <span>종료</span>
                   <span className="hidden sm:inline"> 일자</span>
-                </label>
+                </div>
                 <Controller
                   name="endDate"
                   control={control}
