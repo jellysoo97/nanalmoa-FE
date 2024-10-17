@@ -107,7 +107,11 @@ const GroupMemberList = ({ userUuid, admin, cnt, members, groupId }: Props) => {
               친구를 정말 삭제하시겠습니까?
             </div>
             <button
-              onClick={() => handleDeleteUser}
+              onClick={() => {
+                if (clickMember) {
+                  handleDeleteUser(clickMember?.userUuid)
+                }
+              }}
               className="mx-auto flex gap-2 rounded bg-primary-500 px-3"
             >
               <TrashCanIcon className="mx-auto w-6" />
