@@ -15,6 +15,7 @@ export const API_DOMAINS = {
   GROUP: '/groups',
   ROUTINE: '/users-routine',
   MANAGER: '/manager',
+  INVITATIONS: '/invitations',
 }
 
 export const QUERY_KEYS = {
@@ -31,9 +32,11 @@ export const QUERY_KEYS = {
   POST_SCHEDULES: 'postSchedules',
   UPDATE_SCHEDULES: 'updateSchedules',
   GET_GROUP_USER: 'groupUsers',
-  GET_GROUP_INVITATION: 'groupInvitation',
+  GET_GROUP_INVITATION_SEND: 'groupInvitationSend',
+  GET_GROUP_INVITATION_RECEIVED: 'groupInvitationReceived',
   GET_GROUP_DETAIL: 'groupDetail',
   DELETE_GROUP: 'deleteGroup',
+  DELETE_GROUP_USER: 'deleteGroupUser',
   POST_GROUP: 'group',
   POST_GROUP_INVITE: 'groupInvite',
   PUT_MYPAGE: 'mypage',
@@ -41,7 +44,11 @@ export const QUERY_KEYS = {
   POST_SMS_VERIFY: 'smsVerify',
   POST_EMAIL_SEND: 'emailSend',
   POST_EMAIL_VERIFY: 'emailVerify',
-  GET_ROUTINE: 'routine',
+  GET_ROUTINE: 'getRoutine',
+  PUT_ROUTINE: 'putRoutine',
   GET_MANAGER_INVITATION_SEND: 'managerInvitationSend',
   GET_MANAGER_INVITATION_RECEIVED: 'managerInvitationReceived',
+  GET_MANAGER_MANAGERS: 'myManagers',
+  GET_MANAGER_SUBORDINATES: 'mySubordinates',
+  GET_INVITATIONS_USER: 'invitationsUser',
 }

@@ -1,4 +1,6 @@
 import { CreateScheduleStepEnum, TStep } from '@/types/common'
+import { InvitationStatusEnum, InvitationTypeEnum } from '@/types/invitations'
+import { RecurringOptionValue } from '@/types/schedules'
 
 export const createAudioScheduleSteps: TStep[] = [
   {
@@ -48,3 +50,22 @@ export const createManualScheduleSteps: TStep[] = [
     value: CreateScheduleStepEnum.UploadMedia,
   },
 ]
+
+export const invitationTypeLabels: Record<InvitationTypeEnum, string> = {
+  [InvitationTypeEnum.Group]: '그룹',
+  [InvitationTypeEnum.Manager]: '관리자',
+}
+
+export const invitationStatusLabels: Record<string, string> = {
+  [InvitationStatusEnum.ACCEPTED]: '수락',
+  [InvitationStatusEnum.REJECTED]: '거절',
+  [InvitationStatusEnum.CANCELED]: '취소',
+}
+
+export const repeatTypeLabels: Record<RecurringOptionValue, string> = {
+  daily: '하루',
+  weekly: '일주일',
+  monthly: '한달',
+  yearly: '1년',
+  none: '',
+}

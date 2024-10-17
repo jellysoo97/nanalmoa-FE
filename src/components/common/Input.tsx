@@ -24,7 +24,7 @@ const Input = forwardRef<HTMLInputElement, Props>(
         className={cn(
           'w-full',
           direction === 'horizontal' && 'flex items-center gap-x-3',
-          direction === 'vertical' && 'flex flex-col gap-y-2'
+          direction === 'vertical' && 'flex flex-col gap-y-1'
         )}
       >
         {label && (

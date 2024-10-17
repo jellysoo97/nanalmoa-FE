@@ -19,6 +19,7 @@ import { AxiosError, HttpStatusCode } from 'axios'
 import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const LoginPage = () => {
   const naverRandomState = generateRandomState()
@@ -28,12 +29,12 @@ const LoginPage = () => {
   const [isVerificationSuccess, setIsVerificationSuccess] =
     useState<boolean>(false)
   const methods = useForm<PostLoginReq>()
-  const { handleSubmit, setError } = methods
-  const { mutate: handleLogin } = useMutation<
-    PostLoginRes,
-    AxiosError,
-    PostLoginReq
-  >({
+  const { handleSubmit, resetField } = methods
+  const {
+    mutate: handleLogin,
+    isIdle,
+    isError,
+  } = useMutation<PostLoginRes, AxiosError, PostLoginReq>({
     mutationKey: [QUERY_KEYS.POST_LOGIN],
     mutationFn: postLogin,
     onSuccess: ({ accessToken, refreshToken }) => {
@@ -44,11 +45,9 @@ const LoginPage = () => {
     },
     onError: (error) => {
       if (error.status === HttpStatusCode.Unauthorized) {
-        setError(
-          'phoneNumber',
-          { message: errorMessages.phoneNumber },
-          { shouldFocus: true }
-        )
+        resetField('phoneNumber')
+        resetField('verificationCode')
+        toast.error(errorMessages.login)
       }
     },
   })
@@ -58,21 +57,24 @@ const LoginPage = () => {
 
   return (
     <>
-      <div className="container flex flex-col justify-center gap-y-8 px-6 py-2 sm:px-12">
-        <div className="flex flex-col items-center gap-y-10">
+      <div className="container flex flex-col justify-center gap-y-4 px-6 py-2 sm:gap-y-8 sm:px-12">
+        <div className="flex flex-col items-center gap-y-5 sm:gap-y-10">
           <h2 className="text-xl font-bold">환영합니다!🍀</h2>
           <FormProvider {...methods}>
             <form
-              className="flex w-full flex-col gap-y-10"
+              className="flex w-full flex-col gap-2 sm:flex-nowrap sm:gap-5"
               onSubmit={handleSubmit((data) => handleLogin(data))}
             >
-              <div className="flex flex-col gap-y-10">
-                <PhoneNumberInput handleVerification={handleVerification} />
+              <div className="flex flex-col gap-y-6">
+                <PhoneNumberInput
+                  isRetry={!isIdle && isError}
+                  handleVerification={handleVerification}
+                />
                 <div className="flex flex-col items-center gap-y-4">
                   <Button
                     type="submit"
                     text="로그인"
-                    className="w-full py-3"
+                    className="w-full py-2 sm:py-3"
                     disabled={!isVerificationSuccess}
                   />
                   <div className="flex items-center gap-x-4 text-sm">
@@ -90,7 +92,7 @@ const LoginPage = () => {
           </FormProvider>
         </div>
         <Divider />
-        <div className="flex flex-col items-center gap-y-4">
+        <div className="flex flex-col items-center gap-y-2">
           <h3>편리한 로그인</h3>
           <Link to={kakaoUrl}>
             <img src={kakaoLogin} />

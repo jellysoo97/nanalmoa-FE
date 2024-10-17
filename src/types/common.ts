@@ -36,3 +36,8 @@ export type TStep = {
   label: string
   value: CreateScheduleStepEnum
 }
+
+export type TLabel = {
+  label: string
+  value: string
+}

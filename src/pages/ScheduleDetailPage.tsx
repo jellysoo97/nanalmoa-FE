@@ -6,7 +6,7 @@ import { path } from '@/routes/path'
 import { DateFormatTypeEnum } from '@/types/common'
 import {
   ISchedule,
-  IScheduleForm,
+  IPartialScheduleForm,
   UpdateScheduleReq,
   UpdateScheduleRes,
 } from '@/types/schedules'
@@ -100,7 +100,7 @@ const ScheduleDetailPage = () => {
     window.location.href = `${path.schedules}`
   }
 
-  const handleUpdateSchedule = (res: IScheduleForm) => {
+  const handleUpdateSchedule = (res: IPartialScheduleForm) => {
     const payload = {
       ...res,
       scheduleId: data.scheduleId,

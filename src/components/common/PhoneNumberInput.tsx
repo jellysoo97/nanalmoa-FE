@@ -6,15 +6,22 @@ import { useMutation } from '@tanstack/react-query'
 import { useFormContext } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { Button, Input } from '.'
+import { useEffect, useState } from 'react'
 
 type Props = {
+  isRetry?: boolean
   isRequired?: boolean
   handleVerification?: (isSuccess: boolean) => void
 }
 
 const TIME_LIMIT = 5 * SEC_IN_MIN * INTERVAL
 
-const PhoneNumberInput = ({ isRequired, handleVerification }: Props) => {
+const PhoneNumberInput = ({
+  isRequired,
+  isRetry,
+  handleVerification,
+}: Props) => {
+  const [isTimerStart, setIsTimerStart] = useState<boolean>(false)
   const {
     register,
     getValues,
@@ -25,24 +32,28 @@ const PhoneNumberInput = ({ isRequired, handleVerification }: Props) => {
   const sendCodeMutation = useMutation({
     mutationFn: postSmsCode,
     onSuccess: () => {
+      setIsTimerStart(true)
       toast.success('인증코드가 발송되었습니다.')
     },
     onError: () => {
-      toast.error('에러가 발생했습니다. 다시 시도해주세요.')
+      setIsTimerStart(false)
+      toast.error(errorMessages.default)
       resetField('phoneNumber')
     },
   })
   const verifyCodeMutation = useMutation({
     mutationFn: postSmsVerify,
     onSuccess: () => {
+      setIsTimerStart(false)
       toast.success('인증 성공했습니다.')
       if (handleVerification) {
         handleVerification(true)
       }
     },
     onError: () => {
+      setIsTimerStart(false)
       resetField('verificationCode')
-      toast.error('인증 실패했습니다. 다시 시도해주세요.')
+      toast.error(errorMessages.smsVerify)
       if (handleVerification) {
         handleVerification(false)
       }
@@ -53,8 +64,8 @@ const PhoneNumberInput = ({ isRequired, handleVerification }: Props) => {
   })
   const { minutes, seconds } = useTimer({
     timeLimit: TIME_LIMIT,
-    isStart: sendCodeMutation.isSuccess,
-    isDone: verifyCodeMutation.isSuccess || verifyCodeMutation.isError,
+    isStart: isTimerStart,
+    isDone: !isTimerStart,
   })
 
   const handleVerify = async () => {
@@ -75,9 +86,15 @@ const PhoneNumberInput = ({ isRequired, handleVerification }: Props) => {
     }
   }
 
+  useEffect(() => {
+    if (isRetry) {
+      setIsTimerStart(false)
+    }
+  }, [isRetry])
+
   return (
-    <div className="flex flex-col gap-y-6">
-      <div className="flex flex-wrap items-end justify-end gap-5 sm:flex-nowrap">
+    <div className="flex flex-col gap-y-5">
+      <div className="relative">
         <Input
           label="전화번호"
           placeholder="'-' 없이 번호만 입력해주세요."
@@ -94,30 +111,25 @@ const PhoneNumberInput = ({ isRequired, handleVerification }: Props) => {
               message: errorMessages.phoneNumber,
             },
           })}
-          onBlur={() => trigger()}
         />
         <Button
-          text={
-            sendCodeMutation.isIdle || verifyCodeMutation.isSuccess
-              ? '인증하기'
-              : `${minutes}:${seconds}`
-          }
-          disabled={sendCodeMutation.isSuccess || !!errors.phoneNumber?.type}
+          text={isTimerStart ? `${minutes}:${seconds}` : '인증'}
+          disabled={!isRetry && verifyCodeMutation.isSuccess}
           isLoading={sendCodeMutation.isPending}
-          className="text-right"
+          className="absolute bottom-[6px] right-[6px] z-10 h-8 max-w-14 px-2 py-2 text-sm"
           onClick={handleVerify}
         />
       </div>
-      <div className="flex flex-wrap items-end justify-end gap-5 sm:flex-nowrap">
+      <div className="relative">
         <Input
           placeholder="인증코드를 입력해주세요"
           {...register('verificationCode', { required: true })}
         />
         <Button
-          text="확인하기"
+          text="확인"
           theme="outline"
-          disabled={verifyCodeMutation.isSuccess || verifyCodeMutation.isError}
-          isLoading={verifyCodeMutation.isPending}
+          disabled={!isRetry && verifyCodeMutation.isSuccess}
+          className="absolute bottom-[6px] right-[6px] z-10 h-8 max-w-14 px-2 py-2 text-sm"
           onClick={handleConfirm}
         />
       </div>

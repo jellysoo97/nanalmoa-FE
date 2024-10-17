@@ -14,6 +14,7 @@ const InfoStep = () => {
           1. 2가지 방법으로 사진을 등록합니다.
         </p>
         <div className="flex flex-col gap-y-2">
+          <p>사진 예시: 처방전, 약봉투</p>
           <p className="font-bold">방법1) 직접 촬영하기</p>
           <p className="font-bold">방법2) 사진 파일 선택하기</p>
         </div>

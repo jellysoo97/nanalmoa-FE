@@ -7,3 +7,12 @@ export const getActivityRoutine = async () => {
 
   return data
 }
+
+export const putActivityRoutine = async (payload: GetRoutineRes) => {
+  const { data } = await baseAPI.put<GetRoutineRes>(
+    `${API_DOMAINS.ROUTINE}`,
+    payload
+  )
+
+  return data
+}

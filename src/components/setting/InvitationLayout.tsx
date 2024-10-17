@@ -1,11 +1,19 @@
 import { GetGroupInvitationRes } from '@/types/group'
-import { IGetManagerInvitationRes } from '@/types/manager'
+import {
+  IGetManagerInvitationRes,
+  IGetMyManagersRes,
+  IGetMySubordinatesRes,
+} from '@/types/manager'
 
-type ItemType = GetGroupInvitationRes[] | IGetManagerInvitationRes
+type ItemType =
+  | GetGroupInvitationRes[]
+  | IGetManagerInvitationRes
+  | IGetMySubordinatesRes
+  | IGetMyManagersRes
 
 type ComponentProps<T extends ItemType> = {
   item: T[number]
-  onClickReject: (id: number) => void
+  onClickReject?: (id: number) => void
   onClickAccept?: (id: number) => void
 }
 
@@ -13,8 +21,9 @@ type Props<T extends ItemType> = {
   items: T | undefined
   Component: React.ComponentType<ComponentProps<T>>
   message?: string
-  onClickReject: (id: number) => void
+  onClickReject?: (id: number) => void
   onClickAccept?: (id: number) => void
+  onClickDelete?: (uuid: string) => void
 }
 
 const InvitationLayout = <T extends ItemType>({
@@ -23,6 +32,7 @@ const InvitationLayout = <T extends ItemType>({
   message = '초대가 없습니다',
   onClickReject,
   onClickAccept,
+  onClickDelete,
 }: Props<T>) => {
   return (
     <>
@@ -30,8 +40,9 @@ const InvitationLayout = <T extends ItemType>({
         <Component
           key={idx}
           item={item}
-          onClickReject={onClickReject}
+          {...(onClickReject && { onClickReject })}
           {...(onClickAccept && { onClickAccept })}
+          {...(onClickDelete && { onClickDelete })}
         />
       ))}
       {!items?.length && (

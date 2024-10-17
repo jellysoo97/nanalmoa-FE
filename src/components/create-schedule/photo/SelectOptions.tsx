@@ -37,19 +37,21 @@ const SelectOptions = ({
       )}
 
       <div className="flex flex-col gap-y-4">
-        <p className="mb-2 text-center text-lg font-bold">{title}</p>
+        <p className="mb-2 whitespace-pre-wrap text-center text-lg font-bold">
+          {title}
+        </p>
         {description && description}
         <div className="flex flex-col gap-y-4">
           <Button
             text={leftButtonText}
             theme="solid"
-            className="py-3"
+            className="py-2 sm:py-3"
             onClick={leftButtonCallback}
           />
           <Button
             text={rightButtonText}
             theme="outline"
-            className="py-3"
+            className="py-2 sm:py-3"
             onClick={rightButtonCallback}
           />
         </div>

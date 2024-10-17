@@ -1,31 +1,53 @@
 import { Categories } from './category'
 
-export interface ISchedule {
-  userUuid: string
-  category: {
-    categoryId: number
-    categoryName: Categories
-  }
-  startDate: Date
-  endDate: Date
-  title: string
-  place: string
-  memo: string
-  isGroupSchedule: boolean
-  isAllDay: boolean
-  scheduleId: number
+export type RecurringOptionValue =
+  | 'none'
+  | 'daily'
+  | 'weekly'
+  | 'monthly'
+  | 'yearly'
+
+export interface IGroup {
+  groupId: number
+  userUuids: string[]
 }
 
-export interface IMediaAnalysisResult {
-  userUuid: string
+export interface ICategory {
   categoryId: number
+  categoryName: Categories
+}
+
+export interface IRepeatInfo {
+  recurringInterval?: number
+  repeatEndDate?: Date
+  recurringDaysOfWeek?: number[] | null
+  recurringDayOfMonth?: number | null
+  recurringMonthOfYear?: number | null
+  groupInfo?: Array<IGroup>
+}
+
+export interface ISchedule extends IRepeatInfo {
+  scheduleId: number
+  userUuid: string
   startDate: Date
   endDate: Date
   title: string
   place: string
   memo: string
   isAllDay: boolean
-  isGroupSchedule: boolean
+  category: ICategory
+}
+
+export interface IMediaAnalysisResult extends IRepeatInfo {
+  title: string
+  place: string
+  startDate: Date
+  endDate: Date
+  memo?: string
+  isAllDay: boolean
+  categoryId: number
+  isRecurring: boolean
+  repeatType: RecurringOptionValue
 }
 
 export interface GetScheduleByIdRes extends ISchedule {}
@@ -39,35 +61,32 @@ export interface PostUploadAudioFileReq {
 
 export interface PostUploadAudioFileRes extends Array<IMediaAnalysisResult> {}
 
-export interface IScheduleForm {
-  categoryId: number
+export interface IPartialScheduleForm {
   startDate: Date
   endDate: Date
   title: string
   place: string
   memo?: string
-  isGroupSchedule?: boolean
   isAllDay: boolean
+  categoryId: number
+  isRecurring: boolean
+  repeatType: RecurringOptionValue
 }
 
-export interface PostSchedulesReq {
-  userUuid: string
-  categoryId?: number
+export interface PostSchedulesReq extends IRepeatInfo {
   startDate: Date
   endDate: Date
-  title?: string
-  place?: string
+  title: string
+  place: string
   memo?: string
-  isGroupSchedule?: boolean
-  isAllDay?: boolean
+  isAllDay: boolean
+  categoryId: number
+  isRecurring: boolean
+  repeatType: RecurringOptionValue
 }
 
-export interface PostSchedulesRes extends PostSchedulesReq {
-  scheduleId: number
-  category: {
-    categoryId: number
-    categoryName: string
-  }
+export interface PostSchedulesRes extends ISchedule {
+  isGroupSchedule: boolean
 }
 
 export interface UpdateScheduleReq {
@@ -77,8 +96,8 @@ export interface UpdateScheduleReq {
   title?: string
   place?: string
   memo?: string
-  isGroupSchedule?: boolean
   isAllDay?: boolean
+  isRecurring?: boolean
 }
 
 export interface UpdateScheduleRes extends ISchedule {}

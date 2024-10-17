@@ -17,17 +17,20 @@ import { formatDate } from '@/utils/format-date'
 import { DateFormatTypeEnum } from '@/types/common'
 import { useRangeSchedule } from '@/hooks/use-range-schedule'
 import Divider from '../common/Divider'
+import useManagerStore from '@/store/manager'
 
 const CalendarView = () => {
   const [currentDate, setCurrentDate] = useState<Date | undefined>(undefined)
   const [currentMonth, setCurrentMonth] = useState(new Date())
+  const { selectedSubordinate } = useManagerStore()
 
   const monthStart = startOfMonth(currentMonth)
   const monthEnd = endOfMonth(currentMonth)
 
   const { data: schedules, isSchedule } = useRangeSchedule(
     formatDate(DateFormatTypeEnum.DateWithHypen, monthStart),
-    formatDate(DateFormatTypeEnum.DateWithHypen, monthEnd)
+    formatDate(DateFormatTypeEnum.DateWithHypen, monthEnd),
+    selectedSubordinate?.userUuid
   )
 
   const { rows } = useCalendar({ setCurrentDate, currentMonth, isSchedule })

@@ -80,7 +80,11 @@ const UserSelector = ({ onClick }: Props) => {
                   {onClick && (
                     <button
                       className="rounded bg-primary-500 px-2 py-1 text-xs text-white sm:text-base"
-                      onClick={() => onClick(user)}
+                      onClick={() => {
+                        onClick(user)
+                        setSearchTerm('')
+                        setSearchResults([])
+                      }}
                     >
                       <span>초대</span>
                       <span className="hidden sm:inline">하기</span>

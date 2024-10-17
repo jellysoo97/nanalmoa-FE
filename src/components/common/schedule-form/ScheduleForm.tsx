@@ -1,17 +1,17 @@
-import { SubmitHandler, useForm, FormProvider } from 'react-hook-form'
-import { useCallback, useEffect, useState } from 'react'
-import TextInputField from './field-components/TextInputField'
-import DateTimeField from './field-components/DateTimeField'
-import CategoryField from './field-components/CategoryField'
 import DownArrowIcon from '@/components/icons/DownArrowIcon'
-import { ISchedule, IScheduleForm } from '@/types/schedules'
+import { IPartialScheduleForm, PostSchedulesReq } from '@/types/schedules'
+import { useCallback, useEffect, useState } from 'react'
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
+import CategoryField from './field-components/CategoryField'
+import DateTimeField from './field-components/DateTimeField'
 import TextAreaField from './field-components/TextAreaField'
-import GroupField from './field-components/GroupField'
+import TextInputField from './field-components/TextInputField'
+// import GroupField from './field-components/GroupField'
 import RepetitionField from './field-components/RepetitionField'
 
 type Props = {
-  defaultValue?: Partial<ISchedule>
-  onSubmit: (data: IScheduleForm) => void
+  defaultValue?: Partial<PostSchedulesReq>
+  onSubmit: (data: IPartialScheduleForm) => void
   buttonMessage?: string
 }
 
@@ -21,20 +21,29 @@ const ScheduleForm = ({
   buttonMessage = '등록하기',
 }: Props) => {
   const getDefaultValues = useCallback(() => {
-    if (!defaultValue) return { isAllDay: false }
+    if (!defaultValue) return { isAllDay: false, isRecurring: false }
 
-    const { title, isAllDay, startDate, endDate, category, memo } = defaultValue
+    const {
+      title,
+      isAllDay,
+      startDate,
+      endDate,
+      categoryId,
+      memo,
+      isRecurring,
+    } = defaultValue
     return {
       title,
-      categoryId: category?.categoryId,
+      categoryId,
       isAllDay,
       startDate: new Date(startDate!),
       endDate: new Date(endDate!),
       memo,
+      isRecurring,
     }
   }, [defaultValue])
 
-  const methods = useForm<IScheduleForm>({
+  const methods = useForm<IPartialScheduleForm>({
     defaultValues: getDefaultValues(),
   })
 
@@ -46,13 +55,13 @@ const ScheduleForm = ({
 
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
-  const handleFormSubmit: SubmitHandler<IScheduleForm> = async (
-    data: IScheduleForm
+  const handleFormSubmit: SubmitHandler<IPartialScheduleForm> = async (
+    data: IPartialScheduleForm
   ) => {
     const payload = {
       ...data,
       title: data.title ? data.title : '새로운 일정',
-    } as IScheduleForm
+    } as IPartialScheduleForm
 
     onSubmit(payload)
   }
@@ -92,7 +101,7 @@ const ScheduleForm = ({
                 placeholder="장소를 입력해주세요"
               />
 
-              <GroupField />
+              {/* <GroupField /> */}
               <RepetitionField />
 
               <TextAreaField
@@ -106,7 +115,7 @@ const ScheduleForm = ({
 
         <button
           type="submit"
-          className="mx-auto mt-5 block flex rounded bg-primary-500 px-4 py-2 text-white"
+          className="mx-auto mt-5 flex rounded bg-primary-500 px-4 py-2 text-white"
         >
           {buttonMessage}
         </button>
