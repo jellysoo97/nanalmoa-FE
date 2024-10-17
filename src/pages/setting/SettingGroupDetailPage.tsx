@@ -33,7 +33,6 @@ const SettingGroupDetailPage = () => {
     mutationKey: [QUERY_KEYS.DELETE_GROUP],
     mutationFn: deleteGroup,
     onSuccess: () => {
-      console.log('삭제 성공')
       toast.success('그룹이 삭제되었습니다.')
       navigate(`${path.settings.base}/${path.settings.group}`)
     },
@@ -47,7 +46,6 @@ const SettingGroupDetailPage = () => {
     mutationKey: [QUERY_KEYS.DELETE_GROUP_USER],
     mutationFn: deleteGroupUser,
     onSuccess: () => {
-      console.log('삭제 성공')
       toast.success('친구가 삭제되었습니다.')
       navigate(`${path.settings.base}/${path.settings.group}`)
     },

@@ -13,7 +13,6 @@ const MyGroupList = () => {
     queryKey: [QUERY_KEYS.GET_GROUP_USER],
     queryFn: getGroupUser,
   })
-  console.log(userGroupList)
 
   return (
     <div className="h-[50%]">
