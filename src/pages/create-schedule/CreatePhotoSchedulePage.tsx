@@ -10,90 +10,9 @@ import {
 } from '@/components/create-schedule/photo'
 import { createPhotoScheduleSteps } from '@/constants/schedules'
 import { CreateScheduleStepEnum } from '@/types/common'
-import { IMediaAnalysisResult, PostAnalyzeImageRes } from '@/types/schedules'
+import { IMediaAnalysisResult } from '@/types/schedules'
 import { useMutation } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
-
-const DUMMY: PostAnalyzeImageRes = [
-  {
-    title: '복약',
-    place: '',
-    memo: '',
-    isAllDay: false,
-    categoryId: 6,
-    repeatEndDate: new Date('2024-10-20T04:10:11.349Z'),
-    startDate: new Date('2024-10-15T09:08:00.000Z'),
-    endDate: new Date('2024-10-15T09:38:00.000Z'),
-    isRecurring: true,
-    repeatType: 'daily',
-    recurringInterval: 1,
-  },
-  {
-    title: '복약',
-    place: '',
-    memo: '',
-    isAllDay: false,
-    categoryId: 6,
-    repeatEndDate: new Date('2024-10-20T04:10:11.349Z'),
-    startDate: new Date('2024-10-15T11:17:00.000Z'),
-    endDate: new Date('2024-10-15T11:47:00.000Z'),
-    isRecurring: true,
-    repeatType: 'daily',
-    recurringInterval: 1,
-  },
-  {
-    title: '복약',
-    place: '',
-    memo: '',
-    isAllDay: false,
-    categoryId: 6,
-    repeatEndDate: new Date('2024-10-20T04:10:11.349Z'),
-    startDate: new Date('2024-10-15T13:25:00.000Z'),
-    endDate: new Date('2024-10-15T13:55:00.000Z'),
-    isRecurring: true,
-    repeatType: 'daily',
-    recurringInterval: 1,
-  },
-  {
-    title: '복약',
-    place: '',
-    memo: '',
-    isAllDay: false,
-    categoryId: 6,
-    repeatEndDate: new Date('2024-10-20T04:10:11.349Z'),
-    startDate: new Date('2024-10-14T15:34:00.000Z'),
-    endDate: new Date('2024-10-14T16:04:00.000Z'),
-    isRecurring: true,
-    repeatType: 'daily',
-    recurringInterval: 1,
-  },
-  {
-    title: '복약',
-    place: '',
-    memo: '',
-    isAllDay: false,
-    categoryId: 6,
-    repeatEndDate: new Date('2024-10-20T04:10:11.349Z'),
-    startDate: new Date('2024-10-14T17:42:00.000Z'),
-    endDate: new Date('2024-10-14T18:12:00.000Z'),
-    isRecurring: true,
-    repeatType: 'daily',
-    recurringInterval: 1,
-  },
-  {
-    title: '복약',
-    place: '',
-    memo: '',
-    isAllDay: false,
-    categoryId: 6,
-    repeatEndDate: new Date('2024-10-20T04:10:11.349Z'),
-    startDate: new Date('2024-10-14T19:51:00.000Z'),
-    endDate: new Date('2024-10-14T20:21:00.000Z'),
-    isRecurring: true,
-    repeatType: 'daily',
-    recurringInterval: 1,
-  },
-]
 
 const CreatePhotoSchedulePage = () => {
   const [currentStep, setCurrentStep] = useState<CreateScheduleStepEnum>(
@@ -136,7 +55,6 @@ const CreatePhotoSchedulePage = () => {
   const moveStep = (step: CreateScheduleStepEnum) => {
     setCurrentStep(step)
   }
-  console.log(analysisResult)
 
   return (
     <div className="flex h-full flex-col items-center gap-y-6">
@@ -144,12 +62,14 @@ const CreatePhotoSchedulePage = () => {
       <div className="flex flex-1 flex-col">
         {currentStep === CreateScheduleStepEnum.Info && <InfoStep />}
         {currentStep === CreateScheduleStepEnum.UploadMedia && (
-          <UploadPhotoStep analyzeImageMutation={analyzeImageMutation} />
+          <UploadPhotoStep
+            analyzeImageMutation={analyzeImageMutation}
+            moveStep={moveStep}
+          />
         )}
         {currentStep === CreateScheduleStepEnum.AnalysisResult && (
           <AnalysisResultStep
-            // TODO: 사진 분석 실패로 더미데이터로 임시조치
-            analysisResult={DUMMY}
+            analysisResult={analysisResult}
             createScheduleMutation={createScheduleMutation}
             moveStep={moveStep}
           />

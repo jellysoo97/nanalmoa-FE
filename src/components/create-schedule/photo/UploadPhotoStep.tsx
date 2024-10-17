@@ -6,8 +6,8 @@ import { ChangeEvent, useEffect, useRef } from 'react'
 import MediaAnalysisLoadingModal from '../MediaAnalysisLoadingModal'
 
 import { GalleryIcon } from '@/components/icons'
+import { CreateScheduleStepEnum } from '@/types/common'
 import { SelectOptions } from '.'
-import PermissionModal from './PermissionModal'
 
 type Props = {
   analyzeImageMutation: UseMutationResult<
@@ -16,20 +16,19 @@ type Props = {
     PostAnalyzeImageReq,
     unknown
   >
+  moveStep: (step: CreateScheduleStepEnum) => void
 }
 
-const UploadPhotoStep = ({ analyzeImageMutation }: Props) => {
+const UploadPhotoStep = ({ analyzeImageMutation, moveStep }: Props) => {
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const photoRef = useRef<HTMLCanvasElement | null>(null)
   const inputRef = useRef<HTMLInputElement | null>(null)
-  const { isModalOpen: isLoadingModalOpen, closeModal: closeLoadingModal } =
-    useModal()
   const {
-    isModalOpen: isPermissionModalOpen,
-    openModal: openPermissionModal,
-    closeModal: closePermissionModal,
+    isModalOpen: isLoadingModalOpen,
+    openModal: openLoadingModal,
+    closeModal: closeLoadingModal,
   } = useModal()
-  const { photo, isDeviceAllowed, setPhoto, takePhoto } = usePhoto({
+  const { photo, setPhoto, takePhoto } = usePhoto({
     videoRef,
     photoRef,
   })
@@ -48,23 +47,19 @@ const UploadPhotoStep = ({ analyzeImageMutation }: Props) => {
         image: photo.file,
         currentDateTime: new Date(),
       })
+      openLoadingModal()
     }
   }
 
   useEffect(() => {
-    if (!isDeviceAllowed) {
-      openPermissionModal()
-      return
+    if (analyzeImageMutation.isSuccess || analyzeImageMutation.isError) {
+      closeLoadingModal()
     }
-
-    closePermissionModal()
-  }, [isDeviceAllowed])
+  }, [analyzeImageMutation.isSuccess, analyzeImageMutation.isError])
 
   return (
     <>
-      {!isDeviceAllowed && <></>}
-
-      {isDeviceAllowed && !photo && (
+      {!photo && (
         <div className="relative">
           <video ref={videoRef} autoPlay className="max-h-80 w-full" />
           <div className="flex items-center justify-between bg-neutral-200 px-3 py-4">
@@ -97,7 +92,7 @@ const UploadPhotoStep = ({ analyzeImageMutation }: Props) => {
         </div>
       )}
 
-      {isDeviceAllowed && photo && (
+      {photo && (
         <div className="flex w-full flex-col gap-y-5">
           <img src={photo.url} alt="photo" width={400} height={300} />
 
@@ -118,14 +113,14 @@ const UploadPhotoStep = ({ analyzeImageMutation }: Props) => {
         </div>
       )}
 
-      {isPermissionModalOpen && (
-        <PermissionModal onClose={closePermissionModal} />
-      )}
       {isLoadingModalOpen && (
         <MediaAnalysisLoadingModal
           text={`사진 분석 중입니다. \n잠시만 기다려주세요.`}
           onLeftButtonClick={() => {}}
-          onRightButtonClick={() => {}}
+          onRightButtonClick={() => {
+            closeLoadingModal()
+            moveStep(CreateScheduleStepEnum.Info)
+          }}
           onClose={closeLoadingModal}
         />
       )}

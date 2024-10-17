@@ -4,6 +4,8 @@ import { formatDate } from '@/utils/format-date'
 import { CategoryTag } from '../common'
 import { NextIcon, PrevIcon } from '../icons'
 import { cn } from '@/utils/cn'
+import { categoryLabels } from '@/constants/schedules'
+import { Categories } from '@/types/category'
 
 type Props = {
   results: Array<IMediaAnalysisResult>
@@ -52,8 +54,11 @@ const MediaAnaysisResultCarousel = ({
                 )}
               </p>
               <div className="flex items-center gap-x-1">
-                {/* TODO: 카테고리 임시 조치 */}
-                <CategoryTag label={'가족'} />
+                <CategoryTag
+                  label={
+                    categoryLabels[selectedResult.categoryId] as Categories
+                  }
+                />
                 <p>{result.title}</p>
               </div>
             </div>
