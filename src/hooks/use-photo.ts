@@ -20,7 +20,12 @@ export const usePhoto = ({ videoRef, photoRef }: Props) => {
     const getMedia = async () => {
       try {
         stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: 'environment', width: 1280, height: 720 },
+          video: {
+            facingMode: 'environment',
+            width: 640,
+            height: 480,
+          },
+          audio: false,
         })
 
         setIsDeviceAllowed(true)

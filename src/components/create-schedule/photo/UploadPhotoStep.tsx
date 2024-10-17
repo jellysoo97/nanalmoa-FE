@@ -61,7 +61,13 @@ const UploadPhotoStep = ({ analyzeImageMutation, moveStep }: Props) => {
     <>
       {!photo && (
         <div className="relative">
-          <video ref={videoRef} autoPlay className="max-h-80 w-full" />
+          <video
+            ref={videoRef}
+            autoPlay
+            muted
+            playsInline
+            className="max-h-80 w-full"
+          />
           <div className="flex items-center justify-between bg-neutral-200 px-3 py-4">
             <button
               className="flex h-10 w-10 items-center justify-center rounded-full bg-neutral-100"
