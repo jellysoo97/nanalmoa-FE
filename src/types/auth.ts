@@ -80,7 +80,7 @@ export interface PutMypage {
 }
 
 export interface GetRoutineRes {
-  userUuid: string
+  userUuid?: string
   wakeUpTime: string
   breakfastTime: string
   lunchTime: string

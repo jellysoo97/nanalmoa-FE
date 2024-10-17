@@ -8,19 +8,26 @@ import { toast } from 'react-toastify'
 import { useState } from 'react'
 import UserSelector from '../common/UserSelector'
 import { UserWithPhoneNumber } from '@/types/auth'
+import { useParams } from 'react-router-dom'
+import { GetGroupDetail, PostGroupReq, PostGroupRes } from '@/types/group'
+import Toast from '../common/Toast'
+import { AxiosError } from 'axios'
 
-type Props = TModal
+type Props = TModal & {
+  isCreateGroup: boolean
+  members?: GetGroupDetail['members']
+}
 
-const CreateGroupModal = ({ onClose }: Props) => {
-  const [isCreateGroup, setIsCreateGroup] = useState<boolean>(false)
-  const [selectedUser, setSelectedUser] = useState<UserWithPhoneNumber | null>(
-    null
-  )
+const CreateGroupModal = ({ onClose, isCreateGroup, members }: Props) => {
+  const [isCreateGroupState, setIsCreateGroup] = useState<boolean>(false)
+  const [selectedUsers, setSelectedUsers] = useState<UserWithPhoneNumber[]>([])
   const [groupName, setGroupName] = useState<string>('')
   const [groupId, setGroupId] = useState<number>(0)
 
-  //그룹명 생성
-  const groupMutation = useMutation({
+  const { id } = useParams<{ id: string }>() // URL 파라미터 타입 지정
+
+  // 그룹명 생성
+  const groupMutation = useMutation<PostGroupRes, AxiosError, PostGroupReq>({
     mutationKey: [QUERY_KEYS.POST_GROUP],
     mutationFn: postGroup,
     onSuccess: (data) => {
@@ -28,9 +35,8 @@ const CreateGroupModal = ({ onClose }: Props) => {
       setIsCreateGroup(true)
       setGroupId(data.groupId)
     },
-    onError: (err) => {
-      console.log(err)
-      toast.error(err.message)
+    onError: () => {
+      toast.error('동일 그룹명을 가진 그룹에 소속되어 있습니다.')
     },
   })
 
@@ -46,8 +52,19 @@ const CreateGroupModal = ({ onClose }: Props) => {
   const inviteMutation = useMutation({
     mutationKey: [QUERY_KEYS.POST_GROUP_INVITE],
     mutationFn: postInvite,
-    onSuccess: () => {
-      toast.success('그룹이 성공적으로 생성되었습니다.')
+    onSuccess: (response) => {
+      if (response.results && response.results.length > 0) {
+        const result = response.results[0]
+        // 이미 초대한 경우
+        if (result.message) {
+          toast.error(result.message)
+        } else {
+          // 처음 초대하는 경우
+          toast.success('친구를 초대했습니다')
+        }
+      } else {
+        toast.error('알 수 없는 오류가 발생했습니다.')
+      }
       onClose()
     },
     onError: (err) => {
@@ -57,43 +74,105 @@ const CreateGroupModal = ({ onClose }: Props) => {
   })
 
   const handleInvite = () => {
-    if (!selectedUser) {
+    if (selectedUsers.length === 0) {
       toast.error('초대할 사용자를 선택해 주세요.')
       return
     }
-    inviteMutation.mutate({ groupId, inviteeUuids: [selectedUser.userUuid] })
+    // 이미 초대된 사용자가 있는지 확인
+    const alreadyInvitedUsers = selectedUsers.filter((selectedUser) =>
+      members?.some((member) => member.userUuid === selectedUser.userUuid)
+    )
+
+    if (alreadyInvitedUsers.length > 0) {
+      toast.error(
+        `${alreadyInvitedUsers.map((user) => user.name).join(', ')}은 이미 그룹의 멤버입니다.`
+      )
+      return
+    }
+
+    if (groupId) {
+      inviteMutation.mutate({
+        groupId,
+        inviteeUuids: selectedUsers.map((user) => user.userUuid),
+      })
+    }
   }
 
   const handleSelected = (user: UserWithPhoneNumber) => {
-    setSelectedUser(user)
+    //중복방지
+    const isUserAlreadySelected = selectedUsers.some(
+      (selectedUser) => selectedUser.userUuid === user.userUuid
+    )
+    if (isUserAlreadySelected) {
+      toast.error(`${user.name}은 이미 선택된 사용자입니다.`)
+      return
+    }
+
+    setSelectedUsers((prev) => [...prev, user])
     console.log(user)
+    if (id) {
+      setGroupId(Number(id)) // URL에서 그룹 ID 설정
+    }
+  }
+
+  const handleRemoveUser = (userToRemove: UserWithPhoneNumber) => {
+    setSelectedUsers((prev) =>
+      prev.filter((user) => user.userUuid !== userToRemove.userUuid)
+    )
   }
 
   return (
-    <Modal hasHelp onClose={onClose}>
+    <Modal hasHelp onClose={onClose} title="그룹 만들고, 친구 초대하기">
       <div className="flex h-full flex-1 flex-col items-center justify-around gap-3 p-3">
-        {!isCreateGroup ? (
+        {!(isCreateGroup || isCreateGroupState) && (
           <>
             <p className="text-xl">새 그룹 만들기</p>
-            <input
-              type="text"
-              className="mb-10 block rounded-md border border-neutral-300 p-2 shadow-sm"
-              placeholder="그룹 이름"
-              value={groupName}
-              onChange={(e) => setGroupName(e.target.value)}
-            />
-            <Button text="그룹 만들기" onClick={handleCreateGroup} />
-          </>
-        ) : (
-          <>
-            <p className="text-xl">그룹에 친구 초대하기</p>
-            <div className="flex h-24 flex-col justify-between">
-              <UserSelector onClick={handleSelected} />
-              <Button text="초대" onClick={handleInvite} />
+            <div className="flex h-full w-full flex-1 flex-col justify-between">
+              <input
+                type="text"
+                className="mb-10 block rounded-md border border-neutral-300 p-2 shadow-sm"
+                placeholder="그룹 이름"
+                value={groupName}
+                onChange={(e) => setGroupName(e.target.value)}
+              />
+              <Button
+                text="그룹 만들기"
+                onClick={handleCreateGroup}
+                className="bottom-0 w-full"
+              />
             </div>
           </>
         )}
+        {(isCreateGroup || isCreateGroupState) && (
+          <div className="flex h-full w-full flex-1 flex-col justify-between">
+            <div className="mx-auto w-full">
+              <UserSelector onClick={handleSelected} />
+            </div>
+            <div className="mt-4 flex flex-wrap justify-center">
+              {selectedUsers.map((user) => (
+                <div
+                  key={user.userUuid}
+                  className="flex items-center justify-center"
+                >
+                  <span className="mr-2">{user.name}</span>
+                  <button
+                    className="mr-4 text-red-500"
+                    onClick={() => handleRemoveUser(user)}
+                  >
+                    X
+                  </button>
+                </div>
+              ))}
+            </div>
+            <Button
+              text="초대"
+              className="bottom-0 w-full"
+              onClick={handleInvite}
+            />
+          </div>
+        )}
       </div>
+      <Toast />
     </Modal>
   )
 }

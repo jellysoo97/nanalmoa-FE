@@ -1,56 +1,63 @@
-import Select, { components } from 'react-select'
-import BaseField from './BaseField'
-import { useState } from 'react'
-import { useModal } from '@/hooks/use-modal'
-import RepititionSetModal from '@/components/create-schedule/RepititionSetModal'
+// import Select, { components } from 'react-select'
+// import BaseField from './BaseField'
+// import { useState } from 'react'
+// import { useModal } from '@/hooks/use-modal'
+import { useFormContext } from 'react-hook-form'
+// import RepititionSetModal from './RepititionSetModal'
+// import { RecurringOptionValue } from '@/types/schedules'
 
-const options = [
-  {
-    value: 0,
-    label: '없음',
-    setting: '없음',
-  },
-  {
-    value: 1,
-    label: '매일',
-    setting: '매일 14회 동안',
-  },
-  {
-    value: 2,
-    label: '매주',
-    setting: '매주 3달 동안',
-  },
-  {
-    value: 3,
-    label: '매월',
-    setting: '매월 1년 동안',
-  },
-  {
-    value: 4,
-    label: '매년',
-    setting: '매년 6년 동안',
-  },
-  {
-    value: 5,
-    label: '자세한 설정',
-    setting: '자세한 설정',
-  },
-]
+// type RecurringOption = {
+//   value: RecurringOptionValue
+//   label: string
+// }
 
-const CustomPlaceholder = () => (
-  <div>
-    <span className="hidden sm:inline">반복</span>
-    <span> 선택</span>
-  </div>
-)
+// const options: RecurringOption[] = [
+//   {
+//     value: 'none',
+//     label: '없음',
+//   },
+//   {
+//     value: 'daily',
+//     label: '일간 반복',
+//   },
+//   {
+//     value: 'weekly',
+//     label: '주간 반복',
+//   },
+//   {
+//     value: 'monthly',
+//     label: '월간 반복',
+//   },
+//   {
+//     value: 'yearly',
+//     label: '연간 반복',
+//   },
+// ]
+
+// const CustomPlaceholder = () => (
+//   <div>
+//     <span className="hidden sm:inline">반복</span>
+//     <span> 선택</span>
+//   </div>
+// )
 
 const RepetitionField = () => {
-  const { isModalOpen, openModal, closeModal } = useModal()
+  // const { isModalOpen, openModal, closeModal } = useModal()
+  const { watch } = useFormContext()
+  // const [selected, setSelected] = useState<string>('')
+  // const [repeatType, setRepeatType] = useState<RecurringOptionValue>('none')
 
-  const [selected, setSelected] = useState<string>('없음')
+  // useEffect(() => {
+  //   setValue('isRecurring', true);
+  // }, [setValue])
+
+  const isRecurring = watch('isRecurring')
+  // const settedRepeatType = watch('repeatType')
 
   return (
     <>
+      <div className="hidden">{isRecurring}</div>
+      {/* <div className="hidden">{settedRepeatType}</div>
       <BaseField
         id="repitition"
         label="반복"
@@ -67,14 +74,19 @@ const RepetitionField = () => {
               components={{
                 Option: ({ ...props }) => (
                   <components.Option {...props}>
-                    {props.data.label !== '자세한 설정' && (
-                      <div onClick={() => setSelected(props.data.setting)}>
-                        {props.data.label}
-                      </div>
-                    )}
-                    {props.data.label === '자세한 설정' && (
-                      <div onClick={openModal}>{props.data.label}</div>
-                    )}
+                    <div
+                      onClick={() => {
+                        openModal()
+                        setRepeatType(props.data.value)
+                        setValue('repeatType', props.data.value)
+                        setValue(
+                          'isRecurring',
+                          props.data.value === 'none' ? false : true
+                        )
+                      }}
+                    >
+                      {props.data.label}
+                    </div>
                   </components.Option>
                 ),
                 SingleValue: () => (
@@ -127,6 +139,7 @@ const RepetitionField = () => {
                 }),
                 option: (base) => ({
                   ...base,
+                  color: '#000000',
                   backgroundColor: 'transparent',
                   cursor: 'pointer',
                   '&:hover': {
@@ -139,7 +152,13 @@ const RepetitionField = () => {
         )}
       />
 
-      {isModalOpen && <RepititionSetModal onClose={closeModal} />}
+      {isModalOpen && (
+        <RepititionSetModal
+          onClose={closeModal}
+          repeatType={repeatType}
+          setSelected={setSelected}
+        />
+      )} */}
     </>
   )
 }

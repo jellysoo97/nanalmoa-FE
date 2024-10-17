@@ -16,16 +16,27 @@ import {
 import { useState } from 'react'
 import EventContainer from './EventContainer'
 import WeekdaySelector from './WeekdaySelector'
+import useManagerStore from '@/store/manager'
 
 const DailyView = () => {
   const { user, isUserLoading } = useUser()
+  const { selectedSubordinate } = useManagerStore()
 
   const [selectedDate, setSelectedDate] = useState<Date>(startOfDay(new Date()))
   const selectedMonth = getMonth(addMonths(selectedDate, 1))
 
   const { isLoading, data } = useQuery<GetSchedulesRes>({
-    queryKey: [QUERY_KEYS.GET_SCHEDULE_BY_RANGE, selectedMonth],
-    queryFn: () => getScheduleByMonth(getYear(selectedDate), selectedMonth),
+    queryKey: [
+      QUERY_KEYS.GET_SCHEDULE_BY_RANGE,
+      selectedMonth,
+      selectedSubordinate,
+    ],
+    queryFn: () =>
+      getScheduleByMonth(
+        getYear(selectedDate),
+        selectedMonth,
+        selectedSubordinate?.userUuid
+      ),
     enabled: !isUserLoading && !!user.info?.userUuid,
   })
 
