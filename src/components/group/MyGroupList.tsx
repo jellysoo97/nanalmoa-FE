@@ -15,7 +15,7 @@ const MyGroupList = () => {
   })
 
   return (
-    <div className="h-[50%]">
+    <div className="h-1/3">
       <SettingSection title="🏘️ 내 그룹">
         <div className="h-full">
           {userGroupList && userGroupList.length > 0 ? (
@@ -37,7 +37,10 @@ const MyGroupList = () => {
               ))}
             </>
           ) : (
-            <p>속한 그룹이 없습니다. 아래 버튼을 눌러 만들어 주세요!</p>
+            <p className="mt-5">
+              속한 그룹이 없습니다. <br />
+              아래 버튼을 눌러 만들어 주세요!
+            </p>
           )}
         </div>
       </SettingSection>
