@@ -2,11 +2,12 @@ import { useModal } from '@/hooks/use-modal'
 import { usePhoto } from '@/hooks/use-photo'
 import { PostAnalyzeImageReq, PostAnalyzeImageRes } from '@/types/schedules'
 import { UseMutationResult } from '@tanstack/react-query'
-import { ChangeEvent, useRef } from 'react'
+import { ChangeEvent, useEffect, useRef } from 'react'
 import MediaAnalysisLoadingModal from '../MediaAnalysisLoadingModal'
 
 import { GalleryIcon } from '@/components/icons'
 import { SelectOptions } from '.'
+import PermissionModal from './PermissionModal'
 
 type Props = {
   analyzeImageMutation: UseMutationResult<
@@ -23,7 +24,15 @@ const UploadPhotoStep = ({ analyzeImageMutation }: Props) => {
   const inputRef = useRef<HTMLInputElement | null>(null)
   const { isModalOpen: isLoadingModalOpen, closeModal: closeLoadingModal } =
     useModal()
-  const { photo, setPhoto, takePhoto } = usePhoto({ videoRef, photoRef })
+  const {
+    isModalOpen: isPermissionModalOpen,
+    openModal: openPermissionModal,
+    closeModal: closePermissionModal,
+  } = useModal()
+  const { photo, isDeviceAllowed, setPhoto, takePhoto } = usePhoto({
+    videoRef,
+    photoRef,
+  })
 
   const handleFileInput = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -42,9 +51,20 @@ const UploadPhotoStep = ({ analyzeImageMutation }: Props) => {
     }
   }
 
+  useEffect(() => {
+    if (!isDeviceAllowed) {
+      openPermissionModal()
+      return
+    }
+
+    closePermissionModal()
+  }, [isDeviceAllowed])
+
   return (
     <>
-      {!photo ? (
+      {!isDeviceAllowed && <></>}
+
+      {isDeviceAllowed && !photo && (
         <div className="relative">
           <video ref={videoRef} autoPlay className="max-h-80 w-full" />
           <div className="flex items-center justify-between bg-neutral-200 px-3 py-4">
@@ -62,7 +82,6 @@ const UploadPhotoStep = ({ analyzeImageMutation }: Props) => {
             </button>
             <div className="h-10 w-10" />
           </div>
-
           <input
             ref={inputRef}
             type="file"
@@ -76,7 +95,9 @@ const UploadPhotoStep = ({ analyzeImageMutation }: Props) => {
           />
           <canvas ref={photoRef} hidden />
         </div>
-      ) : (
+      )}
+
+      {isDeviceAllowed && photo && (
         <div className="flex w-full flex-col gap-y-5">
           <img src={photo.url} alt="photo" width={400} height={300} />
 
@@ -97,6 +118,9 @@ const UploadPhotoStep = ({ analyzeImageMutation }: Props) => {
         </div>
       )}
 
+      {isPermissionModalOpen && (
+        <PermissionModal onClose={closePermissionModal} />
+      )}
       {isLoadingModalOpen && (
         <MediaAnalysisLoadingModal
           text={`사진 분석 중입니다. \n잠시만 기다려주세요.`}
