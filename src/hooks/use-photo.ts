@@ -24,6 +24,7 @@ export const usePhoto = ({ videoRef, photoRef }: Props) => {
         })
 
         setIsDeviceAllowed(true)
+
         if (videoRef.current) {
           videoRef.current.srcObject = stream
           videoRef.current.onloadedmetadata = () => {

@@ -69,3 +69,13 @@ export const repeatTypeLabels: Record<RecurringOptionValue, string> = {
   yearly: '1년',
   none: '',
 }
+
+export const categoryLabels: Record<number, string> = {
+  1: '병원',
+  2: '가족',
+  3: '종교',
+  4: '운동',
+  5: '경조사',
+  6: '복약',
+  7: '기타',
+}
