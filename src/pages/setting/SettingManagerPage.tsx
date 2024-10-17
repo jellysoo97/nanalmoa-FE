@@ -221,23 +221,24 @@ const SettingManagerPage = () => {
       <SettingTitle
         title="관리자 관리"
         button={
-          <div onClick={handleAllRefresh}>
+          <div className="pt-2" onClick={handleAllRefresh}>
             <RefreshIcon className="mb-2 ml-3" />
           </div>
         }
       />
 
-      <SettingSection title="💌 관리자 초대하기">
+      <SettingSection title="💌 피관리자에게 초대보내기">
         <div className="mt-3">
           <UserSelector onClick={handleInviteManagerModal} />
         </div>
       </SettingSection>
 
-      <SettingSection title="💌 초대 목록">
+      <SettingSection title="💌 초대 현황">
         <div className="py-3">
           <InvitationsSection
             title="받은 초대 현황"
             itemsLength={receivedInvitations?.length || 0}
+            description="💡 받은 초대를 수락하면 피관리자로 등록됩니다"
           >
             <InvitationLayout
               items={receivedInvitations}
@@ -254,6 +255,7 @@ const SettingManagerPage = () => {
           <InvitationsSection
             title="보낸 초대 현황"
             itemsLength={sendedInvitations?.length || 0}
+            description="💡 보낸 초대가 수락되면 관리자로 등록됩니다"
           >
             <InvitationLayout
               items={sendedInvitations}
