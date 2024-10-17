@@ -42,7 +42,7 @@ const ReceivedInvitation = ({ item, onClickReject, onClickAccept }: Props) => {
         <div className="font-bold">{item.groupName}</div>
       )}
       <div className="font-bold">
-        {isManagerInvitation(item) ? item.subordinateName : item.inviterName}
+        {isManagerInvitation(item) ? item.managerName : item.inviterName}
       </div>
       <div className="flex gap-1">
         {item.status === 'PENDING' && (
