@@ -8,7 +8,7 @@ import { useUser } from '@/hooks/use-user'
 import { CreateScheduleStepEnum } from '@/types/common'
 import {
   IMediaAnalysisResult,
-  IScheduleForm,
+  IPartialScheduleForm,
   PostSchedulesReq,
   PostSchedulesRes,
   PostUploadAudioFileRes,
@@ -41,12 +41,7 @@ const SuccessAudio = ({ results, createSchedules, moveStep }: Props) => {
     if (selectedResult) {
       createSchedules({
         // userUuid: selectedResult.userUuid,
-        categoryId: selectedResult.categoryId,
-        startDate: selectedResult.startDate,
-        endDate: selectedResult.endDate,
-        title: selectedResult.title,
-        place: selectedResult.place,
-        isAllDay: selectedResult.isAllDay,
+        ...selectedResult,
         isRecurring: false,
       })
       moveStep(CreateScheduleStepEnum.RegisterResult)
@@ -65,7 +60,7 @@ const SuccessAudio = ({ results, createSchedules, moveStep }: Props) => {
     },
   })
 
-  const handleSubmit = (data: IScheduleForm) => {
+  const handleSubmit = (data: IPartialScheduleForm) => {
     if (!userUuid) return
     const payload = {
       ...data,

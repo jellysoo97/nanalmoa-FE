@@ -7,7 +7,7 @@ import { createManualScheduleSteps } from '@/constants/schedules'
 import { useUser } from '@/hooks/use-user'
 import { CreateScheduleStepEnum } from '@/types/common'
 import {
-  IScheduleForm,
+  IPartialScheduleForm,
   PostSchedulesReq,
   PostSchedulesRes,
 } from '@/types/schedules'
@@ -33,7 +33,7 @@ const CreateManualSchedulePage = () => {
     mutationFn: postSchedules,
   })
 
-  const handleSubmit = (data: IScheduleForm) => {
+  const handleSubmit = (data: IPartialScheduleForm) => {
     if (!user?.info?.userUuid) return
 
     const payload = {
