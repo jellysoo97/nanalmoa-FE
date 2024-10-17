@@ -40,7 +40,6 @@ const SuccessAudio = ({ results, createSchedules, moveStep }: Props) => {
   const handleCreate = () => {
     if (selectedResult) {
       createSchedules({
-        // userUuid: selectedResult.userUuid,
         ...selectedResult,
         isRecurring: false,
       })

@@ -140,15 +140,11 @@ const CreateAudioSchdulePage = () => {
 
         {currentStep === CreateScheduleStepEnum.RegisterResult &&
           !mutation.isError &&
-          (isCreateSchedulesSuccess || !isCreateSchedulesError) && (
-            <SuccessPostAudio />
-          )}
+          isCreateSchedulesSuccess && <SuccessPostAudio />}
         {/* 일정등록 실패화면 */}
         {currentStep === CreateScheduleStepEnum.RegisterResult &&
           !mutation.isError &&
-          (!isCreateSchedulesSuccess || isCreateSchedulesError) && (
-            <FailAudio moveStep={moveStep} />
-          )}
+          isCreateSchedulesError && <FailAudio moveStep={moveStep} />}
       </div>
 
       <MoveStepButtons
