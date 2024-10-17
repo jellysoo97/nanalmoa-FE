@@ -9,7 +9,7 @@ import { patchManagerCancel } from '@/api/manager/patch-manager-cancel'
 import { patchManagerReject } from '@/api/manager/patch-manager-reject'
 import { postManagerInvitation } from '@/api/manager/post-manager-invitation'
 import { Button } from '@/components/common'
-import Toast from '@/components/common/Toast'
+// import Toast from '@/components/common/Toast'
 import UserSelector from '@/components/common/UserSelector'
 import RefreshIcon from '@/components/icons/RefreshIcon'
 import InvitationLayout from '@/components/setting/InvitationLayout'
@@ -227,7 +227,7 @@ const SettingManagerPage = () => {
       <SettingTitle
         title="관리자 관리"
         button={
-          <div className="pt-2" onClick={handleAllRefresh}>
+          <div className="cursor-pointer pt-2" onClick={handleAllRefresh}>
             <RefreshIcon className="mb-2 ml-3" />
           </div>
         }
@@ -242,6 +242,21 @@ const SettingManagerPage = () => {
       <SettingSection title="💌 초대 현황">
         <div className="py-3">
           <InvitationsSection
+            title="보낸 초대 현황"
+            itemsLength={sendedInvitations?.length || 0}
+            description="💡 보낸 초대가 수락되면 관리자로 등록됩니다"
+          >
+            <InvitationLayout
+              items={sendedInvitations}
+              Component={SendedInvitation}
+              message="보낸 초대가 없습니다."
+              // 초대 철회
+              onClickReject={handleManagerCancel}
+            />
+          </InvitationsSection>
+        </div>
+        <div>
+          <InvitationsSection
             title="받은 초대 현황"
             itemsLength={receivedInvitations?.length || 0}
             description="💡 받은 초대를 수락하면 피관리자로 등록됩니다"
@@ -254,21 +269,6 @@ const SettingManagerPage = () => {
               onClickReject={handleManagerReject}
               // 초대 수락
               onClickAccept={handleManagerAccept}
-            />
-          </InvitationsSection>
-        </div>
-        <div>
-          <InvitationsSection
-            title="보낸 초대 현황"
-            itemsLength={sendedInvitations?.length || 0}
-            description="💡 보낸 초대가 수락되면 관리자로 등록됩니다"
-          >
-            <InvitationLayout
-              items={sendedInvitations}
-              Component={SendedInvitation}
-              message="보낸 초대가 없습니다."
-              // 초대 철회
-              onClickReject={handleManagerCancel}
             />
           </InvitationsSection>
         </div>
@@ -312,7 +312,7 @@ const SettingManagerPage = () => {
           />
         </InvitationsSection>
       </SettingSection>
-      <Toast />
+      {/* <Toast /> */}
     </div>
   )
 }
