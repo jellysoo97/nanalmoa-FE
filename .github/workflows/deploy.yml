@@ -43,31 +43,21 @@ jobs:
         run: yarn build
 
       # 빌드 폴더 압축 -> 압축 파일을 배포 예정
-      # - name: Zip build files
-      #   run: zip -r dist.zip ./dist
+      - name: Zip build files
+        run: zip -r dist.zip ./dist
 
       # 압축 파일 확인
-      # - name: Verify Zip Build File
-      #   run: |
-      #     if [ -f dist.zip ]; then
-      #       echo "dist.zip found."
-      #       pwd
-      #       ls -lh dist.zip
-      #       du -h dist.zip
-      #     else
-      #       echo "dist.zip not found."
-      #       exit 1
-      #     fi
-
-      - name: Auth Test
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            whoami
+      - name: Verify Zip Build File
+        run: |
+          if [ -f dist.zip ]; then
+            echo "dist.zip found."
+            pwd
+            ls -lh dist.zip
+            du -h dist.zip
+          else
+            echo "dist.zip not found."
+            exit 1
+          fi
 
       # EC2에 빌드 파일 복사
       - name: Copy to EC2
@@ -78,15 +68,15 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           source: ./dist
-          target: /home/${{ secrets.SSH_USERNAME }}/nanalmoa-fe/
+          target: /home/${{ secrets.SSH_USERNAME }}/nanalmoa/
 
       # EC2에서 배포 스크립트 실행
-      # - name: Execute deploy script
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{ secrets.SSH_HOST }}
-      #     username: ${{ secrets.SSH_USERNAME }}
-      #     key: ${{ secrets.SSH_KEY }}
-      #     port: ${{ secrets.SSH_PORT }}
-      #     script: |
-      #       bash /home/${{ secrets.SSH_USERNAME }}/nanalmoa-fe/deploy.sh
+      - name: Execute deploy script
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            bash /home/${{ secrets.SSH_USERNAME }}/nanalmoa/deploy.sh
