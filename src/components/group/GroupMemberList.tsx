@@ -59,7 +59,7 @@ const GroupMemberList = ({ userUuid, admin, cnt, members, groupId }: Props) => {
         {members.length > 0 ? (
           members.map((member) => (
             <div key={member.userUuid}>
-              <li className="mb-2 flex items-center justify-between">
+              <li className="my-2 flex items-center justify-between">
                 <span className="flex-1 truncate">{member.name}</span>
                 <span className="w-20 flex-none text-center">
                   {member.isAdmin ? '생성자' : '일반'}
@@ -94,10 +94,10 @@ const GroupMemberList = ({ userUuid, admin, cnt, members, groupId }: Props) => {
       {isDelModalOpen && (
         <Modal onClose={() => setIsDelModalOpen(false)}>
           <div className="px-6">
-            <div className="mx-auto py-3">
-              <p className="text-lg">{clickMember?.name}</p>
+            <div className="mx-auto flex justify-evenly py-3">
+              <p className="mr-5 text-lg">{clickMember?.name}</p>
               <p className="text-lg">
-                {clickMember?.isAdmin ? '관리자' : '일반'}
+                {clickMember?.isAdmin ? '생성자' : '일반'}
               </p>
             </div>
             <Divider />
@@ -107,7 +107,11 @@ const GroupMemberList = ({ userUuid, admin, cnt, members, groupId }: Props) => {
               친구를 정말 삭제하시겠습니까?
             </div>
             <button
-              onClick={() => handleDeleteUser}
+              onClick={() => {
+                if (clickMember) {
+                  handleDeleteUser(clickMember?.userUuid)
+                }
+              }}
               className="mx-auto flex gap-2 rounded bg-primary-500 px-3"
             >
               <TrashCanIcon className="mx-auto w-6" />
