@@ -53,7 +53,7 @@ export const usePhoto = ({ videoRef, photoRef }: Props) => {
     const ctx = photo?.getContext('2d')
 
     const photoWidth = 400
-    const photoHeight = 300
+    const photoHeight = 400
 
     ctx?.drawImage(video, 0, 0, photoWidth, photoHeight)
 
