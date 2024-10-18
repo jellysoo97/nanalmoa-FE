@@ -24,6 +24,11 @@ const MediaAnaysisResultCarousel = ({
 
   const currentIndex = results.indexOf(selectedResult)
 
+  const toKST = (dateString: Date) => {
+    const utcDate = new Date(dateString)
+    return new Date(utcDate.getTime() + 9 * 60 * 60 * 1000) // KST로 변환
+  }
+
   return (
     <div className="relative flex w-full gap-x-4">
       <button
@@ -50,7 +55,7 @@ const MediaAnaysisResultCarousel = ({
               <p>
                 {formatDate(
                   DateFormatTypeEnum.DateWithKorean,
-                  result.startDate
+                  toKST(result.startDate)
                 )}
               </p>
               <div className="flex items-center gap-x-1">

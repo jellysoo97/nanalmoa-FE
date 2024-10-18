@@ -62,7 +62,10 @@ const CreateGroupModal = ({ onClose, isCreateGroup, members }: Props) => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.GET_MANAGER_INVITATION_SEND],
+        queryKey: [QUERY_KEYS.GET_GROUP_INVITATION_SEND],
+      })
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_GROUP_USER],
       })
     },
   })
