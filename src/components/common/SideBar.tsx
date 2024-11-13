@@ -15,6 +15,8 @@ const SideBar = ({ isSidebarOpen, toggleSidebar }: Props) => {
     setSelectedSubordinate(null)
   }
 
+  if (!Array.isArray(mySubordinates) || mySubordinates.length === 0) return null
+
   return (
     <>
       {isSidebarOpen && (
